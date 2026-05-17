@@ -1,0 +1,21 @@
+site_name: My Japanese Notes
+site_url: https://kuojuiwu.github.io/japanese-notes/
+
+theme:
+  name: material
+  language: ja
+  palette:
+    primary: indigo
+    accent: blue
+  features:
+    - navigation.instant
+    - search.highlight
+    - search.suggest
+
+plugins:
+  - search
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
