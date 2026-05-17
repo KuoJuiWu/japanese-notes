@@ -219,9 +219,10 @@ tags:
 
 def git_push(filename: str) -> None:
     try:
-        subprocess.run([GIT, "add", f"docs/notes/{filename}"], check=True)
-        subprocess.run([GIT, "commit", "-m", f"add: {filename}"], check=True)
-        subprocess.run([GIT, "push", "origin", "master"], check=True)
+        repo = str(BASE_DIR)
+        subprocess.run([GIT, "add", f"docs/notes/{filename}"], check=True, cwd=repo)
+        subprocess.run([GIT, "commit", "-m", f"add: {filename}"], check=True, cwd=repo)
+        subprocess.run([GIT, "push", "origin", "master"], check=True, cwd=repo)
     except subprocess.CalledProcessError as e:
         logging.error(f"Git error: {e}")
 
