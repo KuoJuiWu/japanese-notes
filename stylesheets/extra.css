@@ -1,0 +1,10 @@
+/* Thicker article title */
+.md-typeset h1 {
+    font-weight: 700;
+    font-size: 2em;
+}
+
+/* Thicker section headings */
+.md-typeset h2 {
+    font-weight: 600;
+}
