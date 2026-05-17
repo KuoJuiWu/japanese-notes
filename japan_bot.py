@@ -13,6 +13,15 @@ from pathlib import Path
 from dotenv import load_dotenv
 import re
 import os
+import subprocess
+import shutil
+import logging
+import time
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO
+)
 
 load_dotenv()
 TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -37,6 +46,9 @@ SKIP_POS = {"補助記号", "空白"}
 WAIT_MEANING, WAIT_EXAMPLE = range(2)
 
 user_state: dict = {}
+
+GIT    = r"C:\Program Files\Git\cmd\git.exe"
+MKDOCS = shutil.which("mkdocs")
 
 
 def safe_filename(text: str) -> str:
@@ -91,17 +103,15 @@ def jmdict_lookup(words: list[dict]) -> str:
         meanings = [str(g) for g in entry.senses[0].gloss]
         results.append(f"{base}: {', '.join(meanings)}")
 
-    return "\n".join(results) if results else "（自動查詢無結果）"
+    return "\n\n".join(results) if results else "（自動查詢無結果）"
 
 
 async def get_example(word: str) -> tuple[str, str]:
     async with httpx.AsyncClient() as client:
-        # first try top 10
         r = await client.get(f"https://massif.la/ja/search?q={word}&fmt=json")
         results = r.json().get("results", [])
         matches = [s for s in results if word in s["text"]]
 
-        # no exact match in 10, expand to 50
         if not matches:
             r = await client.get(f"https://massif.la/ja/search?q={word}&fmt=json&hits=50")
             results = r.json().get("results", [])
@@ -120,20 +130,17 @@ async def get_example(word: str) -> tuple[str, str]:
 async def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, list[str], str]:
     attempts = []
 
-    # 1. search full sentence
     attempts.append(text)
     example, source = await get_example(text)
     if example != "（自動查詢無結果）":
         return example, source, attempts, ""
 
-    # 2. search content words: noun, verb, adjective
     candidates = [
         w["base"]
         for w in words
         if w["pos"] in ("名詞", "動詞", "形容詞")
     ]
 
-    # remove duplicates
     seen = set()
     candidates = [x for x in candidates if not (x in seen or seen.add(x))]
 
@@ -143,7 +150,6 @@ async def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, lis
         if example != "（自動查詢無結果）":
             return example, source, attempts, ""
 
-    # 3. all failed
     warning = (
         "⚠️ Massif could not find a matching example.\n"
         "Possible causes:\n"
@@ -171,7 +177,6 @@ def build_note(
 
     encoded = text.replace(" ", "%20")
 
-    # only show debug sections if Massif was involved
     if source not in ("手動入力", "（待填入）"):
         attempt_lines = "\n".join([f"- {a}" for a in attempts])
         debug_section = f"""
@@ -205,10 +210,37 @@ tags:
 ## 出典 (Source)
 {source_line}
 
+
 ## 参考 (Reference)
-- [Kotobank](https://kotobank.jp/word/{encoded})
+- [Kotobank](https://kotobank.jp/search/{encoded})
 - [Weblio](https://www.weblio.jp/content/{encoded})
 {debug_section}"""
+
+
+def git_push(filename: str) -> None:
+    try:
+        subprocess.run([GIT, "add", f"docs/notes/{filename}"], check=True)
+        subprocess.run([GIT, "commit", "-m", f"add: {filename}"], check=True)
+        subprocess.run([GIT, "push", "origin", "master"], check=True)
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Git error: {e}")
+
+
+def deploy() -> None:
+    try:
+        subprocess.run([MKDOCS, "gh-deploy", "--quiet"], check=True)
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Deploy error: {e}")
+
+
+def save_note(path: Path, note: str, filename: str) -> None:
+    path.write_text(note, encoding="utf-8")
+    git_push(filename)
+    deploy()
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logging.error(f"Exception while handling update: {context.error}")
 
 
 async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -272,9 +304,8 @@ async def handle_example(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     path = NOTES_DIR / state["filename"]
-    path.write_text(note, encoding="utf-8")
-    git_push(state["filename"])
-    deploy()
+    save_note(path, note, state["filename"])
+
     await update.message.reply_text(
         f"🎉 Saved：`{path.name}`",
         parse_mode="Markdown"
@@ -290,7 +321,6 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("No active note.")
         return ConversationHandler.END
 
-    # /auto during WAIT_MEANING
     if "meaning" not in state:
         state["meaning"] = state["auto_meaning"]
         await update.message.reply_text(
@@ -301,7 +331,6 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return WAIT_EXAMPLE
 
-    # /auto during WAIT_EXAMPLE
     note = build_note(
         text        = state["text"],
         analysis_md = state["analysis_md"],
@@ -313,9 +342,7 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     path = NOTES_DIR / state["filename"]
-    path.write_text(note, encoding="utf-8")
-    git_push(state["filename"])
-    deploy()
+    save_note(path, note, state["filename"])
 
     await update.message.reply_text(
         f"✅ Massif 例句を使用、保存：`{path.name}`",
@@ -332,7 +359,6 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("No active note.")
         return ConversationHandler.END
 
-    # /skip during WAIT_MEANING
     if "meaning" not in state:
         state["meaning"] = "（待填入）"
         await update.message.reply_text(
@@ -343,7 +369,6 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return WAIT_EXAMPLE
 
-    # /skip during WAIT_EXAMPLE
     note = build_note(
         text        = state["text"],
         analysis_md = state["analysis_md"],
@@ -355,10 +380,8 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     path = NOTES_DIR / state["filename"]
-    path.write_text(note, encoding="utf-8")
-    git_push(state["filename"])
-    deploy()
-    
+    save_note(path, note, state["filename"])
+
     await update.message.reply_text(
         f"⏭️ 例句をスキップ、保存：`{path.name}`",
         parse_mode="Markdown"
@@ -367,25 +390,6 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_state.pop(ALLOWED_USER_ID, None)
     return ConversationHandler.END
 
-################### For Github and MkDocs ######################
-import subprocess
-
-def git_push(filename: str) -> None:
-    try:
-        subprocess.run(["git", "add", f"docs/notes/{filename}"], check=True)
-        subprocess.run(["git", "commit", "-m", f"add: {filename}"], check=True)
-        subprocess.run(["git", "push"], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Git error: {e}")
-
-def deploy() -> None:
-    try:
-        subprocess.run(["mkdocs", "gh-deploy", "--quiet"], check=True)
-        print("Deployed to GitHub Pages")
-    except subprocess.CalledProcessError as e:
-        print(f"Deploy error: {e}")
-
-##################################################################
 
 conv_handler = ConversationHandler(
     entry_points=[MessageHandler(filters.TEXT & ~filters.COMMAND, handle_japanese)],
@@ -404,6 +408,31 @@ conv_handler = ConversationHandler(
     fallbacks=[],
 )
 
-app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(conv_handler)
-app.run_polling()
+
+def main():
+    while True:
+        try:
+            logging.info("Bot starting...")
+            app = (
+                ApplicationBuilder()
+                .token(TOKEN)
+                .read_timeout(30)
+                .write_timeout(30)
+                .connect_timeout(30)
+                .pool_timeout(30)
+                .build()
+            )
+            app.add_handler(conv_handler)
+            app.add_error_handler(error_handler)
+            app.run_polling(
+                allowed_updates=Update.ALL_TYPES,
+                drop_pending_updates=True,
+            )
+        except Exception as e:
+            logging.error(f"Bot crashed: {e}")
+            logging.info("Restarting in 5 seconds...")
+            time.sleep(5)
+
+
+if __name__ == "__main__":
+    main()

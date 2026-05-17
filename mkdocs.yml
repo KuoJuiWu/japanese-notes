@@ -12,6 +12,9 @@ theme:
     - search.highlight
     - search.suggest
 
+extra_css:
+  - stylesheets/extra.css
+
 plugins:
   - search
 
