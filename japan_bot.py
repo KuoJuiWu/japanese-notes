@@ -4,9 +4,11 @@ from telegram.ext import (
     filters, ContextTypes, ConversationHandler,
     CommandHandler
 )
-from fugashi import Tagger
+from morphology import analyze, tokens_to_table_md, lookup_meaning, classify_tokens, MorphToken
+from aux_verbs import explain_aux, format_aux_for_telegram, format_aux_for_note
+from grammar_patterns import match_patterns, format_patterns_for_telegram, format_patterns_for_note
+
 from jamdict import Jamdict
-import jaconv
 import httpx
 from datetime import datetime
 from pathlib import Path
@@ -34,14 +36,11 @@ if not ALLOWED_USER_ID_RAW:
 
 ALLOWED_USER_ID = int(ALLOWED_USER_ID_RAW)
 
-tagger   = Tagger()
 BASE_DIR = Path(__file__).parent
 jam      = Jamdict(db_file=str(BASE_DIR / "jamdictdb" / "jamdict.db"))
 
 NOTES_DIR = BASE_DIR / "docs" / "notes"
 NOTES_DIR.mkdir(parents=True, exist_ok=True)
-
-SKIP_POS = {"補助記号", "空白"}
 
 WAIT_MEANING, WAIT_EXAMPLE = range(2)
 
@@ -58,52 +57,37 @@ def safe_filename(text: str) -> str:
     return f"{date}_{clean}.md"
 
 
-def analyze_japanese(text: str) -> tuple[str, list[dict]]:
-    rows  = []
-    words = []
-
-    for word in tagger(text):
-        pos = word.feature.pos1
-        if pos in SKIP_POS:
-            continue
-
-        surface = word.surface
-        kana    = word.feature.kana
-        lemma   = word.feature.lemma
-        reading = jaconv.kata2hira(kana) if kana else surface
-        base    = lemma if lemma and lemma != "*" else surface
-
-        rows.append(f"| {surface} | {reading} | {pos} | {base} |")
-        words.append({"surface": surface, "reading": reading, "pos": pos, "base": base})
-
-    table    = "\n".join(rows)
-    markdown = f"""## 分詞解析
-| 表面形 | 讀音 | 詞性 | 原形 |
-|---|---|---|---|
-{table}
-"""
-    return markdown, words
+def analyze_japanese(text: str) -> tuple[str, list[dict], list[MorphToken]]:
+    tokens      = analyze(text)
+    analysis_md = tokens_to_table_md(tokens)
+    words = [
+        {
+            "surface":   t.surface,
+            "reading":   t.reading,
+            "pos":       t.pos,
+            "base":      t.base_form,
+            "conj_type": t.conj_type,
+            "conj_form": t.conj_form,
+        }
+        for t in tokens
+    ]
+    return analysis_md, words, tokens
 
 
 def jmdict_lookup(words: list[dict]) -> str:
-    seen    = set()
-    results = []
-
-    for w in words:
-        base = w["base"]
-        if base in seen:
-            continue
-        seen.add(base)
-
-        result = jam.lookup(base)
-        if not result.entries:
-            continue
-
-        entry    = result.entries[0]
-        meanings = [str(g) for g in entry.senses[0].gloss]
-        results.append(f"{base}: {', '.join(meanings)}")
-
-    return "\n\n".join(results) if results else "（自動查詢無結果）"
+    tokens = [
+        MorphToken(
+            surface    = w["surface"],
+            reading    = w["reading"],
+            pos        = w["pos"],
+            pos_detail = "",
+            base_form  = w["base"],
+            conj_type  = w.get("conj_type", ""),
+            conj_form  = w.get("conj_form", ""),
+        )
+        for w in words
+    ]
+    return lookup_meaning(tokens, jam)
 
 
 async def get_example(word: str) -> tuple[str, str]:
@@ -166,6 +150,8 @@ def build_note(
     text:        str,
     analysis_md: str,
     meaning:     str,
+    grammar_md:  str,
+    pattern_md:  str,
     example:     str,
     source:      str,
     attempts:    list[str],
@@ -189,6 +175,9 @@ def build_note(
     else:
         debug_section = ""
 
+    grammar_section = f"\n{grammar_md}" if grammar_md else ""
+    pattern_section = f"\n{pattern_md}" if pattern_md else ""
+
     return f"""---
 title: "{text}"
 created: "{datetime.now().isoformat(timespec='seconds')}"
@@ -203,7 +192,7 @@ tags:
 {analysis_md}
 ## 意思 (Meaning)
 {meaning}
-
+{grammar_section}{pattern_section}
 ## 例句 (Example)
 {example}
 
@@ -214,7 +203,13 @@ tags:
 ## 参考 (Reference)
 - [Kotobank](https://kotobank.jp/search/{encoded})
 - [Weblio](https://www.weblio.jp/content/{encoded})
-{debug_section}"""
+
+---
+> ⚠️ **注意**：本筆記的意思說明來自 JMdict 離線字典，文法分析（助動詞、文法模板）
+> 由規則程式自動產生，例句來自 Massif 語料庫。內容僅供學習參考，建議重要詞彙
+> 以 Kotobank 或 Weblio 等權威來源進行確認{debug_section}
+
+"""
 
 
 def git_push(filename: str) -> None:
@@ -244,36 +239,96 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
     logging.error(f"Exception while handling update: {context.error}")
 
 
+async def cmd_debug(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id != ALLOWED_USER_ID:
+        await update.message.reply_text("⛔ Unauthorized。")
+        return
+
+    if not context.args:
+        await update.message.reply_text("用法：/debug 食べています")
+        return
+
+    text   = " ".join(context.args)
+    tokens = analyze(text)
+
+    if not tokens:
+        await update.message.reply_text("解析結果為空，請確認輸入是否為日文。")
+        return
+
+    lines = ["🔍 UniDic 原始資料：\n"]
+    for t in tokens:
+        lines.append(
+            f"surface={t.surface}\n"
+            f"  pos={t.pos} / {t.pos_detail}\n"
+            f"  base={t.base_form}\n"
+            f"  cType={t.conj_type}\n"
+            f"  cForm={t.conj_form}\n"
+        )
+
+    await update.message.reply_text("\n".join(lines))
+
+
 async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.from_user.id != ALLOWED_USER_ID:
         await update.message.reply_text("⛔ Unauthorized。")
         return ConversationHandler.END
 
-    text               = update.message.text.strip()
-    analysis_md, words = analyze_japanese(text)
-    auto_meaning       = jmdict_lookup(words)
+    text                       = update.message.text.strip()
+    analysis_md, words, tokens = analyze_japanese(text)
+    auto_meaning               = jmdict_lookup(words)
     auto_example, auto_source, attempts, warning = await get_example_smart(text, words)
+
+    # Step 2：助動詞辨識
+    # used_indices 從空集合開始，explain_aux() 會把用掉的位置填進去
+    aux_explanations, used_indices = explain_aux(tokens)
+    grammar_telegram = format_aux_for_telegram(aux_explanations)
+    grammar_md       = format_aux_for_note(aux_explanations)
+
+    # Step 3：文法模板辨識
+    # 把 Step 2 的 used_indices 傳進來，避免重複匹配同一個詞素
+    pattern_results, _ = match_patterns(tokens, used_indices)
+    pattern_telegram   = format_patterns_for_telegram(pattern_results)
+    pattern_md         = format_patterns_for_note(pattern_results)
 
     user_state[ALLOWED_USER_ID] = {
         "text":         text,
         "analysis_md":  analysis_md,
         "filename":     safe_filename(text),
         "auto_meaning": auto_meaning,
+        "grammar_md":   grammar_md,
+        "pattern_md":   pattern_md,
         "auto_example": auto_example,
         "auto_source":  auto_source,
         "attempts":     attempts,
         "warning":      warning,
     }
 
-    preview_lines = [f"{w['surface']}（{w['reading']}）{w['pos']}" for w in words]
-    preview       = "\n".join(preview_lines)
+    # Telegram preview
+    preview_lines = []
+    for w in words:
+        line = f"{w['surface']}（{w['reading']}）{w['pos']}"
+        if w['conj_type']:
+            line += f" | {w['conj_type']}"
+        if w['conj_form']:
+            line += f" | {w['conj_form']}"
+        preview_lines.append(line)
 
-    await update.message.reply_text(
+    preview = "\n".join(preview_lines)
+
+    msg = (
         f"✅ 分析完成：\n\n{preview}\n\n"
-        f"📖 JMdict 自動意思：\n{auto_meaning}\n\n"
-        f"📝 意思は？\n"
+        f"📖 JMdict 自動意思：\n{auto_meaning}\n"
+    )
+    if grammar_telegram:
+        msg += f"\n{grammar_telegram}\n"
+    if pattern_telegram:
+        msg += f"\n{pattern_telegram}\n"
+    msg += (
+        f"\n📝 意思は？\n"
         f"（自分で入力 / /auto でJMdict使用 / /skip でスキップ）"
     )
+
+    await update.message.reply_text(msg)
     return WAIT_MEANING
 
 
@@ -298,6 +353,8 @@ async def handle_example(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text        = state["text"],
         analysis_md = state["analysis_md"],
         meaning     = state["meaning"],
+        grammar_md  = state["grammar_md"],
+        pattern_md  = state["pattern_md"],
         example     = example,
         source      = "手動入力",
         attempts    = state["attempts"],
@@ -336,6 +393,8 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text        = state["text"],
         analysis_md = state["analysis_md"],
         meaning     = state["meaning"],
+        grammar_md  = state["grammar_md"],
+        pattern_md  = state["pattern_md"],
         example     = state["auto_example"],
         source      = state["auto_source"],
         attempts    = state["attempts"],
@@ -374,6 +433,8 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text        = state["text"],
         analysis_md = state["analysis_md"],
         meaning     = state["meaning"],
+        grammar_md  = state["grammar_md"],
+        pattern_md  = state["pattern_md"],
         example     = "（待填入）",
         source      = "（待填入）",
         attempts    = state["attempts"],
@@ -409,7 +470,7 @@ conv_handler = ConversationHandler(
     fallbacks=[],
 )
 
-# update the new part
+
 def main():
     while True:
         try:
@@ -425,6 +486,7 @@ def main():
             )
             app.add_handler(conv_handler)
             app.add_error_handler(error_handler)
+            app.add_handler(CommandHandler("debug", cmd_debug))
             app.run_polling(
                 allowed_updates=Update.ALL_TYPES,
                 drop_pending_updates=True,
