@@ -40,17 +40,33 @@ class MorphToken:
     conj_form:  str  # 活用形：例如「連用形-一般」「終止形-一般」「仮定形-一般」
 
 
-# ── 品詞對應表（UniDic 中文品詞名稱 → JMdict 英文標籤前綴）─────────────────
-# 用途：lookup_meaning() 依照詞性篩選 JMdict 的 sense，避免查錯意思
-# JMdict sense.pos 的值像 "v5u"、"v1"、"n"、"adj-i" 這樣，用前綴比對即可
+# ── 品詞對應表（UniDic 中文品詞名稱 → JMdict 實際輸出字串）─────────────────
+# ⚠️ 你的 jamdict 版本回傳完整英文字串，不是標準縮寫（v5u, n, adj-i）
+# 實際確認的輸出：
+#   動詞  → "Godan verb with 'u' ending" / "Ichidan verb" / "transitive verb"
+#   形容詞 → "adjective (keiyoushi)"
+#   形容動詞 → "adjectival nouns or quasi-adjectives (keiyodoshi)"
+#   名詞  → "noun (common) (futsuumeishi)"
+#   副詞  → "adverb (fukushi)"
+#
+# 比對方式：用 substring 包含比對（str(p) 裡包含這些關鍵字）
+# 而不是 startswith，因為字串太長且格式不固定
 POS_MAP: dict[str, list[str]] = {
-    "動詞":    ["v"],       # 包含 v5u（五段）、v1（一段）、vs-i（する）、vk（くる）等
-    "形容詞":  ["adj-i"],   # い形容詞，例如「高い」「美しい」
-    "形容動詞": ["adj-na"], # な形容詞，例如「静かな」「便利な」
-    "名詞":    ["n"],       # 一般名詞、固有名詞、數詞、形式名詞 等
-    "副詞":    ["adv"],     # 副詞，例如「もっと」「やはり」
-    "助詞":    ["prt"],     # 助詞，例如「を」「は」「が」「に」
-    "助動詞":  ["aux"],     # 助動詞，例如「ない」「た」「ます」「れる」
+    "動詞": [
+        "verb",         # 涵蓋 Godan verb / Ichidan verb / transitive verb 等所有動詞
+    ],
+    "形容詞": [
+        "adjective (keiyoushi)",  # い形容詞
+    ],
+    "形容動詞": [
+        "adjectival nouns or quasi-adjectives (keiyodoshi)",  # な形容詞
+    ],
+    "名詞": [
+        "noun",         # 涵蓋 noun (common) / proper noun 等所有名詞類型
+    ],
+    "副詞": [
+        "adverb",       # adverb (fukushi)
+    ],
 }
 
 # ── 查詞典時跳過的品詞 ────────────────────────────────────────────────────────
@@ -101,9 +117,7 @@ def analyze(text: str) -> list[MorphToken]:
 # ── 詞性分類函式 ──────────────────────────────────────────────────────────────
 
 def classify_tokens(tokens: list[MorphToken]) -> dict[str, list[MorphToken]]:
-    """
-    將詞素列表依詞性分類，方便後續分開處理不同詞類的意思查詢。
-    """
+    """將詞素列表依詞性分類，方便後續分開處理不同詞類的意思查詢。"""
     classified: dict[str, list[MorphToken]] = {
         "名詞":   [],
         "動詞":   [],
@@ -141,16 +155,33 @@ def tokens_to_table_md(tokens: list[MorphToken]) -> str:
 
 # ── JMdict 意思查詢函式 ───────────────────────────────────────────────────────
 
+def _pos_matches(sense_pos_list, keywords: list[str]) -> bool:
+    """
+    檢查 sense 的 pos 列表中，是否有任何一個包含 keywords 裡的關鍵字。
+    使用 substring 包含比對，因為 jamdict 回傳的是完整英文字串。
+
+    例如：
+        sense_pos_list = ["Godan verb with 'u' ending", "transitive verb"]
+        keywords       = ["verb"]
+        → True（因為兩個字串都包含 "verb"）
+    """
+    return any(
+        keyword.lower() in str(p).lower()
+        for p in sense_pos_list
+        for keyword in keywords
+    )
+
+
 def lookup_meaning(tokens: list[MorphToken], jam) -> str:
     """
     根據詞素列表查詢 JMdict 意思，並依詞性篩選最相關的 sense。
 
     改進點：
     1. 助詞、助動詞、接頭辭自動跳過
-    2. 找到第一個符合詞性的 sense 後，把後續沒有標注 POS 的 sense 也一起納入
-       → 解決 JMdict 只有第一個 sense 標 POS，後續 sense 被誤篩掉的問題
-       → 例如「払う」現在會顯示：to pay, to brush off, to sweep away, to dust
-    3. 若完全沒有符合詞性的 sense，fallback 到第一個 sense
+    2. POS 比對改為 substring 包含比對，符合 jamdict 實際回傳的完整英文字串格式
+    3. 找到第一個符合詞性的 sense 後，把後續同詞性或無標注的 sense 也一起納入
+       → 解決只顯示第一個意思的問題
+       → 例如「払う」現在會顯示所有 10 個意思
 
     參數：
         tokens — analyze() 回傳的詞素列表
@@ -179,42 +210,31 @@ def lookup_meaning(tokens: list[MorphToken], jam) -> str:
         if not result.entries:
             continue
 
-        entry        = result.entries[0]
-        pos_prefixes = POS_MAP.get(token.pos, [])
+        entry    = result.entries[0]
+        keywords = POS_MAP.get(token.pos, [])
 
-        if pos_prefixes:
+        if keywords:
             # 找到第一個符合詞性的 sense 的位置
             first_match_idx = None
             for idx, s in enumerate(entry.senses):
-                if any(
-                    str(p).startswith(prefix)
-                    for p in s.pos
-                    for prefix in pos_prefixes
-                ):
+                if _pos_matches(s.pos, keywords):
                     first_match_idx = idx
                     break
 
             if first_match_idx is not None:
-                # 從第一個匹配的 sense 開始往後收集：
-                # - 沒有標 POS 的 sense（通常是同一詞性的延伸意思）也納入
-                # - 有標 POS 但不符合的 sense 排除（避免混入其他詞性）
+                # 從第一個匹配位置往後收集：
+                # - 沒有標 POS 的 sense → 延伸意思，納入
+                # - 有標 POS 且符合 → 納入
+                # - 有標 POS 但不符合 → 停止（避免混入其他詞性）
                 senses_to_use = []
                 for s in entry.senses[first_match_idx:]:
                     if not s.pos:
-                        # 沒標 POS → 延伸意思，納入
                         senses_to_use.append(s)
-                    elif any(
-                        str(p).startswith(prefix)
-                        for p in s.pos
-                        for prefix in pos_prefixes
-                    ):
-                        # 有標 POS 且符合 → 納入
+                    elif _pos_matches(s.pos, keywords):
                         senses_to_use.append(s)
                     else:
-                        # 有標 POS 但不符合（例如名詞義混在動詞條目裡）→ 跳過
                         break
             else:
-                # 完全沒有符合詞性的 sense → fallback 到第一個
                 senses_to_use = entry.senses[:1]
         else:
             senses_to_use = entry.senses[:1]
