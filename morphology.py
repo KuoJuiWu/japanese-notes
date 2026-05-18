@@ -7,7 +7,6 @@ import jaconv
 from dataclasses import dataclass
 
 # ── 初始化 ────────────────────────────────────────────────────────────────────
-
 # 初始化 MeCab tagger（使用 UniDic 字典）
 # UniDic 比 IPAdic 更現代，對動詞活用型的辨識更精確
 # 這裡只初始化一次，避免每次呼叫 analyze() 都重新載入
@@ -16,7 +15,6 @@ tagger = Tagger()
 # ── 解析時跳過的品詞 ──────────────────────────────────────────────────────────
 # 補助記号 = 句號、逗號、括號等標點符號
 # 空白     = 空格
-# 這些詞素對意思查詢和文法分析沒有幫助，直接跳過
 SKIP_POS: set[str] = {"補助記号", "空白"}
 
 # ── 詞素資料結構 ──────────────────────────────────────────────────────────────
@@ -72,26 +70,18 @@ def analyze(text: str) -> list[MorphToken]:
     回傳：
         MorphToken 的列表，每個元素代表一個詞素
         補助記号（句號、逗號等）和空白會被跳過
-
-    使用範例：
-        tokens = analyze("食べています")
-        for t in tokens:
-            print(t.surface, t.pos, t.base_form, t.conj_type, t.conj_form)
     """
     tokens = []
 
     for word in tagger(text):
-        # 跳過標點和空白
         if word.feature.pos1 in SKIP_POS:
             continue
 
         # 讀音：UniDic 提供片假名，轉換成平假名比較直觀
-        # 若讀音欄位為空（部分外來語或符號），直接用表層形代替
         kana    = word.feature.kana
         reading = jaconv.kata2hira(kana) if kana else word.surface
 
         # 原形：優先用 lemma（辭書形），若為「*」（未知）則退回用表層形
-        # 例如「食べ」的 lemma 是「食べる」，「東京」的 lemma 是「東京」
         lemma     = word.feature.lemma
         base_form = lemma if lemma and lemma != "*" else word.surface
 
@@ -113,16 +103,6 @@ def analyze(text: str) -> list[MorphToken]:
 def classify_tokens(tokens: list[MorphToken]) -> dict[str, list[MorphToken]]:
     """
     將詞素列表依詞性分類，方便後續分開處理不同詞類的意思查詢。
-
-    回傳格式：
-    {
-        "名詞":   [MorphToken, ...],
-        "動詞":   [MorphToken, ...],
-        "助動詞": [MorphToken, ...],
-        "形容詞": [MorphToken, ...],
-        "副詞":   [MorphToken, ...],
-        "其他":   [MorphToken, ...],
-    }
     """
     classified: dict[str, list[MorphToken]] = {
         "名詞":   [],
@@ -145,10 +125,7 @@ def classify_tokens(tokens: list[MorphToken]) -> dict[str, list[MorphToken]]:
 # ── Markdown 表格產生函式 ─────────────────────────────────────────────────────
 
 def tokens_to_table_md(tokens: list[MorphToken]) -> str:
-    """
-    將詞素列表轉成 Markdown 表格字串。
-    格式與現有筆記完全一致：表面形 | 讀音 | 詞性 | 原形
-    """
+    """將詞素列表轉成 Markdown 表格字串，格式與現有筆記完全一致。"""
     rows = [
         f"| {t.surface} | {t.reading} | {t.pos} | {t.base_form} |"
         for t in tokens
@@ -167,7 +144,13 @@ def tokens_to_table_md(tokens: list[MorphToken]) -> str:
 def lookup_meaning(tokens: list[MorphToken], jam) -> str:
     """
     根據詞素列表查詢 JMdict 意思，並依詞性篩選最相關的 sense。
-    助動詞由 aux_verbs.py 的 explain_aux() 處理，這裡跳過。
+
+    改進點：
+    1. 助詞、助動詞、接頭辭自動跳過
+    2. 找到第一個符合詞性的 sense 後，把後續沒有標注 POS 的 sense 也一起納入
+       → 解決 JMdict 只有第一個 sense 標 POS，後續 sense 被誤篩掉的問題
+       → 例如「払う」現在會顯示：to pay, to brush off, to sweep away, to dust
+    3. 若完全沒有符合詞性的 sense，fallback 到第一個 sense
 
     參數：
         tokens — analyze() 回傳的詞素列表
@@ -200,18 +183,42 @@ def lookup_meaning(tokens: list[MorphToken], jam) -> str:
         pos_prefixes = POS_MAP.get(token.pos, [])
 
         if pos_prefixes:
-            matched_senses = [
-                s for s in entry.senses
+            # 找到第一個符合詞性的 sense 的位置
+            first_match_idx = None
+            for idx, s in enumerate(entry.senses):
                 if any(
                     str(p).startswith(prefix)
                     for p in s.pos
                     for prefix in pos_prefixes
-                )
-            ]
-        else:
-            matched_senses = []
+                ):
+                    first_match_idx = idx
+                    break
 
-        senses_to_use = matched_senses if matched_senses else entry.senses[:1]
+            if first_match_idx is not None:
+                # 從第一個匹配的 sense 開始往後收集：
+                # - 沒有標 POS 的 sense（通常是同一詞性的延伸意思）也納入
+                # - 有標 POS 但不符合的 sense 排除（避免混入其他詞性）
+                senses_to_use = []
+                for s in entry.senses[first_match_idx:]:
+                    if not s.pos:
+                        # 沒標 POS → 延伸意思，納入
+                        senses_to_use.append(s)
+                    elif any(
+                        str(p).startswith(prefix)
+                        for p in s.pos
+                        for prefix in pos_prefixes
+                    ):
+                        # 有標 POS 且符合 → 納入
+                        senses_to_use.append(s)
+                    else:
+                        # 有標 POS 但不符合（例如名詞義混在動詞條目裡）→ 跳過
+                        break
+            else:
+                # 完全沒有符合詞性的 sense → fallback 到第一個
+                senses_to_use = entry.senses[:1]
+        else:
+            senses_to_use = entry.senses[:1]
+
         glosses = [str(g) for s in senses_to_use for g in s.gloss]
         if glosses:
             results.append(f"{base}: {', '.join(glosses)}")
