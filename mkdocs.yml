@@ -12,10 +12,6 @@ theme:
     - search.highlight
     - search.suggest
 
-nav:
-  - Home: index.md
-  - About: about.md
-  - Notes: notes/
 
 extra_css:
   - stylesheets/extra.css
