@@ -1,8 +1,8 @@
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, MessageHandler,
     filters, ContextTypes, ConversationHandler,
-    CommandHandler
+    CommandHandler, CallbackQueryHandler
 )
 from morphology import analyze, tokens_to_table_md, lookup_meaning, classify_tokens, MorphToken
 from aux_verbs import explain_aux, format_aux_for_telegram, format_aux_for_note
@@ -10,6 +10,7 @@ from grammar_patterns import match_patterns, format_patterns_for_telegram, forma
 
 from jamdict import Jamdict
 import httpx
+import json
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
@@ -36,18 +37,98 @@ if not ALLOWED_USER_ID_RAW:
 
 ALLOWED_USER_ID = int(ALLOWED_USER_ID_RAW)
 
-BASE_DIR = Path(__file__).parent
-jam      = Jamdict(db_file=str(BASE_DIR / "jamdictdb" / "jamdict.db"))
+BASE_DIR  = Path(__file__).parent
+jam       = Jamdict(db_file=str(BASE_DIR / "jamdictdb" / "jamdict.db"))
 
 NOTES_DIR = BASE_DIR / "docs" / "notes"
 NOTES_DIR.mkdir(parents=True, exist_ok=True)
 
-WAIT_MEANING, WAIT_EXAMPLE = range(2)
+# ── 對話狀態 ──────────────────────────────────────────────────────────────────
+WAIT_MEANING, WAIT_EXAMPLE, WAIT_CATEGORY, WAIT_NEW_CATEGORY = range(4)
 
 user_state: dict = {}
 
 GIT    = r"C:\Program Files\Git\cmd\git.exe"
 MKDOCS = shutil.which("mkdocs")
+
+# ── 預設分類 ──────────────────────────────────────────────────────────────────
+DEFAULT_CATEGORIES: list[dict] = [
+    {"emoji": "🎵", "name": "Song",      "folder": "song"},
+    {"emoji": "🎌", "name": "Anime",     "folder": "anime"},
+    {"emoji": "📚", "name": "Textbook",  "folder": "textbook"},
+    {"emoji": "💬", "name": "Daily",     "folder": "daily"},
+    {"emoji": "📦", "name": "Other",     "folder": "other"},
+]
+
+# ── 自建分類持久化 ────────────────────────────────────────────────────────────
+# categories.json 存在 repo 根目錄
+# 格式：[{"emoji": "📁", "name": "music", "folder": "music"}, ...]
+CATEGORIES_FILE = BASE_DIR / "categories.json"
+
+
+def load_custom_categories() -> list[dict]:
+    """
+    從 categories.json 讀取自建分類。
+    Bot 啟動時呼叫一次，之後存在記憶體裡。
+    若檔案不存在，回傳空列表。
+    """
+    if not CATEGORIES_FILE.exists():
+        return []
+    try:
+        with open(CATEGORIES_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError) as e:
+        logging.error(f"Failed to load categories.json: {e}")
+        return []
+
+
+def save_custom_categories(categories: list[dict]) -> None:
+    """
+    把自建分類寫進 categories.json（硬碟）。
+    每次新增分類時呼叫，確保重啟後還在。
+    """
+    try:
+        with open(CATEGORIES_FILE, "w", encoding="utf-8") as f:
+            json.dump(categories, f, ensure_ascii=False, indent=2)
+    except IOError as e:
+        logging.error(f"Failed to save categories.json: {e}")
+
+
+# Bot 啟動時從硬碟讀取自建分類
+custom_categories: list[dict] = load_custom_categories()
+
+
+def get_all_categories() -> list[dict]:
+    """回傳預設分類＋自建分類的完整列表"""
+    return DEFAULT_CATEGORIES + custom_categories
+
+
+def build_category_keyboard() -> InlineKeyboardMarkup:
+    """
+    建立分類選擇的 Inline Keyboard。
+    每排兩個按鈕，最後一排加上「✏️ 新建分類」。
+    callback_data 格式：cat:<folder>
+    """
+    all_cats = get_all_categories()
+    buttons  = []
+
+    row = []
+    for cat in all_cats:
+        row.append(InlineKeyboardButton(
+            f"{cat['emoji']} {cat['name']}",
+            callback_data=f"cat:{cat['folder']}"
+        ))
+        if len(row) == 2:
+            buttons.append(row)
+            row = []
+    if row:
+        buttons.append(row)
+
+    buttons.append([
+        InlineKeyboardButton("✏️ 新建分類", callback_data="cat:__new__")
+    ])
+
+    return InlineKeyboardMarkup(buttons)
 
 
 def safe_filename(text: str) -> str:
@@ -156,6 +237,7 @@ def build_note(
     source:      str,
     attempts:    list[str],
     warning:     str,
+    category:    str,
 ) -> str:
     source_line = f"*{source} (via Massif)*" if source and source != "Massif" else "*Massif*"
     if source in ("手動入力", "（待填入）"):
@@ -183,6 +265,7 @@ title: "{text}"
 created: "{datetime.now().isoformat(timespec='seconds')}"
 tags:
   - japanese
+  - {category}
 ---
 # {text}
 
@@ -203,20 +286,16 @@ tags:
 ## 参考 (Reference)
 - [Kotobank](https://kotobank.jp/search/{encoded})
 - [Weblio](https://www.weblio.jp/content/{encoded})
-
+{debug_section}
 ---
-> ⚠️ **注意**：本筆記的意思說明來自 JMdict 離線字典，文法分析（助動詞、文法模板）
-> 由規則程式自動產生，例句來自 Massif 語料庫。內容僅供學習參考，建議重要詞彙
-> 以 Kotobank 或 Weblio 等權威來源進行確認{debug_section}
-
-"""
+> ⚠️ **注意**：本筆記的意思說明來自 JMdict 離線字典，文法分析（助動詞、文法模板）由規則程式自動產生，例句來自 Massif 語料庫。內容僅供學習參考，建議重要詞彙以 Kotobank 或 Weblio 等權威來源進行確認。"""
 
 
-def git_push(filename: str) -> None:
+def git_push(filepath: str) -> None:
     try:
         repo = str(BASE_DIR)
-        subprocess.run([GIT, "add", f"docs/notes/{filename}"], check=True, cwd=repo)
-        subprocess.run([GIT, "commit", "-m", f"add: {filename}"], check=True, cwd=repo)
+        subprocess.run([GIT, "add", filepath], check=True, cwd=repo)
+        subprocess.run([GIT, "commit", "-m", f"add: {Path(filepath).name}"], check=True, cwd=repo)
         subprocess.run([GIT, "push", "origin", "master"], check=True, cwd=repo)
     except subprocess.CalledProcessError as e:
         logging.error(f"Git error: {e}")
@@ -229,9 +308,10 @@ def deploy() -> None:
         logging.error(f"Deploy error: {e}")
 
 
-def save_note(path: Path, note: str, filename: str) -> None:
+def save_note(path: Path, note: str, filepath: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(note, encoding="utf-8")
-    git_push(filename)
+    git_push(filepath)
     deploy()
 
 
@@ -278,14 +358,10 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
     auto_meaning               = jmdict_lookup(words)
     auto_example, auto_source, attempts, warning = await get_example_smart(text, words)
 
-    # Step 2：助動詞辨識
-    # used_indices 從空集合開始，explain_aux() 會把用掉的位置填進去
     aux_explanations, used_indices = explain_aux(tokens)
     grammar_telegram = format_aux_for_telegram(aux_explanations)
     grammar_md       = format_aux_for_note(aux_explanations)
 
-    # Step 3：文法模板辨識
-    # 把 Step 2 的 used_indices 傳進來，避免重複匹配同一個詞素
     pattern_results, _ = match_patterns(tokens, used_indices)
     pattern_telegram   = format_patterns_for_telegram(pattern_results)
     pattern_md         = format_patterns_for_note(pattern_results)
@@ -301,9 +377,9 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "auto_source":  auto_source,
         "attempts":     attempts,
         "warning":      warning,
+        "category":     None,
     }
 
-    # Telegram preview
     preview_lines = []
     for w in words:
         line = f"{w['surface']}（{w['reading']}）{w['pos']}"
@@ -348,6 +424,69 @@ async def handle_meaning(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_example(update: Update, context: ContextTypes.DEFAULT_TYPE):
     example = update.message.text.strip()
     state   = user_state[ALLOWED_USER_ID]
+    state["example"] = example
+    state["source"]  = "手動入力"
+
+    await update.message.reply_text(
+        "📁 分類は？",
+        reply_markup=build_category_keyboard()
+    )
+    return WAIT_CATEGORY
+
+
+async def handle_category_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    if query.from_user.id != ALLOWED_USER_ID:
+        return ConversationHandler.END
+
+    data = query.data
+
+    if data == "cat:__new__":
+        await query.edit_message_text("✏️ 新しい分類名を入力してください（英数字推奨）：")
+        return WAIT_NEW_CATEGORY
+
+    folder = data.replace("cat:", "")
+    await _save_with_category(query, folder)
+    return ConversationHandler.END
+
+
+async def handle_new_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    使用者輸入新分類名稱後：
+    1. 加進 custom_categories（記憶體）
+    2. 寫進 categories.json（硬碟）← 這樣重啟後還在
+    3. 儲存筆記
+    """
+    raw    = update.message.text.strip()
+    folder = re.sub(r'[^\w]', '_', raw).lower()
+
+    if not folder:
+        await update.message.reply_text("❌ 分類名稱無效，請重新輸入。")
+        return WAIT_NEW_CATEGORY
+
+    # 若不重複才加入
+    existing_folders = [c["folder"] for c in get_all_categories()]
+    if folder not in existing_folders:
+        new_cat = {"emoji": "📁", "name": raw, "folder": folder}
+        custom_categories.append(new_cat)
+
+        # 寫進硬碟，重啟後還在
+        save_custom_categories(custom_categories)
+        logging.info(f"New category saved to disk: {folder}")
+
+    await _save_with_category(update, folder)
+    return ConversationHandler.END
+
+
+async def _save_with_category(update_or_query, folder: str) -> None:
+    state    = user_state[ALLOWED_USER_ID]
+    filename = state["filename"]
+
+    note_dir  = NOTES_DIR / folder
+    note_path = note_dir / filename
+    filepath  = f"docs/notes/{folder}/{filename}"
 
     note = build_note(
         text        = state["text"],
@@ -355,22 +494,22 @@ async def handle_example(update: Update, context: ContextTypes.DEFAULT_TYPE):
         meaning     = state["meaning"],
         grammar_md  = state["grammar_md"],
         pattern_md  = state["pattern_md"],
-        example     = example,
-        source      = "手動入力",
+        example     = state.get("example", "（待填入）"),
+        source      = state.get("source", "（待填入）"),
         attempts    = state["attempts"],
         warning     = state["warning"],
+        category    = folder,
     )
 
-    path = NOTES_DIR / state["filename"]
-    save_note(path, note, state["filename"])
+    save_note(note_path, note, filepath)
 
-    await update.message.reply_text(
-        f"🎉 Saved：`{path.name}`",
-        parse_mode="Markdown"
-    )
+    reply_text = f"🎉 Saved：`{filename}`\n📁 Category：{folder}"
+    if hasattr(update_or_query, "edit_message_text"):
+        await update_or_query.edit_message_text(reply_text, parse_mode="Markdown")
+    else:
+        await update_or_query.reply_text(reply_text, parse_mode="Markdown")
 
     user_state.pop(ALLOWED_USER_ID, None)
-    return ConversationHandler.END
 
 
 async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -389,28 +528,14 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return WAIT_EXAMPLE
 
-    note = build_note(
-        text        = state["text"],
-        analysis_md = state["analysis_md"],
-        meaning     = state["meaning"],
-        grammar_md  = state["grammar_md"],
-        pattern_md  = state["pattern_md"],
-        example     = state["auto_example"],
-        source      = state["auto_source"],
-        attempts    = state["attempts"],
-        warning     = state["warning"],
-    )
-
-    path = NOTES_DIR / state["filename"]
-    save_note(path, note, state["filename"])
+    state["example"] = state["auto_example"]
+    state["source"]  = state["auto_source"]
 
     await update.message.reply_text(
-        f"✅ Massif 例句を使用、保存：`{path.name}`",
-        parse_mode="Markdown"
+        f"✅ Massif 例句を使用。\n\n📁 分類は？",
+        reply_markup=build_category_keyboard()
     )
-
-    user_state.pop(ALLOWED_USER_ID, None)
-    return ConversationHandler.END
+    return WAIT_CATEGORY
 
 
 async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -429,28 +554,14 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return WAIT_EXAMPLE
 
-    note = build_note(
-        text        = state["text"],
-        analysis_md = state["analysis_md"],
-        meaning     = state["meaning"],
-        grammar_md  = state["grammar_md"],
-        pattern_md  = state["pattern_md"],
-        example     = "（待填入）",
-        source      = "（待填入）",
-        attempts    = state["attempts"],
-        warning     = state["warning"],
-    )
-
-    path = NOTES_DIR / state["filename"]
-    save_note(path, note, state["filename"])
+    state["example"] = "（待填入）"
+    state["source"]  = "（待填入）"
 
     await update.message.reply_text(
-        f"⏭️ 例句をスキップ、保存：`{path.name}`",
-        parse_mode="Markdown"
+        "⏭️ 例句をスキップ。\n\n📁 分類は？",
+        reply_markup=build_category_keyboard()
     )
-
-    user_state.pop(ALLOWED_USER_ID, None)
-    return ConversationHandler.END
+    return WAIT_CATEGORY
 
 
 conv_handler = ConversationHandler(
@@ -465,6 +576,12 @@ conv_handler = ConversationHandler(
             CommandHandler("auto", cmd_auto),
             CommandHandler("skip", cmd_skip),
             MessageHandler(filters.TEXT & ~filters.COMMAND, handle_example),
+        ],
+        WAIT_CATEGORY: [
+            CallbackQueryHandler(handle_category_callback, pattern="^cat:"),
+        ],
+        WAIT_NEW_CATEGORY: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND, handle_new_category),
         ],
     },
     fallbacks=[],
