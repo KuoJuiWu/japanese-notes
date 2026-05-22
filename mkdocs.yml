@@ -9,9 +9,10 @@ theme:
     accent: blue
   features:
     - navigation.instant
+    - navigation.tabs
+    - navigation.indexes
     - search.highlight
     - search.suggest
-
 
 extra_css:
   - stylesheets/extra.css
@@ -23,3 +24,14 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+
+nav:
+  - Home: index.md
+  - Vocabulary Notes: notes/
+  - Grammar Reference:
+    - grammar/index.md
+    - N5: grammar/N5/index.md
+    - N4: grammar/N4/index.md
+    - N3: grammar/N3/index.md
+    - N2: grammar/N2/index.md
+    - N1: grammar/N1/index.md
