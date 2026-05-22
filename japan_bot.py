@@ -8,6 +8,7 @@ from morphology import analyze, tokens_to_table_md, lookup_meaning, classify_tok
 from aux_verbs import explain_aux, format_aux_for_telegram, format_aux_for_note
 from grammar_patterns import match_patterns, format_patterns_for_telegram, format_patterns_for_note
 from tatoeba_search import get_example, get_example_smart
+from jlpt_lookup import wordbank, format_wordbank_message
 
 from jamdict import Jamdict
 import json
@@ -488,6 +489,36 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return WAIT_CATEGORY
 
 
+async def cmd_wordbank(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.from_user.id != ALLOWED_USER_ID:
+        await update.message.reply_text("⛔ Unauthorized。")
+        return
+
+    # Parse level from args e.g. /wordbank N3
+    valid_levels = {"N5", "N4", "N3", "N2", "N1"}
+    level = context.args[0].upper() if context.args else "N5"
+
+    if level not in valid_levels:
+        await update.message.reply_text(
+            f"❌ Invalid level. Use one of: {', '.join(sorted(valid_levels))}\n"
+            f"Example: /wordbank N3"
+        )
+        return
+
+    await update.message.reply_text(f"🔍 Fetching {level} words...")
+
+    entries = wordbank(level, jam, NOTES_DIR, n=20)
+    msg     = format_wordbank_message(entries, level)
+
+    # Telegram has a 4096 char limit — split if needed
+    if len(msg) <= 4096:
+        await update.message.reply_text(msg)
+    else:
+        chunks = [msg[i:i+4096] for i in range(0, len(msg), 4096)]
+        for chunk in chunks:
+            await update.message.reply_text(chunk)
+
+
 conv_handler = ConversationHandler(
     entry_points=[MessageHandler(filters.TEXT & ~filters.COMMAND, handle_japanese)],
     states={
@@ -528,6 +559,7 @@ def main():
             app.add_handler(conv_handler)
             app.add_error_handler(error_handler)
             app.add_handler(CommandHandler("debug", cmd_debug))
+            app.add_handler(CommandHandler("wordbank", cmd_wordbank))
             app.run_polling(
                 allowed_updates=Update.ALL_TYPES,
                 drop_pending_updates=True,
