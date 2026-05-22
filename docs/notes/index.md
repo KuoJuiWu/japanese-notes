@@ -9,6 +9,6 @@ Each note includes:
 - 例句 (example sentence + English translation)
 - 参考 (Kotobank + Weblio references)
 
-Use the search bar to find any word.| [かく](daily/20260523_023622_かく.md) | かく | daily | 2026-05-23 |
-| [書く](daily/20260523_023816_書く.md) | かく | daily | 2026-05-23 |
+Use the search bar to find any word.
 | [こえ](textbook/20260523_024749_こえ.md) | こえ | textbook | 2026-05-23 |
+| [夢ならば](song/20260523_025423_夢ならば.md) | ゆめ | song | 2026-05-23 |
