@@ -27,7 +27,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Vocabulary Notes: notes/
+  - Vocabulary Notes: notes/index.md
   - Grammar Reference:
     - grammar/index.md
     - N5: grammar/N5/index.md
