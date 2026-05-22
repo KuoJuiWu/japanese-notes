@@ -14,14 +14,6 @@ CSV format (tab-separated):
 
 Index:
   base_form (str) → list of (japanese_sentence, english_translation)
-
-Usage in japan_bot.py
-─────────────────────
-Replace the Massif import with:
-    from tatoeba_search import get_example, get_example_smart
-
-Change any `await get_example(...)` → `get_example(...)` (now synchronous).
-Everything else stays the same — same return types.
 """
 
 import csv
@@ -30,25 +22,21 @@ from collections import defaultdict
 from pathlib import Path
 from random import choice
 
-# ── adjust this path to match your project layout ──────────────────────────
 CSV_PATH = Path(__file__).parent / "wwwjdic.csv"
-# ───────────────────────────────────────────────────────────────────────────
 
 # index: base_form → [(jp_sentence, en_translation), ...]
 _index: dict[str, list[tuple[str, str]]] = defaultdict(list)
 _loaded = False
 
-# Extracts the leading base form from a tag token like:
-#   帰る[01]{帰り}  →  帰る
-#   二十歳(はたち){２０歳}  →  二十歳
-#   待つ[01]  →  待つ
 _BASE_RE = re.compile(r'^([^\s({\[~#]+)')
+
 
 def _is_japanese(s: str) -> bool:
     return any(
         '\u3040' <= c <= '\u30ff' or '\u4e00' <= c <= '\u9fff'
         for c in s
     )
+
 
 def _extract_bases(tag_col: str) -> list[str]:
     bases = []
@@ -78,35 +66,48 @@ def _load() -> None:
 
 # ── public API ──────────────────────────────────────────────────────────────
 
-def get_example(word: str) -> tuple[str, str]:
+def get_example(word: str) -> tuple[str, str, str]:
     """
     Look up `word` (dictionary base form) in the pre-built index.
 
     Returns:
-        (sentence, "Tatoeba")  on success
-        ("（自動查詢無結果）", "")  if not found
+        (jp_sentence, en_translation, "Tatoeba")  on success
+        ("（自動查詢無結果）", "", "")  if not found
     """
     _load()
     hits = _index.get(word)
     if not hits:
-        return "（自動查詢無結果）", ""
-    jp, _en = choice(hits)          # random pick from all matching sentences
-    return jp, "Tatoeba"
+        return "（自動查詢無結果）", "", ""
+    jp, en = choice(hits)
+    return jp, en, "Tatoeba"
 
 
-def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, list[str], str]:
+def _search_with_fallback(base: str, surface: str) -> tuple[str, str, str]:
     """
-    Mirrors the Massif get_example_smart() signature used in japan_bot.py.
-
-    Strategy:
-      1. Try each content-word base form (名詞 / 動詞 / 形容詞) via index
-      2. If nothing found → return empty fields (no warning needed)
-
-    Note: we skip searching the full raw sentence because the index is keyed
-    on dictionary base forms, not surface strings.
+    Try base form first, then surface form as fallback.
+    Handles cases where fugashi normalizes kana→kanji (e.g. ご飯→御飯).
 
     Returns:
-        (example, source, attempts, warning)
+        (jp_sentence, en_translation, "Tatoeba")  on success
+        ("（自動查詢無結果）", "", "")  if not found
+    """
+    _load()
+    for key in dict.fromkeys([base, surface]):
+        hits = _index.get(key)
+        if hits:
+            jp, en = choice(hits)
+            return jp, en, "Tatoeba"
+    return "（自動查詢無結果）", "", ""
+
+
+def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, str, list[str], str]:
+    """
+    Try each content-word base form (名詞 / 動詞 / 形容詞) via index.
+    Falls back to surface form to handle fugashi kana→kanji normalization.
+    If nothing found → return empty fields, no warning.
+
+    Returns:
+        (jp_example, en_translation, source, attempts, warning)
     """
     _load()
     attempts: list[str] = []
@@ -122,23 +123,8 @@ def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, list[str]
         seen.add(base)
 
         attempts.append(base)
-        example, source = _search_with_fallback(base, surface)
-        if example != "（自動查詢無結果）":
-            return example, source, attempts, ""
+        jp, en, source = _search_with_fallback(base, surface)
+        if jp != "（自動查詢無結果）":
+            return jp, en, source, attempts, ""
 
-    # Nothing found — leave blank, no warning
-    return "", "", attempts, ""
-
-
-def _search_with_fallback(base: str, surface: str) -> tuple[str, str]:
-    """
-    Try base form first, then surface form as fallback.
-    Handles cases where fugashi normalizes kana→kanji (e.g. ご飯→御飯).
-    """
-    _load()
-    for key in dict.fromkeys([base, surface]):   # preserves order, deduplicates
-        hits = _index.get(key)
-        if hits:
-            jp, _en = choice(hits)
-            return jp, "Tatoeba"
-    return "（自動查詢無結果）", ""
+    return "", "", "", attempts, ""
