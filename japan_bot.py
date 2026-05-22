@@ -221,6 +221,7 @@ def git_push(filepath: str) -> None:
     try:
         repo = str(BASE_DIR)
         subprocess.run([GIT, "add", filepath], check=True, cwd=repo)
+        subprocess.run([GIT, "add", "docs/notes/index.md"], check=True, cwd=repo)
         subprocess.run([GIT, "commit", "-m", f"add: {Path(filepath).name}"], check=True, cwd=repo)
         subprocess.run([GIT, "push", "origin", "master"], check=True, cwd=repo)
     except subprocess.CalledProcessError as e:
@@ -229,9 +230,36 @@ def git_push(filepath: str) -> None:
 
 def deploy() -> None:
     try:
-        subprocess.run([MKDOCS, "gh-deploy", "--quiet"], check=True)
+        subprocess.run([MKDOCS, "gh-deploy", "--dirty", "--quiet"], check=True)
     except subprocess.CalledProcessError as e:
         logging.error(f"Deploy error: {e}")
+
+
+NOTES_INDEX = NOTES_DIR / "index.md"
+
+def update_notes_index(text: str, reading: str, category: str, filename: str, folder: str) -> None:
+    """
+    Append a new row to docs/notes/index.md.
+    Creates the file with a header if it doesn't exist yet.
+    """
+    date     = datetime.now().strftime("%Y-%m-%d")
+    rel_path = f"{folder}/{filename}"
+
+    # Create index with header if it doesn't exist
+    if not NOTES_INDEX.exists():
+        NOTES_INDEX.write_text(
+            "# 📖 Vocabulary Notes\n\n"
+            "Personal Japanese vocabulary notes saved via the Telegram bot.\n\n"
+            "Use the search bar to find any word.\n\n"
+            "| Word | Reading | Category | Date |\n"
+            "|---|---|---|---|\n",
+            encoding="utf-8"
+        )
+
+    # Append new row
+    row = f"| [{text}]({rel_path}) | {reading} | {category} | {date} |\n"
+    with open(NOTES_INDEX, "a", encoding="utf-8") as f:
+        f.write(row)
 
 
 def save_note(path: Path, note: str, filepath: str) -> None:
@@ -292,6 +320,7 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "text":             text,
         "analysis_md":      analysis_md,
         "filename":         safe_filename(text),
+        "words":            words,
         "auto_meaning":     auto_meaning,
         "grammar_md":       grammar_md,
         "auto_example":     auto_example,
@@ -413,6 +442,11 @@ async def _save_with_category(update_or_query, folder: str) -> None:
         category    = folder,
     )
 
+    # Get reading from first content word for the index
+    words   = state.get("words", [])
+    reading = words[0]["reading"] if words else ""
+
+    update_notes_index(state["text"], reading, folder, filename, folder)
     save_note(note_path, note, filepath)
 
     reply_text = f"🎉 Saved：`{filename}`\n📁 Category：{folder}"
