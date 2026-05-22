@@ -6,6 +6,56 @@
 
 ---
 
+### v3.1 — 2026-05-23
+**MkDocs Navigation + Notes Index System**
+
+#### 新增檔案
+| 檔案 | 說明 |
+|---|---|
+| `docs/notes/index.md` | 詞彙筆記總覽頁（自動更新） |
+| `docs/notes/{category}/index.md` | 各分類筆記列表（自動更新） |
+
+#### 改動
+- `japan_bot.py`：新增 `update_notes_index()` — 每次儲存筆記時自動更新分類 index
+- `japan_bot.py`：新增 `update_mkdocs_nav()` — 新建自訂分類時自動更新 mkdocs.yml nav
+- `japan_bot.py`：`git_push()` 改為同時 stage 筆記、notes/ 資料夾、mkdocs.yml
+- `japan_bot.py`：`deploy()` 新增 `--dirty` flag，只重建有變動的頁面（加快部署速度）
+- `mkdocs.yml`：新增 `nav` 區塊，含 Vocabulary Notes（按分類）和 Grammar Reference（按等級）
+- `mkdocs.yml`：新增 `navigation.tabs` 和 `navigation.indexes` theme features
+
+#### Notes Index 結構
+```
+docs/notes/
+├── index.md              ← 所有筆記總覽表（自動 append）
+├── song/
+│   └── index.md          ← Song 分類筆記列表（自動 append）
+├── anime/
+│   └── index.md
+├── textbook/
+│   └── index.md
+├── daily/
+│   └── index.md
+├── other/
+│   └── index.md
+└── {custom}/             ← 自訂分類（bot 建立時自動產生）
+    └── index.md
+```
+
+#### 自訂分類自動化流程
+```
+使用者透過 bot 新建分類（如 📁 music）
+        ↓
+update_notes_index() → 建立 docs/notes/music/index.md
+        ↓
+update_mkdocs_nav() → 在 mkdocs.yml nav 加入 "📁 music: notes/music/index.md"
+        ↓
+git_push() → stage 筆記 + notes/ + mkdocs.yml
+        ↓
+deploy --dirty → 只重建變動頁面
+```
+
+---
+
 ### v3.0 — 2026-05-23
 **Offline Upgrade + JLPT Vocabulary Bank + Grammar Reference System**
 
@@ -14,7 +64,7 @@
 |---|---|
 | `tatoeba_search.py` | 取代 Massif API，從本地 wwwjdic.csv 查例句（完全離線） |
 | `jlpt_lookup.py` | JLPT 詞彙等級查詢 + `/wordbank` 指令 |
-| `jlpt_vocab.json` | JLPT N5–N1 詞彙表（8,138 個詞，來源：Jonathan Waller） |
+| `data/jlpt_vocab.json` | JLPT N5–N1 詞彙表（8,138 個詞，來源：Jonathan Waller） |
 | `generate_grammar_pages.py` | 從文法 JSON 產生 MkDocs 文法參考頁面 |
 | `PROJECT_SOURCES.md` | 所有資料來源的說明與授權記錄 |
 
@@ -28,6 +78,7 @@
 - `build_note()`：新增英文例句翻譯（blockquote 格式）
 - `get_example_smart()`：改為同步函式（移除 async/await）
 - 例句來源標示由 Massif 改為 Tatoeba
+- 資料檔案移至 `data/` 資料夾統一管理
 
 #### 新增指令
 - `/wordbank N3`：隨機取得 20 個未儲存的指定等級詞彙（含讀音、意思、例句）
@@ -68,7 +119,7 @@ Telegram 輸入日文句子
    build_note()
    組合 Markdown 筆記（含英文例句翻譯）
         ↓
-   git push + mkdocs gh-deploy
+   git push + mkdocs gh-deploy --dirty
    上傳到 GitHub Pages
 ```
 
@@ -90,29 +141,30 @@ Japanese/
 ├── japan_bot.py                ← 主程式
 ├── morphology.py               ← 形態素解析
 ├── aux_verbs.py                ← 助動詞分析
-├── tatoeba_search.py           ← 離線例句查詢（新）
-├── jlpt_lookup.py              ← JLPT 等級查詢 + /wordbank（新）
-├── generate_grammar_pages.py   ← 文法頁面產生器（新）
-├── wwwjdic.csv                 ← Tatoeba 語料庫（新）
-├── jlpt_vocab.json             ← JLPT N5–N1 詞彙表（新）
-├── PROJECT_SOURCES.md          ← 資料來源說明（新）
-├── N5_grammar.json             ← 文法模板 N5
-├── N4_grammar.json             ← 文法模板 N4
-├── N3_grammar.json             ← 文法模板 N3
-├── N2_grammar.json             ← 文法模板 N2
-├── N1_grammar_01.json          ← 文法模板 N1（第一部分）
-├── N1_grammar_02.json          ← 文法模板 N1（第二部分）
+├── tatoeba_search.py           ← 離線例句查詢
+├── jlpt_lookup.py              ← JLPT 等級查詢 + /wordbank
+├── generate_grammar_pages.py   ← 文法頁面產生器
+├── PROJECT_SOURCES.md          ← 資料來源說明
 ├── categories.json             ← 自訂分類（自動產生）
+├── data/
+│   ├── wwwjdic.csv             ← Tatoeba 語料庫
+│   ├── jlpt_vocab.json         ← JLPT N5–N1 詞彙表
+│   ├── N5_grammar.json
+│   ├── N4_grammar.json
+│   ├── N3_grammar.json
+│   ├── N2_grammar.json
+│   ├── N1_grammar_01.json
+│   └── N1_grammar_02.json
 ├── docs/
-│   ├── index.md                ← MkDocs 首頁
-│   ├── notes/                  ← 詞彙筆記
-│   ├── grammar/                ← 產生的文法頁面（新）
+│   ├── index.md
+│   ├── notes/
+│   ├── grammar/                ← 產生的文法頁面
 │   └── stylesheets/
 │       └── extra.css
 ├── mkdocs.yml
 ├── jamdictdb/
-│   └── jamdict.db              ← 本地字典（不上傳 GitHub）
-└── .env                        ← token（不上傳 GitHub）
+│   └── jamdict.db
+└── .env
 ```
 
 #### 資料來源
@@ -272,7 +324,6 @@ Japanese/
 - [ ] Could add /list command to browse saved notes from Telegram
 - [ ] Could add /edit command to update existing notes
 - [ ] Task Scheduler set up for auto-start on Windows boot
-- [ ] Add grammar section to mkdocs.yml nav
 - [ ] NHK Easy News integration — feed real articles, flag unknown vocab + grammar
 
 ## Website
