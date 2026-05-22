@@ -115,15 +115,30 @@ def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, list[str]
     for w in words:
         if w["pos"] not in ("名詞", "動詞", "形容詞"):
             continue
-        base = w["base"]
+        base    = w["base"]
+        surface = w["surface"]
         if base in seen:
             continue
         seen.add(base)
 
         attempts.append(base)
-        example, source = get_example(base)
+        example, source = _search_with_fallback(base, surface)
         if example != "（自動查詢無結果）":
             return example, source, attempts, ""
 
     # Nothing found — leave blank, no warning
     return "", "", attempts, ""
+
+
+def _search_with_fallback(base: str, surface: str) -> tuple[str, str]:
+    """
+    Try base form first, then surface form as fallback.
+    Handles cases where fugashi normalizes kana→kanji (e.g. ご飯→御飯).
+    """
+    _load()
+    for key in dict.fromkeys([base, surface]):   # preserves order, deduplicates
+        hits = _index.get(key)
+        if hits:
+            jp, _en = choice(hits)
+            return jp, "Tatoeba"
+    return "（自動查詢無結果）", ""
