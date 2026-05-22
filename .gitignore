@@ -5,3 +5,4 @@ jamdictdb/
 site/
 categories.json
 wwwjdic.csv
+grammar_patterns.py

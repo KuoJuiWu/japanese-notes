@@ -6,7 +6,6 @@ from telegram.ext import (
 )
 from morphology import analyze, tokens_to_table_md, lookup_meaning, classify_tokens, MorphToken
 from aux_verbs import explain_aux, format_aux_for_telegram, format_aux_for_note
-from grammar_patterns import match_patterns, format_patterns_for_telegram, format_patterns_for_note
 from tatoeba_search import get_example, get_example_smart
 from jlpt_lookup import wordbank, format_wordbank_message
 
@@ -159,7 +158,6 @@ def build_note(
     analysis_md: str,
     meaning:     str,
     grammar_md:  str,
-    pattern_md:  str,
     example:     str,
     example_en:  str,
     source:      str,
@@ -186,7 +184,6 @@ def build_note(
         debug_section = ""
 
     grammar_section  = f"\n{grammar_md}" if grammar_md else ""
-    pattern_section  = f"\n{pattern_md}" if pattern_md else ""
     example_en_line  = f"\n> {example_en}" if example_en else ""
 
     return f"""---
@@ -204,7 +201,7 @@ tags:
 {analysis_md}
 ## 意思 (Meaning)
 {meaning}
-{grammar_section}{pattern_section}
+{grammar_section}
 ## 例句 (Example)
 {example}{example_en_line}
 
@@ -291,17 +288,12 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
     grammar_telegram = format_aux_for_telegram(aux_explanations)
     grammar_md       = format_aux_for_note(aux_explanations)
 
-    pattern_results, _ = match_patterns(tokens, used_indices)
-    pattern_telegram   = format_patterns_for_telegram(pattern_results)
-    pattern_md         = format_patterns_for_note(pattern_results)
-
     user_state[ALLOWED_USER_ID] = {
         "text":             text,
         "analysis_md":      analysis_md,
         "filename":         safe_filename(text),
         "auto_meaning":     auto_meaning,
         "grammar_md":       grammar_md,
-        "pattern_md":       pattern_md,
         "auto_example":     auto_example,
         "auto_example_en":  auto_example_en,
         "auto_source":      auto_source,
@@ -327,8 +319,6 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     if grammar_telegram:
         msg += f"\n{grammar_telegram}\n"
-    if pattern_telegram:
-        msg += f"\n{pattern_telegram}\n"
     msg += (
         f"\n📝 意思は？\n"
         f"（自分で入力 / /auto でJMdict使用 / /skip でスキップ）"
@@ -415,7 +405,6 @@ async def _save_with_category(update_or_query, folder: str) -> None:
         analysis_md = state["analysis_md"],
         meaning     = state["meaning"],
         grammar_md  = state["grammar_md"],
-        pattern_md  = state["pattern_md"],
         example     = state.get("example", "（待填入）"),
         example_en  = state.get("example_en", ""),
         source      = state.get("source", "（待填入）"),
