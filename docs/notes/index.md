@@ -9,4 +9,4 @@ Each note includes:
 - 例句 (example sentence + English translation)
 - 参考 (Kotobank + Weblio references)
 
-Use the search bar to find any word.
+Use the search bar to find any word.| [かく](daily/20260523_023622_かく.md) | かく | daily | 2026-05-23 |
