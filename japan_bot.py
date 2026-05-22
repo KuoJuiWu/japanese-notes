@@ -7,9 +7,9 @@ from telegram.ext import (
 from morphology import analyze, tokens_to_table_md, lookup_meaning, classify_tokens, MorphToken
 from aux_verbs import explain_aux, format_aux_for_telegram, format_aux_for_note
 from grammar_patterns import match_patterns, format_patterns_for_telegram, format_patterns_for_note
+from tatoeba_search import get_example, get_example_smart
 
 from jamdict import Jamdict
-import httpx
 import json
 from datetime import datetime
 from pathlib import Path
@@ -61,17 +61,10 @@ DEFAULT_CATEGORIES: list[dict] = [
 ]
 
 # ── 自建分類持久化 ────────────────────────────────────────────────────────────
-# categories.json 存在 repo 根目錄
-# 格式：[{"emoji": "📁", "name": "music", "folder": "music"}, ...]
 CATEGORIES_FILE = BASE_DIR / "categories.json"
 
 
 def load_custom_categories() -> list[dict]:
-    """
-    從 categories.json 讀取自建分類。
-    Bot 啟動時呼叫一次，之後存在記憶體裡。
-    若檔案不存在，回傳空列表。
-    """
     if not CATEGORIES_FILE.exists():
         return []
     try:
@@ -83,10 +76,6 @@ def load_custom_categories() -> list[dict]:
 
 
 def save_custom_categories(categories: list[dict]) -> None:
-    """
-    把自建分類寫進 categories.json（硬碟）。
-    每次新增分類時呼叫，確保重啟後還在。
-    """
     try:
         with open(CATEGORIES_FILE, "w", encoding="utf-8") as f:
             json.dump(categories, f, ensure_ascii=False, indent=2)
@@ -94,21 +83,14 @@ def save_custom_categories(categories: list[dict]) -> None:
         logging.error(f"Failed to save categories.json: {e}")
 
 
-# Bot 啟動時從硬碟讀取自建分類
 custom_categories: list[dict] = load_custom_categories()
 
 
 def get_all_categories() -> list[dict]:
-    """回傳預設分類＋自建分類的完整列表"""
     return DEFAULT_CATEGORIES + custom_categories
 
 
 def build_category_keyboard() -> InlineKeyboardMarkup:
-    """
-    建立分類選擇的 Inline Keyboard。
-    每排兩個按鈕，最後一排加上「✏️ 新建分類」。
-    callback_data 格式：cat:<folder>
-    """
     all_cats = get_all_categories()
     buttons  = []
 
@@ -171,62 +153,6 @@ def jmdict_lookup(words: list[dict]) -> str:
     return lookup_meaning(tokens, jam)
 
 
-async def get_example(word: str) -> tuple[str, str]:
-    async with httpx.AsyncClient() as client:
-        r = await client.get(f"https://massif.la/ja/search?q={word}&fmt=json")
-        results = r.json().get("results", [])
-        matches = [s for s in results if word in s["text"]]
-
-        if not matches:
-            r = await client.get(f"https://massif.la/ja/search?q={word}&fmt=json&hits=50")
-            results = r.json().get("results", [])
-            matches = [s for s in results if word in s["text"]]
-
-    if not matches:
-        return "（自動查詢無結果）", ""
-
-    best     = min(matches, key=lambda s: len(s["text"]))
-    sentence = best["text"]
-    source   = best.get("info_json", {}).get("title") or "Massif"
-
-    return sentence, source
-
-
-async def get_example_smart(text: str, words: list[dict]) -> tuple[str, str, list[str], str]:
-    attempts = []
-
-    attempts.append(text)
-    example, source = await get_example(text)
-    if example != "（自動查詢無結果）":
-        return example, source, attempts, ""
-
-    candidates = [
-        w["base"]
-        for w in words
-        if w["pos"] in ("名詞", "動詞", "形容詞")
-    ]
-
-    seen = set()
-    candidates = [x for x in candidates if not (x in seen or seen.add(x))]
-
-    for word in candidates:
-        attempts.append(word)
-        example, source = await get_example(word)
-        if example != "（自動查詢無結果）":
-            return example, source, attempts, ""
-
-    warning = (
-        "⚠️ Massif could not find a matching example.\n"
-        "Possible causes:\n"
-        "- typo\n"
-        "- uncommon phrasing\n"
-        "- corpus limitation\n"
-        "- conjugation mismatch"
-    )
-
-    return "（自動查詢無結果）", "", attempts, warning
-
-
 def build_note(
     text:        str,
     analysis_md: str,
@@ -239,7 +165,7 @@ def build_note(
     warning:     str,
     category:    str,
 ) -> str:
-    source_line = f"*{source} (via Massif)*" if source and source != "Massif" else "*Massif*"
+    source_line = f"*{source}*" if source else "*Tatoeba*"
     if source in ("手動入力", "（待填入）"):
         source_line = source
 
@@ -288,7 +214,7 @@ tags:
 - [Weblio](https://www.weblio.jp/content/{encoded})
 {debug_section}
 ---
-> ⚠️ **注意**：本筆記的意思說明來自 JMdict 離線字典，文法分析（助動詞、文法模板）由規則程式自動產生，例句來自 Massif 語料庫。內容僅供學習參考，建議重要詞彙以 Kotobank 或 Weblio 等權威來源進行確認。"""
+> ⚠️ **注意**：本筆記的意思說明來自 JMdict 離線字典，文法分析（助動詞、文法模板）由規則程式自動產生，例句來自 Tatoeba 語料庫。內容僅供學習參考，建議重要詞彙以 Kotobank 或 Weblio 等權威來源進行確認。"""
 
 
 def git_push(filepath: str) -> None:
@@ -356,7 +282,7 @@ async def handle_japanese(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text                       = update.message.text.strip()
     analysis_md, words, tokens = analyze_japanese(text)
     auto_meaning               = jmdict_lookup(words)
-    auto_example, auto_source, attempts, warning = await get_example_smart(text, words)
+    auto_example, auto_source, attempts, warning = get_example_smart(text, words)
 
     aux_explanations, used_indices = explain_aux(tokens)
     grammar_telegram = format_aux_for_telegram(aux_explanations)
@@ -415,8 +341,8 @@ async def handle_meaning(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state = user_state[ALLOWED_USER_ID]
     await update.message.reply_text(
         f"✏️ 例句は？\n"
-        f"Massif 自動例句：\n{state['auto_example']}\n\n"
-        f"（自分で入力 / /auto でMassif使用 / /skip でスキップ）"
+        f"Tatoeba 自動例句：\n{state['auto_example']}\n\n"
+        f"（自分で入力 / /auto でTatoeba使用 / /skip でスキップ）"
     )
     return WAIT_EXAMPLE
 
@@ -453,12 +379,6 @@ async def handle_category_callback(update: Update, context: ContextTypes.DEFAULT
 
 
 async def handle_new_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """
-    使用者輸入新分類名稱後：
-    1. 加進 custom_categories（記憶體）
-    2. 寫進 categories.json（硬碟）← 這樣重啟後還在
-    3. 儲存筆記
-    """
     raw    = update.message.text.strip()
     folder = re.sub(r'[^\w]', '_', raw).lower()
 
@@ -466,13 +386,10 @@ async def handle_new_category(update: Update, context: ContextTypes.DEFAULT_TYPE
         await update.message.reply_text("❌ 分類名稱無效，請重新輸入。")
         return WAIT_NEW_CATEGORY
 
-    # 若不重複才加入
     existing_folders = [c["folder"] for c in get_all_categories()]
     if folder not in existing_folders:
         new_cat = {"emoji": "📁", "name": raw, "folder": folder}
         custom_categories.append(new_cat)
-
-        # 寫進硬碟，重啟後還在
         save_custom_categories(custom_categories)
         logging.info(f"New category saved to disk: {folder}")
 
@@ -523,8 +440,8 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"✅ JMdict 意思を使用：\n{state['meaning']}\n\n"
             f"✏️ 例句は？\n"
-            f"Massif 自動例句：\n{state['auto_example']}\n\n"
-            f"（自分で入力 / /auto でMassif使用 / /skip でスキップ）"
+            f"Tatoeba 自動例句：\n{state['auto_example']}\n\n"
+            f"（自分で入力 / /auto でTatoeba使用 / /skip でスキップ）"
         )
         return WAIT_EXAMPLE
 
@@ -532,7 +449,7 @@ async def cmd_auto(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state["source"]  = state["auto_source"]
 
     await update.message.reply_text(
-        f"✅ Massif 例句を使用。\n\n📁 分類は？",
+        f"✅ Tatoeba 例句を使用。\n\n📁 分類は？",
         reply_markup=build_category_keyboard()
     )
     return WAIT_CATEGORY
@@ -549,8 +466,8 @@ async def cmd_skip(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "⏭️ 意思をスキップ\n\n"
             f"✏️ 例句は？\n"
-            f"Massif 自動例句：\n{state['auto_example']}\n\n"
-            f"（自分で入力 / /auto でMassif使用 / /skip でスキップ）"
+            f"Tatoeba 自動例句：\n{state['auto_example']}\n\n"
+            f"（自分で入力 / /auto でTatoeba使用 / /skip でスキップ）"
         )
         return WAIT_EXAMPLE
 
