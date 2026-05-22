@@ -12,3 +12,4 @@ Each note includes:
 Use the search bar to find any word.
 | [こえ](textbook/20260523_024749_こえ.md) | こえ | textbook | 2026-05-23 |
 | [夢ならば](song/20260523_025423_夢ならば.md) | ゆめ | song | 2026-05-23 |
+| [朝ご飯](daily/20260523_025524_朝ご飯.md) | あさごはん | daily | 2026-05-23 |
