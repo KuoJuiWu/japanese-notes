@@ -10,3 +10,4 @@ Each note includes:
 - 参考 (Kotobank + Weblio references)
 
 Use the search bar to find any word.| [かく](daily/20260523_023622_かく.md) | かく | daily | 2026-05-23 |
+| [書く](daily/20260523_023816_書く.md) | かく | daily | 2026-05-23 |
