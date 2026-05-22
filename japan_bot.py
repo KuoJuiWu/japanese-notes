@@ -220,10 +220,11 @@ tags:
 def git_push(filepath: str) -> None:
     try:
         repo = str(BASE_DIR)
-        subprocess.run([GIT, "add", filepath], check=True, cwd=repo)
-        subprocess.run([GIT, "add", "docs/notes/index.md"], check=True, cwd=repo)
+        subprocess.run([GIT, "add", filepath],             check=True, cwd=repo)
+        subprocess.run([GIT, "add", "docs/notes/"],        check=True, cwd=repo)
+        subprocess.run([GIT, "add", "mkdocs.yml"],         check=True, cwd=repo)
         subprocess.run([GIT, "commit", "-m", f"add: {Path(filepath).name}"], check=True, cwd=repo)
-        subprocess.run([GIT, "push", "origin", "master"], check=True, cwd=repo)
+        subprocess.run([GIT, "push", "origin", "master"],  check=True, cwd=repo)
     except subprocess.CalledProcessError as e:
         logging.error(f"Git error: {e}")
 
@@ -235,17 +236,36 @@ def deploy() -> None:
         logging.error(f"Deploy error: {e}")
 
 
-NOTES_INDEX = NOTES_DIR / "index.md"
+NOTES_INDEX  = NOTES_DIR / "index.md"
+MKDOCS_YML   = BASE_DIR / "mkdocs.yml"
+
 
 def update_notes_index(text: str, reading: str, category: str, filename: str, folder: str) -> None:
     """
-    Append a new row to docs/notes/index.md.
+    Append a new row to docs/notes/{category}/index.md.
     Creates the file with a header if it doesn't exist yet.
+    Also updates the top-level notes/index.md.
     """
-    date     = datetime.now().strftime("%Y-%m-%d")
-    rel_path = f"{folder}/{filename}"
+    date = datetime.now().strftime("%Y-%m-%d")
 
-    # Create index with header if it doesn't exist
+    # ── Category index (docs/notes/{folder}/index.md) ────────────────────────
+    cat_index = NOTES_DIR / folder / "index.md"
+    cat_label = folder.capitalize()
+
+    if not cat_index.exists():
+        cat_index.parent.mkdir(parents=True, exist_ok=True)
+        cat_index.write_text(
+            f"# 📖 {cat_label} Notes\n\n"
+            f"| Word | Reading | Date |\n"
+            f"|---|---|---|\n",
+            encoding="utf-8"
+        )
+
+    row = f"| [{text}]({filename}) | {reading} | {date} |\n"
+    with open(cat_index, "a", encoding="utf-8") as f:
+        f.write(row)
+
+    # ── Top-level notes index (docs/notes/index.md) ───────────────────────────
     if not NOTES_INDEX.exists():
         NOTES_INDEX.write_text(
             "# 📖 Vocabulary Notes\n\n"
@@ -256,10 +276,37 @@ def update_notes_index(text: str, reading: str, category: str, filename: str, fo
             encoding="utf-8"
         )
 
-    # Append new row
-    row = f"| [{text}]({rel_path}) | {reading} | {category} | {date} |\n"
+    top_row = f"| [{text}]({folder}/{filename}) | {reading} | {category} | {date} |\n"
     with open(NOTES_INDEX, "a", encoding="utf-8") as f:
-        f.write(row)
+        f.write(top_row)
+
+
+def update_mkdocs_nav(folder: str, label: str) -> None:
+    """
+    Add a new category to the Vocabulary Notes section in mkdocs.yml
+    if it doesn't already exist.
+    """
+    if not MKDOCS_YML.exists():
+        return
+
+    content = MKDOCS_YML.read_text(encoding="utf-8")
+    nav_entry = f"    - {label}: notes/{folder}/index.md"
+
+    # Already in nav — nothing to do
+    if f"notes/{folder}/index.md" in content:
+        return
+
+    # Find the Vocabulary Notes section and append after the last notes entry
+    lines     = content.splitlines()
+    insert_at = None
+    for i, line in enumerate(lines):
+        if "notes/" in line and "index.md" in line:
+            insert_at = i
+
+    if insert_at is not None:
+        lines.insert(insert_at + 1, nav_entry)
+        MKDOCS_YML.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        logging.info(f"mkdocs.yml updated: added {label} to nav")
 
 
 def save_note(path: Path, note: str, filepath: str) -> None:
@@ -446,7 +493,12 @@ async def _save_with_category(update_or_query, folder: str) -> None:
     words   = state.get("words", [])
     reading = words[0]["reading"] if words else ""
 
+    # Get display label for this category
+    all_cats = get_all_categories()
+    cat_label = next((c["emoji"] + " " + c["name"] for c in all_cats if c["folder"] == folder), folder.capitalize())
+
     update_notes_index(state["text"], reading, folder, filename, folder)
+    update_mkdocs_nav(folder, cat_label)
     save_note(note_path, note, filepath)
 
     reply_text = f"🎉 Saved：`{filename}`\n📁 Category：{folder}"

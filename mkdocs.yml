@@ -27,7 +27,13 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Vocabulary Notes: notes/index.md
+  - Vocabulary Notes:
+    - notes/index.md
+    - 🎵 Song: notes/song/index.md
+    - 🎌 Anime: notes/anime/index.md
+    - 📚 Textbook: notes/textbook/index.md
+    - 💬 Daily: notes/daily/index.md
+    - 📦 Other: notes/other/index.md
   - Grammar Reference:
     - grammar/index.md
     - N5: grammar/N5/index.md
