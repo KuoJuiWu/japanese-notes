@@ -6,6 +6,126 @@
 
 ---
 
+### v3.0 — 2026-05-23
+**Offline Upgrade + JLPT Vocabulary Bank + Grammar Reference System**
+
+#### 新增檔案
+| 檔案 | 說明 |
+|---|---|
+| `tatoeba_search.py` | 取代 Massif API，從本地 wwwjdic.csv 查例句（完全離線） |
+| `jlpt_lookup.py` | JLPT 詞彙等級查詢 + `/wordbank` 指令 |
+| `jlpt_vocab.json` | JLPT N5–N1 詞彙表（8,138 個詞，來源：Jonathan Waller） |
+| `generate_grammar_pages.py` | 從文法 JSON 產生 MkDocs 文法參考頁面 |
+| `PROJECT_SOURCES.md` | 所有資料來源的說明與授權記錄 |
+
+#### 移除檔案
+| 檔案 | 說明 |
+|---|---|
+| `grammar_patterns.py` | 移除：50 個硬編碼文法模板，與 JSON 文法系統無法整合 |
+
+#### 改動
+- `japan_bot.py`：移除 Massif / grammar_patterns，引入 tatoeba_search / jlpt_lookup
+- `build_note()`：新增英文例句翻譯（blockquote 格式）
+- `get_example_smart()`：改為同步函式（移除 async/await）
+- 例句來源標示由 Massif 改為 Tatoeba
+
+#### 新增指令
+- `/wordbank N3`：隨機取得 20 個未儲存的指定等級詞彙（含讀音、意思、例句）
+
+#### 系統架構調整
+本版本將系統拆分為兩個獨立部分：
+
+**System 1 — 詞彙 Bot（Telegram）**
+- 專注於詞彙分析、意思查詢、例句儲存
+- 保留 `aux_verbs.py`（助動詞分析，token-based）
+- 移除文法模板比對（與 JSON 格式不相容）
+
+**System 2 — 文法參考網站（MkDocs）**
+- 從 N5–N1 文法 JSON 產生靜態頁面（636 個模板）
+- 每個文法模板獨立一頁，含結構、意思、例句
+- 執行 `python generate_grammar_pages.py` 產生 `docs/grammar/`
+- 類似 TUFS 語言模組的結構
+
+**分離原因**：JSON 文法模板為人類可讀格式（如 `~によって`），
+無法直接對應 fugashi token 序列，強行整合維護成本過高。
+
+#### Pipeline（v3.0）
+```
+Telegram 輸入日文句子
+        ↓
+   analyze()              morphology.py
+   MorphToken 列表         pos / base_form / conj_type / conj_form
+        ↓
+   lookup_meaning()        morphology.py
+   依詞性查 JMdict          名詞／動詞／形容詞
+        ↓
+   explain_aux()           aux_verbs.py
+   助動詞辨識               ない／た／ている 等
+        ↓
+   get_example_smart()     tatoeba_search.py（離線）
+   從 wwwjdic.csv 查例句    base form → surface form fallback
+        ↓
+   build_note()
+   組合 Markdown 筆記（含英文例句翻譯）
+        ↓
+   git push + mkdocs gh-deploy
+   上傳到 GitHub Pages
+```
+
+#### Tatoeba 例句查詢策略
+```
+對每個內容詞（名詞、動詞、形容詞）：
+  1. 嘗試 fugashi base form（如 朝御飯）→ 索引查詢
+  2. 嘗試 surface form fallback（如 朝ご飯）→ 處理 UniDic/Tatoeba 格式差異
+  → 首個命中即回傳，隨機從所有匹配句子中選一句
+  → 找不到 → 留空（不顯示警告）
+```
+
+**重要發現**：UniDic 將 base form 正規化為完整漢字（如 御飯），
+Tatoeba 保留日常混合寫法（如 ご飯），需要 surface form fallback 處理。
+
+#### Key Files（v3.0）
+```
+Japanese/
+├── japan_bot.py                ← 主程式
+├── morphology.py               ← 形態素解析
+├── aux_verbs.py                ← 助動詞分析
+├── tatoeba_search.py           ← 離線例句查詢（新）
+├── jlpt_lookup.py              ← JLPT 等級查詢 + /wordbank（新）
+├── generate_grammar_pages.py   ← 文法頁面產生器（新）
+├── wwwjdic.csv                 ← Tatoeba 語料庫（新）
+├── jlpt_vocab.json             ← JLPT N5–N1 詞彙表（新）
+├── PROJECT_SOURCES.md          ← 資料來源說明（新）
+├── N5_grammar.json             ← 文法模板 N5
+├── N4_grammar.json             ← 文法模板 N4
+├── N3_grammar.json             ← 文法模板 N3
+├── N2_grammar.json             ← 文法模板 N2
+├── N1_grammar_01.json          ← 文法模板 N1（第一部分）
+├── N1_grammar_02.json          ← 文法模板 N1（第二部分）
+├── categories.json             ← 自訂分類（自動產生）
+├── docs/
+│   ├── index.md                ← MkDocs 首頁
+│   ├── notes/                  ← 詞彙筆記
+│   ├── grammar/                ← 產生的文法頁面（新）
+│   └── stylesheets/
+│       └── extra.css
+├── mkdocs.yml
+├── jamdictdb/
+│   └── jamdict.db              ← 本地字典（不上傳 GitHub）
+└── .env                        ← token（不上傳 GitHub）
+```
+
+#### 資料來源
+| 來源 | 檔案 | 用途 | 授權 |
+|---|---|---|---|
+| JMdict | `jamdict.db` | 詞義查詢（191k 詞條） | CC BY-SA 4.0 |
+| Tatoeba/WWWJDIC | `wwwjdic.csv` | 例句（147k 句） | CC BY 2.0 |
+| JLPT 文法 | `N5–N1_grammar.json` | 文法參考（636 個模板） | 個人使用 |
+| JLPT 詞彙 | `jlpt_vocab.json` | JLPT 等級標記（8,138 詞） | CC BY |
+| UniDic | fugashi 內建 | 形態素解析 + 詞性標記 | BSD / CC BY-SA 4.0 |
+
+---
+
 ### v2.0 — 2026-05-18
 **Grammar Analysis Pipeline (Step 1–3)**
 
@@ -152,6 +272,8 @@ Japanese/
 - [ ] Could add /list command to browse saved notes from Telegram
 - [ ] Could add /edit command to update existing notes
 - [ ] Task Scheduler set up for auto-start on Windows boot
+- [ ] Add grammar section to mkdocs.yml nav
+- [ ] NHK Easy News integration — feed real articles, flag unknown vocab + grammar
 
 ## Website
 https://kuojuiwu.github.io/japanese-notes/
