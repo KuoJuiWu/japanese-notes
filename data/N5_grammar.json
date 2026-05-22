@@ -1,0 +1,738 @@
+[
+  {
+    "id": "N5-01",
+    "level": "N5",
+    "pattern": "こ/そ/あ/ど",
+    "meaning": "demonstrative pronouns",
+    "example_ja": "こ: 近い、そ: 相手に近い、あ: 遠い、ど: わからない",
+    "example_en": "こ: near speaker, そ: near listener, あ: far from both, ど: unseen/unknown"
+  },
+  {
+    "id": "N5-02",
+    "level": "N5",
+    "pattern": "これ/それ/あれ/どれ",
+    "meaning": "this/that/that one over there/which",
+    "example_ja": "これ、それ、あれ、どれ",
+    "example_en": "This, that, that one over there, which"
+  },
+  {
+    "id": "N5-03",
+    "level": "N5",
+    "pattern": "この/その/あの [Noun]",
+    "meaning": "this/that [Noun]",
+    "example_ja": "このりんご",
+    "example_en": "This apple"
+  },
+  {
+    "id": "N5-04",
+    "level": "N5",
+    "pattern": "ここ/そこ/あそこ/どこ",
+    "meaning": "here/there/over there/where",
+    "example_ja": "ここ、そこ、あそこ、どこ",
+    "example_en": "Here, there, over there, where"
+  },
+  {
+    "id": "N5-05",
+    "level": "N5",
+    "pattern": "~です",
+    "meaning": "to be/ it is (polite)",
+    "example_ja": "わたしは先生です。",
+    "example_en": "I'm a teacher."
+  },
+  {
+    "id": "N5-06",
+    "level": "N5",
+    "pattern": "~じゃありません",
+    "meaning": "not to be/ it is not (polite)",
+    "example_ja": "わたしは日本人じゃありません。",
+    "example_en": "I'm not Japanese."
+  },
+  {
+    "id": "N5-07",
+    "level": "N5",
+    "pattern": "~ですか",
+    "meaning": "(indicates question: sentence end)",
+    "example_ja": "あなたは先生ですか",
+    "example_en": "Are you a teacher?"
+  },
+  {
+    "id": "N5-08",
+    "level": "N5",
+    "pattern": "はい/いいえ",
+    "meaning": "yes/no",
+    "example_ja": "はい、わたしは日本人です。",
+    "example_en": "Yes, I'm Japanese."
+  },
+  {
+    "id": "N5-09",
+    "level": "N5",
+    "pattern": "そうです",
+    "meaning": "(answer) it is/that's right",
+    "example_ja": "はい、そうです。",
+    "example_en": "Yes, I am/that's right."
+  },
+  {
+    "id": "N5-10",
+    "level": "N5",
+    "pattern": "あります/います",
+    "meaning": "there is..., have...",
+    "example_ja": "テーブルの上に、はながあります",
+    "example_en": "There are flowers on the table."
+  },
+  {
+    "id": "N5-11",
+    "level": "N5",
+    "pattern": "Locations",
+    "meaning": "at/in a location",
+    "example_ja": "えきのまえで、友だちに会います。",
+    "example_en": "I meet my friends in front of the station."
+  },
+  {
+    "id": "N5-12",
+    "level": "N5",
+    "pattern": "[Noun] がほしいです",
+    "meaning": "I want [Noun]",
+    "example_ja": "新しい車がほしいです",
+    "example_en": "I want a new car."
+  },
+  {
+    "id": "N5-13",
+    "level": "N5",
+    "pattern": "~なります",
+    "meaning": "become...",
+    "example_ja": "むすめさん、大きくなりましたね",
+    "example_en": "Your daughter has grown up."
+  },
+  {
+    "id": "N5-14",
+    "level": "N5",
+    "pattern": "[Place] に行きます/来ます/かえります",
+    "meaning": "go/come/back to [Place]",
+    "example_ja": "6時ですから、うちにかえります",
+    "example_en": "I'm going home, it's 6 o'clock."
+  },
+  {
+    "id": "N5-15",
+    "level": "N5",
+    "pattern": "~が好き/きらい/上手/下手",
+    "meaning": "like/dislike/be good at/be bad at",
+    "example_ja": "わたしはうんてんが下手です。",
+    "example_en": "I'm not good at driving."
+  },
+  {
+    "id": "N5-16",
+    "level": "N5",
+    "pattern": "あげます/くれます/もらいます",
+    "meaning": "(receiving and giving)",
+    "example_ja": "リンさんは、わたしのおとうとに本をくれました",
+    "example_en": "Mr. Lin gave my younger brother a book."
+  },
+  {
+    "id": "N5-17",
+    "level": "N5",
+    "pattern": "~ませんか",
+    "meaning": "(inviting someone)",
+    "example_ja": "あした、えいがを見に行きませんか",
+    "example_en": "Would you like to go see a movie?"
+  },
+  {
+    "id": "N5-18",
+    "level": "N5",
+    "pattern": "[Adjective]+[Noun]",
+    "meaning": "adjective modifying a noun",
+    "example_ja": "しんせつな先生です。",
+    "example_en": "He is a kind teacher."
+  },
+  {
+    "id": "N5-19",
+    "level": "N5",
+    "pattern": "~は~が [Adjective]",
+    "meaning": "(the topic has the characteristic '~が [Adj]')",
+    "example_ja": "東京は、人が多いです。",
+    "example_en": "There are a lot of people in Tokyo."
+  },
+  {
+    "id": "N5-20",
+    "level": "N5",
+    "pattern": "〜も",
+    "meaning": "also/too",
+    "example_ja": "ごしゅじんも、日本人ですか。",
+    "example_en": "Is your husband also Japanese?"
+  },
+  {
+    "id": "N5-21",
+    "level": "N5",
+    "pattern": "~を",
+    "meaning": "(object marker)",
+    "example_ja": "コーヒーを飲みます。",
+    "example_en": "I drink coffee."
+  },
+  {
+    "id": "N5-22",
+    "level": "N5",
+    "pattern": "[a starting point] を [Verb]",
+    "meaning": "leaving/getting off",
+    "example_ja": "しぶやで電車をおります。",
+    "example_en": "I get off the train at Shibuya."
+  },
+  {
+    "id": "N5-23",
+    "level": "N5",
+    "pattern": "[Place] を [motion Verb]",
+    "meaning": "moving through a place",
+    "example_ja": "こうえんをあるきます。",
+    "example_en": "I walk in the park."
+  },
+  {
+    "id": "N5-24",
+    "level": "N5",
+    "pattern": "[Place] に/で",
+    "meaning": "(location particles)",
+    "example_ja": "いえでべんきょうする。",
+    "example_en": "Study at home."
+  },
+  {
+    "id": "N5-25",
+    "level": "N5",
+    "pattern": "[Quantifier]に",
+    "meaning": "frequency per period",
+    "example_ja": "二日に一回、ジムに行きます。",
+    "example_en": "I go to the gym once every two days."
+  },
+  {
+    "id": "N5-26",
+    "level": "N5",
+    "pattern": "の",
+    "meaning": "(used in place of a noun)",
+    "example_ja": "このくつは、あなたのですか、先生のですか",
+    "example_en": "Are these shoes yours or the teacher's?"
+  },
+  {
+    "id": "N5-27",
+    "level": "N5",
+    "pattern": "[Person/Animal] と",
+    "meaning": "with [Person/Animal]",
+    "example_ja": "おとうととえいがを見ます。",
+    "example_en": "I watch a movie with my younger brother."
+  },
+  {
+    "id": "N5-28",
+    "level": "N5",
+    "pattern": "[Noun] の [Noun]",
+    "meaning": "[Noun] + [Noun]",
+    "example_ja": "今日のしんぶん",
+    "example_en": "Today's Newspaper"
+  },
+  {
+    "id": "N5-29",
+    "level": "N5",
+    "pattern": "[Noun] と [Noun]",
+    "meaning": "[Noun] and [Noun]",
+    "example_ja": "りんごとぶどうとバナナがあります。",
+    "example_en": "There are apples, grapes, and bananas."
+  },
+  {
+    "id": "N5-30",
+    "level": "N5",
+    "pattern": "~や~",
+    "meaning": "things like... and...",
+    "example_ja": "かばんの中にスマホやさいふがあります。",
+    "example_en": "There are a smartphone, a wallet and other things in my bag."
+  },
+  {
+    "id": "N5-31",
+    "level": "N5",
+    "pattern": "[Noun]で",
+    "meaning": "[Noun] = tool/range/place",
+    "example_ja": "としょかんでべんきょうします。",
+    "example_en": "I study at a library."
+  },
+  {
+    "id": "N5-32",
+    "level": "N5",
+    "pattern": "~から〜まで",
+    "meaning": "from...to...",
+    "example_ja": "東京から大阪まで、しんかんせんで行きます",
+    "example_en": "I go from Tokyo to Osaka by Shinkansen (express train)."
+  },
+  {
+    "id": "N5-33",
+    "level": "N5",
+    "pattern": "が/けど",
+    "meaning": "but...",
+    "example_ja": "雨ですが、うんどうします。",
+    "example_en": "It's raining but I'm going to exercise."
+  },
+  {
+    "id": "N5-34",
+    "level": "N5",
+    "pattern": "[Verb]こと/の",
+    "meaning": "(nominalization)",
+    "example_ja": "毎日うんどうすること/のは、たいへんです。",
+    "example_en": "It's hard to exercise everyday."
+  },
+  {
+    "id": "N5-35",
+    "level": "N5",
+    "pattern": "~から",
+    "meaning": "because...",
+    "example_ja": "時間がないから、タクシーで行きましょう",
+    "example_en": "We're short on time, so let's take a taxi."
+  },
+  {
+    "id": "N5-36",
+    "level": "N5",
+    "pattern": "~ね",
+    "meaning": "isn't it/right?",
+    "example_ja": "このりょうり、おいしいですね。",
+    "example_en": "That meal is delicious, isn't it?"
+  },
+  {
+    "id": "N5-37",
+    "level": "N5",
+    "pattern": "~よ",
+    "meaning": "(informing the listener of something, or for emphasis)",
+    "example_ja": "今日、あの店は休みですよ。",
+    "example_en": "That shop is closed today, you know."
+  },
+  {
+    "id": "N5-38",
+    "level": "N5",
+    "pattern": "Verb Group [dictionary-form] Version",
+    "meaning": "G1 (-u, -aru/uru/oru), G2 (-iru/eru), G3 (suru/kuru)",
+    "example_ja": "飲む(G1)、食べる(G2)、する(G3)、来る(G3)",
+    "example_en": "Basic verb groups."
+  },
+  {
+    "id": "N5-39",
+    "level": "N5",
+    "pattern": "Verb Group [masu-form] Version",
+    "meaning": "G1 (-imasu), G2 (-emasu/imasu), G3 (shimasu/kimasu)",
+    "example_ja": "飲みます(G1)、食べます(G2)、します(G3)、来ます(G3)",
+    "example_en": "Polite verb groups."
+  },
+  {
+    "id": "N5-40",
+    "level": "N5",
+    "pattern": "Verb 辞書形",
+    "meaning": "Verb dictionary-form",
+    "example_ja": "飲む、食べる、する、来る",
+    "example_en": "[dictionary-form] of drink, eat, do, come"
+  },
+  {
+    "id": "N5-41",
+    "level": "N5",
+    "pattern": "Verb ます形",
+    "meaning": "Verb masu-form",
+    "example_ja": "飲みます、食べます、します、来ます",
+    "example_en": "[masu-form] of drink, eat, do, come"
+  },
+  {
+    "id": "N5-42",
+    "level": "N5",
+    "pattern": "Verb ない形",
+    "meaning": "Verb nai-form",
+    "example_ja": "飲まない、食べない、しない、来ない",
+    "example_en": "[nai-form] of drink, eat, do, come"
+  },
+  {
+    "id": "N5-43",
+    "level": "N5",
+    "pattern": "Verb て形",
+    "meaning": "Verb te-form",
+    "example_ja": "飲んで、食べて、して、来て",
+    "example_en": "[te-form] of drink, eat, do, come"
+  },
+  {
+    "id": "N5-44",
+    "level": "N5",
+    "pattern": "Verb た形",
+    "meaning": "Verb ta-form",
+    "example_ja": "飲んだ、食べた、した、来た",
+    "example_en": "[ta-form] of drink, eat, do, come"
+  },
+  {
+    "id": "N5-45",
+    "level": "N5",
+    "pattern": "~てください/〜ないでください",
+    "meaning": "please do.../don't do...",
+    "example_ja": "ここに名前を書いてください。",
+    "example_en": "Please write your name in here."
+  },
+  {
+    "id": "N5-46",
+    "level": "N5",
+    "pattern": "~ています",
+    "meaning": "(an action in progress) (a condition, habit, not a current action)",
+    "example_ja": "テレビを見ています",
+    "example_en": "I'm watching TV."
+  },
+  {
+    "id": "N5-47",
+    "level": "N5",
+    "pattern": "~てはいけません",
+    "meaning": "must not...",
+    "example_ja": "タバコをすってはいけません。ここはきんえんです。",
+    "example_en": "You must not smoke. Here is No Smoking area."
+  },
+  {
+    "id": "N5-48",
+    "level": "N5",
+    "pattern": "~てもいいですか",
+    "meaning": "may I [Verb]",
+    "example_ja": "あかいペンをつかってもいいですか",
+    "example_en": "May I use a red pen?"
+  },
+  {
+    "id": "N5-49",
+    "level": "N5",
+    "pattern": "~て",
+    "meaning": "(how to join two or more sentences together)",
+    "example_ja": "7時におきて、あさごはんを食べて、学校に行く",
+    "example_en": "I wake up at 7:00, eat breakfast, and go to school."
+  },
+  {
+    "id": "N5-50",
+    "level": "N5",
+    "pattern": "~てから",
+    "meaning": "after [Verb]/[Verb] and then...",
+    "example_ja": "このしごとがおわってから、かえります。",
+    "example_en": "I'll leave after this job is done."
+  },
+  {
+    "id": "N5-51",
+    "level": "N5",
+    "pattern": "~たことがあります",
+    "meaning": "have the experience of V-ing",
+    "example_ja": "日本に行ったことがありますか",
+    "example_en": "Have you ever been to Japan?"
+  },
+  {
+    "id": "N5-52",
+    "level": "N5",
+    "pattern": "~たり〜たり",
+    "meaning": "[Verb], [Verb] so on...",
+    "example_ja": "うたったり、おどったりしました",
+    "example_en": "I sang and danced, among other things."
+  },
+  {
+    "id": "N5-53",
+    "level": "N5",
+    "pattern": "~ましょうか",
+    "meaning": "shall we/I [Verb]",
+    "example_ja": "いっしょに行きましょうか",
+    "example_en": "Shall we go together?"
+  },
+  {
+    "id": "N5-54",
+    "level": "N5",
+    "pattern": "~たいです",
+    "meaning": "I want to [Verb]",
+    "example_ja": "ピザが食べたいです",
+    "example_en": "I want to eat pizza."
+  },
+  {
+    "id": "N5-55",
+    "level": "N5",
+    "pattern": "~に行きます",
+    "meaning": "I'm going (an event)/ to (do)",
+    "example_ja": "ランチを食べに行きます。",
+    "example_en": "I'm going to eat lunch."
+  },
+  {
+    "id": "N5-56",
+    "level": "N5",
+    "pattern": "~まえに",
+    "meaning": "before...",
+    "example_ja": "テレビを見るまえに、しゅくだいをします。",
+    "example_en": "I do my homework before I watch TV."
+  },
+  {
+    "id": "N5-57",
+    "level": "N5",
+    "pattern": "~(こと)ができます",
+    "meaning": "can do...",
+    "example_ja": "日本語ができますか。",
+    "example_en": "Can you speak Japanese?"
+  },
+  {
+    "id": "N5-58",
+    "level": "N5",
+    "pattern": "~ことです",
+    "meaning": "(adding こと to a verb makes a noun)",
+    "example_ja": "わたしのしゅみは、ホラーえいがを見ることです。",
+    "example_en": "My hobby is watching horror movies."
+  },
+  {
+    "id": "N5-59",
+    "level": "N5",
+    "pattern": "どんな [Noun]",
+    "meaning": "what kind of...",
+    "example_ja": "どんなえいがが好きですか。",
+    "example_en": "What kind of movies do you like?"
+  },
+  {
+    "id": "N5-60",
+    "level": "N5",
+    "pattern": "どうですか",
+    "meaning": "how about, how...",
+    "example_ja": "日本のせいかつはどうですか。",
+    "example_en": "How is life in Japan?"
+  },
+  {
+    "id": "N5-61",
+    "level": "N5",
+    "pattern": "何(なん/なに)",
+    "meaning": "what",
+    "example_ja": "しゅうまつは、何をしますか。",
+    "example_en": "What do you plan to do this weekend?"
+  },
+  {
+    "id": "N5-62",
+    "level": "N5",
+    "pattern": "どうやって",
+    "meaning": "how...",
+    "example_ja": "どうやって学校に行きますか",
+    "example_en": "How do you get to the school?"
+  },
+  {
+    "id": "N5-63",
+    "level": "N5",
+    "pattern": "どれ/どの [Noun]",
+    "meaning": "which...",
+    "example_ja": "あなたの自転車は、どれですか。",
+    "example_en": "Which one is your bicycle?"
+  },
+  {
+    "id": "N5-64",
+    "level": "N5",
+    "pattern": "もう/まだ",
+    "meaning": "already/not yet",
+    "example_ja": "もう、しゅくだいはおわりましたか。",
+    "example_en": "Did you already do your homework?"
+  },
+  {
+    "id": "N5-65",
+    "level": "N5",
+    "pattern": "よく/だいたい/たくさん/少し/あまり/ぜんぜん",
+    "meaning": "Adverbs of degree/quantity",
+    "example_ja": "きのうのテスト、よくできましたか",
+    "example_en": "Did you do well on yesterday's test?"
+  },
+  {
+    "id": "N5-66",
+    "level": "N5",
+    "pattern": "Plain style [Verb]",
+    "meaning": "Dictionary, nai, ta, nakatta forms",
+    "example_ja": "行く、行かない、行った、行かなかった",
+    "example_en": "go, don't go, went, didn't go"
+  },
+  {
+    "id": "N5-67",
+    "level": "N5",
+    "pattern": "Plain style [i-Adjective]",
+    "meaning": "Present, negative, past, past negative",
+    "example_ja": "大きい、大きくない、大きかった、大きくなかった",
+    "example_en": "it's big, it's not big, it was big, it wasn't big"
+  },
+  {
+    "id": "N5-68",
+    "level": "N5",
+    "pattern": "Plain style [na-Adjective/Noun]",
+    "meaning": "da, ja nai, datta, ja nakatta forms",
+    "example_ja": "すきだ、すきじゃない、すきだった、すきじゃなかった",
+    "example_en": "like, don't like, liked, didn't like"
+  },
+  {
+    "id": "N5-69",
+    "level": "N5",
+    "pattern": "Conversations in Plain style",
+    "meaning": "Casual conversation tone",
+    "example_ja": "あしたのパーティーに、行く?",
+    "example_en": "Are you going to a party tomorrow?"
+  },
+  {
+    "id": "N5-70",
+    "level": "N5",
+    "pattern": "Polite style [Verb]",
+    "meaning": "masu, masen, mashita, masen deshita forms",
+    "example_ja": "行きます、行きません、行きました、行きませんでした",
+    "example_en": "go, don't go, went, didn't go"
+  },
+  {
+    "id": "N5-71",
+    "level": "N5",
+    "pattern": "Polite style [i-Adjective]",
+    "meaning": "desu, kunai desu, katta desu, kunakatta desu",
+    "example_ja": "大きいです、大きくないです、大きかったです、大きくなかったです",
+    "example_en": "it's big, it's not big, it was big, it wasn't big"
+  },
+  {
+    "id": "N5-72",
+    "level": "N5",
+    "pattern": "Polite style [na-Adjective]/[Noun]",
+    "meaning": "desu, ja arimasen, deshita, ja arimasen deshita",
+    "example_ja": "すきです、すきじゃありません、すきでした、すきじゃありませんでした",
+    "example_en": "like, don't like, liked, didn't like"
+  },
+  {
+    "id": "N5-73",
+    "level": "N5",
+    "pattern": "~とき",
+    "meaning": "when...",
+    "example_ja": "このくすりは、あたまがいたいとき飲んでください。",
+    "example_en": "Take this medicine when you have a headache."
+  },
+  {
+    "id": "N5-74",
+    "level": "N5",
+    "pattern": "~でしょう?",
+    "meaning": "...right?",
+    "example_ja": "さっき、ごはんを食べたでしょう?",
+    "example_en": "You just ate a meal, right?"
+  },
+  {
+    "id": "N5-75",
+    "level": "N5",
+    "pattern": "[Plain style]+[Noun]",
+    "meaning": "(Noun modifiers)",
+    "example_ja": "きのう行ったレストラン、おいしかったですね",
+    "example_en": "The restaurant we went to yesterday was delicious, wasn't it?"
+  },
+  {
+    "id": "N5-76",
+    "level": "N5",
+    "pattern": "どこ(へ/に)も/何も/だれも",
+    "meaning": "not anywhere/not...anything/no one",
+    "example_ja": "れいぞうこに何もありません。",
+    "example_en": "There's nothing in the fridge."
+  },
+  {
+    "id": "N5-77",
+    "level": "N5",
+    "pattern": "どこか/何か/だれか/いつか",
+    "meaning": "any-/some-",
+    "example_ja": "何か食べましょう。",
+    "example_en": "Let's get something to eat."
+  },
+  {
+    "id": "N5-78",
+    "level": "N5",
+    "pattern": "Numeral",
+    "meaning": "Numbers 1-10",
+    "example_ja": "いち、に、さん、し/よん、ご、ろく、しち/なな、はち、きゅう、じゅう",
+    "example_en": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
+  },
+  {
+    "id": "N5-79",
+    "level": "N5",
+    "pattern": "Month/Date/Day of the week",
+    "meaning": "Days and months",
+    "example_ja": "しがついつか、にちようびです。",
+    "example_en": "5/Apr, (Sun)"
+  },
+  {
+    "id": "N5-80",
+    "level": "N5",
+    "pattern": "~時~分",
+    "meaning": "o'clock, minutes",
+    "example_ja": "4時半にかえります。",
+    "example_en": "I will leave at 4:30."
+  },
+  {
+    "id": "N5-81",
+    "level": "N5",
+    "pattern": "Expressions of times",
+    "meaning": "Time references",
+    "example_ja": "せんげつ、こんげつ、らいげつ",
+    "example_en": "last month, this month, next month"
+  },
+  {
+    "id": "N5-82",
+    "level": "N5",
+    "pattern": "何さい",
+    "meaning": "how old...",
+    "example_ja": "はちじゅうはっさいです",
+    "example_en": "(I'm) 88 years old."
+  },
+  {
+    "id": "N5-83",
+    "level": "N5",
+    "pattern": "~まい",
+    "meaning": "(counter for flat objects)",
+    "example_ja": "シャツがいちまい",
+    "example_en": "One shirt."
+  },
+  {
+    "id": "N5-84",
+    "level": "N5",
+    "pattern": "~ほん",
+    "meaning": "(counter for long objects)",
+    "example_ja": "ペンがにほん",
+    "example_en": "Two pens."
+  },
+  {
+    "id": "N5-85",
+    "level": "N5",
+    "pattern": "~ひき",
+    "meaning": "(counter for small animals)",
+    "example_ja": "いぬがごひき",
+    "example_en": "Five dogs."
+  },
+  {
+    "id": "N5-86",
+    "level": "N5",
+    "pattern": "~だい",
+    "meaning": "(counter for equipment)",
+    "example_ja": "くるまがいちだい",
+    "example_en": "One car."
+  },
+  {
+    "id": "N5-87",
+    "level": "N5",
+    "pattern": "~さつ",
+    "meaning": "(counter for bound volumes)",
+    "example_ja": "ほんがじゅっさつ",
+    "example_en": "Ten books."
+  },
+  {
+    "id": "N5-88",
+    "level": "N5",
+    "pattern": "~人",
+    "meaning": "(counter for people)",
+    "example_ja": "先生がふたり",
+    "example_en": "Two teachers."
+  },
+  {
+    "id": "N5-89",
+    "level": "N5",
+    "pattern": "~こ",
+    "meaning": "(counter for smaller items)",
+    "example_ja": "りんごがみっつ",
+    "example_en": "Three apples."
+  },
+  {
+    "id": "N5-90",
+    "level": "N5",
+    "pattern": "~つ",
+    "meaning": "(generic counter for items)",
+    "example_ja": "あめがよっつ",
+    "example_en": "Four candies."
+  },
+  {
+    "id": "N5-91",
+    "level": "N5",
+    "pattern": "~と〜とどちらが",
+    "meaning": "which is more ...than...",
+    "example_ja": "やきゅうとサッカーとどちらがすきですか。",
+    "example_en": "Which do you like more, baseball or football?"
+  },
+  {
+    "id": "N5-92",
+    "level": "N5",
+    "pattern": "~でどれがいちばん〜",
+    "meaning": "which is the most...",
+    "example_ja": "くだもので、どれがいちばんすきですか",
+    "example_en": "Which fruit is your favorite?"
+  }
+]

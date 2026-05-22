@@ -1,0 +1,842 @@
+[
+  {
+    "id": "N1-101",
+    "level": "N1",
+    "pattern": "~とて",
+    "meaning": "even if / although...",
+    "example_ja": "先生とて人間です。腹が立つこともあるでしょう。",
+    "example_en": "Even a teacher is human. They probably get angry sometimes."
+  },
+  {
+    "id": "N1-102",
+    "level": "N1",
+    "pattern": "~とは",
+    "meaning": "to think that...",
+    "example_ja": "彼が私の父親だったとは。",
+    "example_en": "To think that he was my father."
+  },
+  {
+    "id": "N1-103",
+    "level": "N1",
+    "pattern": "~とはいえ",
+    "meaning": "although / even though...",
+    "example_ja": "私はアメリカ人とはいえ日本で生まれ育ったので、日本語は問題ない。",
+    "example_en": "Although I am American, I was born and raised in Japan, so my Japanese is fine."
+  },
+  {
+    "id": "N1-104",
+    "level": "N1",
+    "pattern": "~とは打って変わって",
+    "meaning": "completely different from...",
+    "example_ja": "昨日とは打って変わって、今日いい天気だ。",
+    "example_en": "Completely different from yesterday, today the weather is nice."
+  },
+  {
+    "id": "N1-105",
+    "level": "N1",
+    "pattern": "~とばかりに",
+    "meaning": "as if to say...",
+    "example_ja": "料理を食べて、まずいとばかりに顔をしかめた。",
+    "example_en": "Upon eating the food, he frowned as if to say it was disgusting."
+  },
+  {
+    "id": "N1-106",
+    "level": "N1",
+    "pattern": "~とは比べものにならない",
+    "meaning": "cannot be compared to / is nothing compared to...",
+    "example_ja": "兄は、弟の僕とは比べものにならないほど頭がいい。",
+    "example_en": "My older brother is so smart that I, his younger brother, cannot even be compared to him."
+  },
+  {
+    "id": "N1-107",
+    "level": "N1",
+    "pattern": "~とまではいかないが / とまではいかないにしても",
+    "meaning": "not to the extent of... but...",
+    "example_ja": "満点とまではいかないが、それに近い点数で合格した。",
+    "example_en": "I didn't get a perfect score, but I passed with a score close to it."
+  },
+  {
+    "id": "N1-108",
+    "level": "N1",
+    "pattern": "~と見るや",
+    "meaning": "as soon as one sees/realizes...",
+    "example_ja": "警察と見るや、若者グループはバラバラに逃げ出した。",
+    "example_en": "As soon as they saw the police, the group of youths scattered and ran away."
+  },
+  {
+    "id": "N1-109",
+    "level": "N1",
+    "pattern": "~とも〜とも",
+    "meaning": "unable to say whether A or B",
+    "example_ja": "いいとも悪いとも言えないよ、あなたの選択だからね。",
+    "example_en": "I can't say whether it's good or bad, because it's your choice."
+  },
+  {
+    "id": "N1-110",
+    "level": "N1",
+    "pattern": "~ともあろうものが",
+    "meaning": "of all people / for someone in the position of...",
+    "example_ja": "警察官ともあろうものが、犯罪者とグルだったなんて。",
+    "example_en": "To think that a police officer, of all people, was in cahoots with criminals."
+  },
+  {
+    "id": "N1-111",
+    "level": "N1",
+    "pattern": "ともなく",
+    "meaning": "without specifically doing... / from nowhere in particular",
+    "example_ja": "どこからともなく鳥の声が聞こえてきた。",
+    "example_en": "A bird's song could be heard from nowhere in particular."
+  },
+  {
+    "id": "N1-112",
+    "level": "N1",
+    "pattern": "~ともなれば/ともなると",
+    "meaning": "when it comes to... / once it becomes...",
+    "example_ja": "年末年始ともなると、実家に帰省する人が多く新幹線の切符も取りにくい。",
+    "example_en": "When the New Year holidays arrive, many people return to their hometowns, making it hard to get Shinkansen tickets."
+  },
+  {
+    "id": "N1-113",
+    "level": "N1",
+    "pattern": "~ないでもない / ないものでもない",
+    "meaning": "it is not that... not...",
+    "example_ja": "あなたの気持ちはわからないでもないんだけど、まずは謝るべきだよ。",
+    "example_en": "It's not that I don't understand how you feel, but you should apologize first."
+  },
+  {
+    "id": "N1-114",
+    "level": "N1",
+    "pattern": "~ないとも限らない",
+    "meaning": "there is a possibility that... / not completely impossible",
+    "example_ja": "この地域にも大地震が起こらないとも限らないので、準備はしておいたほうがいい。",
+    "example_en": "Since it's not impossible for a major earthquake to happen in this area too, it's better to be prepared."
+  },
+  {
+    "id": "N1-115",
+    "level": "N1",
+    "pattern": "~ないまでも",
+    "meaning": "even if not... at least...",
+    "example_ja": "東京大学には合格しないまでも、どこかの国立大学になら受かるだろう。",
+    "example_en": "Even if he doesn't pass Tokyo University, he'll probably get into some national university."
+  },
+  {
+    "id": "N1-116",
+    "level": "N1",
+    "pattern": "~ながらに/ ながらの",
+    "meaning": "while in the state of / traditional...",
+    "example_ja": "涙ながらに謝罪されたら、許さないわけにはいかないでしょう。",
+    "example_en": "If someone apologizes to you in tears, you can't help but forgive them, right?"
+  },
+  {
+    "id": "N1-117",
+    "level": "N1",
+    "pattern": "~なくしては",
+    "meaning": "without...",
+    "example_ja": "涙なくしてはこの物語は読めません。",
+    "example_en": "I cannot read this story without crying."
+  },
+  {
+    "id": "N1-118",
+    "level": "N1",
+    "pattern": "~ならいざしらず",
+    "meaning": "A is understandable, but B is not",
+    "example_ja": "新人ならいざしらず、ベテランがこんなミスをするなんて信じられない。",
+    "example_en": "It might be understandable for a rookie, but I can't believe a veteran would make such a mistake."
+  },
+  {
+    "id": "N1-119",
+    "level": "N1",
+    "pattern": "~ならでは",
+    "meaning": "uniquely applying to / special to...",
+    "example_ja": "日本ならではのダンスといえば、盆踊りです。",
+    "example_en": "Speaking of dances unique to Japan, there is the Bon Odori."
+  },
+  {
+    "id": "N1-120",
+    "level": "N1",
+    "pattern": "~ならではだ/ ならではの",
+    "meaning": "unique to / only possible with...",
+    "example_ja": "外国人ならではの目線で、日本の伝統文化を評価してほしい。",
+    "example_en": "I want you to evaluate Japanese traditional culture from a perspective unique to foreigners."
+  },
+  {
+    "id": "N1-121",
+    "level": "N1",
+    "pattern": "~なり",
+    "meaning": "as soon as...",
+    "example_ja": "彼女は夫婦仲が悪く、いつも私と会うなり夫の悪口ばかりだ。",
+    "example_en": "Her relationship with her husband is bad, so as soon as she sees me, she just complains about him."
+  },
+  {
+    "id": "N1-122",
+    "level": "N1",
+    "pattern": "~なりとも",
+    "meaning": "at least / even a little",
+    "example_ja": "浮気したのは確かに悪いが、彼の気持ちも多少なりとも理解できる。",
+    "example_en": "Cheating is certainly bad, but I can understand his feelings at least a little."
+  },
+  {
+    "id": "N1-123",
+    "level": "N1",
+    "pattern": "~なりに/なりの",
+    "meaning": "in one's own way / appropriate to...",
+    "example_ja": "私なりにがんばったつもりだったが、結果は不合格だった。",
+    "example_en": "I thought I tried my best in my own way, but the result was a failure."
+  },
+  {
+    "id": "N1-124",
+    "level": "N1",
+    "pattern": "なんという / なんと / なんて",
+    "meaning": "how / what a...",
+    "example_ja": "あれほどの地震で死者が一人もでなかったとは、なんという奇跡。",
+    "example_en": "To think that not a single person died in such a massive earthquake, what a miracle!"
+  },
+  {
+    "id": "N1-125",
+    "level": "N1",
+    "pattern": "~に〜ない",
+    "meaning": "want to but can't...",
+    "example_ja": "土下座までされてしまっては、断るに断れない。",
+    "example_en": "Having someone prostrate themselves before me, I want to refuse but can't."
+  },
+  {
+    "id": "N1-126",
+    "level": "N1",
+    "pattern": "~に〜を重ねて",
+    "meaning": "doing repeatedly / stacking up...",
+    "example_ja": "失敗に失敗を重ね、やっと成功した研究なのです。",
+    "example_en": "This is research that finally succeeded after repeated failures."
+  },
+  {
+    "id": "N1-127",
+    "level": "N1",
+    "pattern": "~に値する",
+    "meaning": "worthy of...",
+    "example_ja": "自分勝手な彼がとうとう会社をクビになったが、全く同情に値しない。",
+    "example_en": "Selfish as he is, he finally got fired from the company, but he is completely unworthy of sympathy."
+  },
+  {
+    "id": "N1-128",
+    "level": "N1",
+    "pattern": "~にあって",
+    "meaning": "in / during / under the condition of...",
+    "example_ja": "社長という立場にあって、この時期に自分だけ休暇を取るわけにはいかない。",
+    "example_en": "In the position of company president, I cannot afford to take a vacation just for myself at this time."
+  },
+  {
+    "id": "N1-129",
+    "level": "N1",
+    "pattern": "~に至って/至り",
+    "meaning": "when it comes to / upon reaching the point of...",
+    "example_ja": "商売を始めるに至って、お客様のことを第一に考えることが一番大切だ。",
+    "example_en": "Upon reaching the point of starting a business, putting the customer first is the most important thing."
+  },
+  {
+    "id": "N1-130",
+    "level": "N1",
+    "pattern": "~に至っては",
+    "meaning": "when it comes to... (extreme case)",
+    "example_ja": "こんな日本語、日本人でさえ難しいのに、外国人に至っては全く理解できないだろう。",
+    "example_en": "This kind of Japanese is difficult even for Japanese people, so when it comes to foreigners, they probably won't understand it at all."
+  },
+  {
+    "id": "N1-131",
+    "level": "N1",
+    "pattern": "~に言わせれば",
+    "meaning": "if you ask... / according to...",
+    "example_ja": "30代なんて、年寄りの私に言わせればまだまだ子供だ。",
+    "example_en": "People in their 30s, if you ask an old person like me, are still just children."
+  },
+  {
+    "id": "N1-132",
+    "level": "N1",
+    "pattern": "~にかかっては/ にかかったら / にかかると / かかれば",
+    "meaning": "if handled by / if it comes to...",
+    "example_ja": "どんな肉でも、一流シェフの手にかかっては柔らかくておいしい肉に変わる。",
+    "example_en": "Any kind of meat will turn into tender and delicious meat if handled by a first-class chef."
+  },
+  {
+    "id": "N1-133",
+    "level": "N1",
+    "pattern": "~に限ったことではない",
+    "meaning": "not limited to...",
+    "example_ja": "高齢化社会は日本に限ったことではない。他の先進国も同じだ。",
+    "example_en": "An aging society is not limited to Japan. Other developed countries are the same."
+  },
+  {
+    "id": "N1-134",
+    "level": "N1",
+    "pattern": "~にかこつけて",
+    "meaning": "using as an excuse / under the pretext of...",
+    "example_ja": "出張にかこつけて、各地の観光名所をまわるのが楽しみだ。",
+    "example_en": "I enjoy touring tourist attractions in various places using business trips as an excuse."
+  },
+  {
+    "id": "N1-135",
+    "level": "N1",
+    "pattern": "~に難くない",
+    "meaning": "not difficult to...",
+    "example_ja": "弁護士になる道のりが厳しいことは想像に難くない。",
+    "example_en": "It is not difficult to imagine that the path to becoming a lawyer is tough."
+  },
+  {
+    "id": "N1-136",
+    "level": "N1",
+    "pattern": "~にかまけて",
+    "meaning": "being too busy with / engrossed in...",
+    "example_ja": "仕事にかまけて、子供と遊ぶ時間も取らなかったことを後悔している。",
+    "example_en": "I regret that I was so engrossed in work that I didn't take time to play with my children."
+  },
+  {
+    "id": "N1-137",
+    "level": "N1",
+    "pattern": "~に先駆けて",
+    "meaning": "prior to / ahead of...",
+    "example_ja": "この映画は、世界に先駆けて日本で上映されます。",
+    "example_en": "This movie will be screened in Japan ahead of the rest of the world."
+  },
+  {
+    "id": "N1-138",
+    "level": "N1",
+    "pattern": "~にしたところで/にしたって",
+    "meaning": "even if... / even for...",
+    "example_ja": "今さらタバコをやめるにしたところで、健康になるとは限らない。",
+    "example_en": "Even if you quit smoking now, it doesn't necessarily mean you'll become healthy."
+  },
+  {
+    "id": "N1-139",
+    "level": "N1",
+    "pattern": "~にして",
+    "meaning": "only at / even at / precisely because...",
+    "example_ja": "5回目にして、やっと司法試験に合格した。",
+    "example_en": "Only at the 5th attempt did I finally pass the bar exam."
+  },
+  {
+    "id": "N1-140",
+    "level": "N1",
+    "pattern": "~に忍びない",
+    "meaning": "cannot bring oneself to / bear to...",
+    "example_ja": "今までもらったプレゼントを全部捨てるに忍びないから、売ってしまおうか。",
+    "example_en": "I can't bear to throw away all the presents I've received so far, so maybe I should sell them?"
+  },
+  {
+    "id": "N1-141",
+    "level": "N1",
+    "pattern": "~に即して / に即した",
+    "meaning": "in line with / according to...",
+    "example_ja": "時代に即して考えを変えないと、若者の理解は得られません。",
+    "example_en": "If we don't change our thinking in line with the times, we won't gain the understanding of young people."
+  },
+  {
+    "id": "N1-142",
+    "level": "N1",
+    "pattern": "~に堪えない",
+    "meaning": "unbearable to / not worth...",
+    "example_ja": "あまりにひどい悪口で、聞くに堪えない。",
+    "example_en": "The insults are so terrible that they are unbearable to listen to."
+  },
+  {
+    "id": "N1-143",
+    "level": "N1",
+    "pattern": "~に足る/に足らない",
+    "meaning": "worthy of / not worthy of...",
+    "example_ja": "そんな話は取るに足らない。相手にするな。",
+    "example_en": "Such a story is not worth considering. Don't engage with it."
+  },
+  {
+    "id": "N1-144",
+    "level": "N1",
+    "pattern": "~に照らして",
+    "meaning": "in light of / according to...",
+    "example_ja": "常識に照らして考えれば、彼の行動は大人のものとは思えない。",
+    "example_en": "In light of common sense, his actions cannot be considered those of an adult."
+  },
+  {
+    "id": "N1-145",
+    "level": "N1",
+    "pattern": "~にとどまらず",
+    "meaning": "not limited to...",
+    "example_ja": "強風にとどまらず、雨まで降ってきた。",
+    "example_en": "Not limited to strong winds, it even started to rain."
+  },
+  {
+    "id": "N1-146",
+    "level": "N1",
+    "pattern": "~に則って",
+    "meaning": "in accordance with / following...",
+    "example_ja": "寮では、ここのルールに則って生活してください。",
+    "example_en": "In the dorm, please live in accordance with the rules here."
+  },
+  {
+    "id": "N1-147",
+    "level": "N1",
+    "pattern": "~には当たらない",
+    "meaning": "not worth / no need to...",
+    "example_ja": "よくあるミスなので、対応できます。心配には当たりませんよ。",
+    "example_en": "It's a common mistake, so we can handle it. There's no need to worry."
+  },
+  {
+    "id": "N1-148",
+    "level": "N1",
+    "pattern": "~には及ばない",
+    "meaning": "no need to / no match for...",
+    "example_ja": "ファッションセンスに関しては、姉には全く及ばない。",
+    "example_en": "When it comes to fashion sense, I am no match for my older sister."
+  },
+  {
+    "id": "N1-149",
+    "level": "N1",
+    "pattern": "~には無理がある",
+    "meaning": "unreasonable to...",
+    "example_ja": "この量の仕事を明日まで仕上げるには無理がありますよ。",
+    "example_en": "It is unreasonable to finish this amount of work by tomorrow."
+  },
+  {
+    "id": "N1-150",
+    "level": "N1",
+    "pattern": "~にひきかえ",
+    "meaning": "in contrast to...",
+    "example_ja": "よくできる兄にひきかえ、弟の私は何をやってもうまくいかない。",
+    "example_en": "In contrast to my capable older brother, I, the younger brother, fail at whatever I do."
+  },
+  {
+    "id": "N1-151",
+    "level": "N1",
+    "pattern": "~にもほどがある",
+    "meaning": "there is a limit to...",
+    "example_ja": "あれもこれも気に入らないなんて、わがままにもほどがある。",
+    "example_en": "Not liking this or that... there's a limit to how selfish you can be."
+  },
+  {
+    "id": "N1-152",
+    "level": "N1",
+    "pattern": "~にも増して",
+    "meaning": "more than ever / even more than...",
+    "example_ja": "今年の夏は例年にも増して暑い。熱中症にならないように気をつけて。",
+    "example_en": "This summer is even hotter than usual years. Be careful not to get heatstroke."
+  },
+  {
+    "id": "N1-153",
+    "level": "N1",
+    "pattern": "~によるところが大きい",
+    "meaning": "largely due to...",
+    "example_ja": "高校野球のチームの強さは、監督によるところが大きい。",
+    "example_en": "The strength of a high school baseball team is largely due to its manager."
+  },
+  {
+    "id": "N1-154",
+    "level": "N1",
+    "pattern": "~の至り",
+    "meaning": "the height of / utmost...",
+    "example_ja": "若気の至りで19歳のときに最初の結婚をした。",
+    "example_en": "In the height of youthful indiscretion, I got married for the first time at 19."
+  },
+  {
+    "id": "N1-155",
+    "level": "N1",
+    "pattern": "~の極み",
+    "meaning": "the ultimate / extreme of...",
+    "example_ja": "高級ホテルで好きなように数日過ごし、ぜいたくの極みだった。",
+    "example_en": "Spending a few days at a luxury hotel doing whatever I wanted was the ultimate luxury."
+  },
+  {
+    "id": "N1-156",
+    "level": "N1",
+    "pattern": "~のも無理はない",
+    "meaning": "it's no wonder that...",
+    "example_ja": "デートで浮気相手とはちあわせ、そりゃ彼女にふられるのも無理はない。",
+    "example_en": "Running into his cheating partner on a date... it's no wonder he got dumped by his girlfriend."
+  },
+  {
+    "id": "N1-157",
+    "level": "N1",
+    "pattern": "~のをいいことに",
+    "meaning": "taking advantage of...",
+    "example_ja": "彼は誰も見ていないのをいいことに、仕事中ずっと寝ていたんです。",
+    "example_en": "Taking advantage of the fact that no one was watching, he slept throughout work."
+  },
+  {
+    "id": "N1-158",
+    "level": "N1",
+    "pattern": "~は~てのことだ",
+    "meaning": "is because of... / thanks to...",
+    "example_ja": "無事に第一希望の大学に合格できたのは、先生の教えがあってのことだ。",
+    "example_en": "Being able to safely pass my first-choice university is all thanks to my teacher's instruction."
+  },
+  {
+    "id": "N1-159",
+    "level": "N1",
+    "pattern": "~はおろか",
+    "meaning": "let alone / not to mention...",
+    "example_ja": "今のままでは大学はおろか、短大に入るのさえ難しいですよ。",
+    "example_en": "As it is now, it will be difficult to even get into a junior college, let alone a university."
+  },
+  {
+    "id": "N1-160",
+    "level": "N1",
+    "pattern": "~ばこそ",
+    "meaning": "precisely because...",
+    "example_ja": "健康であればこそ、おいしいものも食べられる。",
+    "example_en": "Precisely because you are healthy, you can eat delicious food."
+  },
+  {
+    "id": "N1-161",
+    "level": "N1",
+    "pattern": "~はさておき",
+    "meaning": "setting aside...",
+    "example_ja": "年齢はさておき、実力はあるようですので彼女を採用するべきです。",
+    "example_en": "Setting aside her age, she seems to have real ability, so we should hire her."
+  },
+  {
+    "id": "N1-162",
+    "level": "N1",
+    "pattern": "~ばそれまでだ/たらそれまでだ",
+    "meaning": "that's the end of it / it's all over if...",
+    "example_ja": "辛くても生きなさい。死んだらそれまでですよ。",
+    "example_en": "Live even if it's tough. If you die, that's the end of it."
+  },
+  {
+    "id": "N1-163",
+    "level": "N1",
+    "pattern": "~羽目になる",
+    "meaning": "end up in a bad situation...",
+    "example_ja": "傘を電車に忘れてしまって、ぬれて帰る羽目になった。",
+    "example_en": "I forgot my umbrella on the train and ended up having to go home wet."
+  },
+  {
+    "id": "N1-164",
+    "level": "N1",
+    "pattern": "~ぶる",
+    "meaning": "act like / pretend to be...",
+    "example_ja": "彼女はいい人ぶっているが、陰で人の悪口ばかり言ってるよ。",
+    "example_en": "She pretends to be a good person, but she just speaks ill of people behind their backs."
+  },
+  {
+    "id": "N1-165",
+    "level": "N1",
+    "pattern": "~べからず / べからざる",
+    "meaning": "must not / should not...",
+    "example_ja": "治療を放棄するとは、医者べからざる態度。",
+    "example_en": "Abandoning treatment is an attitude unbecoming of a doctor."
+  },
+  {
+    "id": "N1-168",
+    "level": "N1",
+    "pattern": "~べく",
+    "meaning": "in order to...",
+    "example_ja": "金メダルを取るべく、毎日朝から晩まで練習ばかりしている。",
+    "example_en": "In order to win a gold medal, I do nothing but practice from morning to night every day."
+  },
+  {
+    "id": "N1-169",
+    "level": "N1",
+    "pattern": "~べくして",
+    "meaning": "inevitably / as expected...",
+    "example_ja": "対策もなにもなかったため、この事件は起こるべくして起こったと言える。",
+    "example_en": "Because there were no countermeasures, it can be said that this incident was bound to happen."
+  },
+  {
+    "id": "N1-170",
+    "level": "N1",
+    "pattern": "~べくもない",
+    "meaning": "cannot possibly...",
+    "example_ja": "幼いことから目立っていた彼がプロ選手になるのは、疑うべくもない。",
+    "example_en": "It is beyond doubt that he, who stood out from a young age, would become a pro player."
+  },
+  {
+    "id": "N1-172",
+    "level": "N1",
+    "pattern": "~放題",
+    "meaning": "as much as one wants / leaving unchecked",
+    "example_ja": "ケーキ食べ放題プラン、一人二時間で3000円です。",
+    "example_en": "The all-you-can-eat cake plan is 3000 yen per person for two hours."
+  },
+  {
+    "id": "N1-173",
+    "level": "N1",
+    "pattern": "~まくる",
+    "meaning": "do relentlessly / do extensively...",
+    "example_ja": "仕事でミスをしまくって、上司にひどく怒られた。",
+    "example_en": "I made mistake after mistake at work and got severely scolded by my boss."
+  },
+  {
+    "id": "N1-174",
+    "level": "N1",
+    "pattern": "~まじき",
+    "meaning": "should not / must not be done",
+    "example_ja": "カンニングを手助けするなんて、教師にあるまじき行為だ。",
+    "example_en": "Helping someone cheat is an act unworthy of a teacher."
+  },
+  {
+    "id": "N1-175",
+    "level": "N1",
+    "pattern": "~までだ/までのことだ",
+    "meaning": "only / just... (no other reason)",
+    "example_ja": "私の意見を正直に言ったまでです。文句を言われても困ります。",
+    "example_en": "I merely stated my opinion honestly. I'd be troubled if you complain about it."
+  },
+  {
+    "id": "N1-176",
+    "level": "N1",
+    "pattern": "~までもない/までもなく",
+    "meaning": "no need to / goes without saying...",
+    "example_ja": "このくらいの風邪なら、薬を飲むまでもないですよ。",
+    "example_en": "For a cold of this level, there's no need to take medicine."
+  },
+  {
+    "id": "N1-177",
+    "level": "N1",
+    "pattern": "~まみれ",
+    "meaning": "covered in / completely stained with (negative)...",
+    "example_ja": "手が血まみれですが、一体何があったんですか。",
+    "example_en": "Your hands are covered in blood; what on earth happened?"
+  },
+  {
+    "id": "N1-178",
+    "level": "N1",
+    "pattern": "~めく / めいて / めいた",
+    "meaning": "showing signs of / starting to look like...",
+    "example_ja": "空気も暖かくなり、ようやく春めいてきましたね。",
+    "example_en": "The air has gotten warmer, and it's finally starting to feel like spring."
+  },
+  {
+    "id": "N1-179",
+    "level": "N1",
+    "pattern": "~もさることながら",
+    "meaning": "not only... but also...",
+    "example_ja": "その漫画は絵もさることながら、ストーリーもすばらしくて目が離せない。",
+    "example_en": "Not only is the art in that manga great, but the story is also wonderful and keeps you hooked."
+  },
+  {
+    "id": "N1-180",
+    "level": "N1",
+    "pattern": "~も同然だ",
+    "meaning": "virtually the same as / practically...",
+    "example_ja": "相手チームのエースがけが？じゃあ、今日の試合は勝ったも同然だな。",
+    "example_en": "The opposing team's ace is injured? Then today's match is practically won."
+  },
+  {
+    "id": "N1-181",
+    "level": "N1",
+    "pattern": "~ものと思われる / ものと見られる",
+    "meaning": "it is thought that / it seems that...",
+    "example_ja": "まだコーヒーが温かいので、さっきまでここにいたものと思われます。",
+    "example_en": "The coffee is still warm, so it is thought that they were here until just a moment ago."
+  },
+  {
+    "id": "N1-182",
+    "level": "N1",
+    "pattern": "~ものを",
+    "meaning": "should have / if only...",
+    "example_ja": "言ってくれれば手伝ったものを。",
+    "example_en": "If only you had told me, I would have helped."
+  },
+  {
+    "id": "N1-183",
+    "level": "N1",
+    "pattern": "もはや",
+    "meaning": "already / no longer...",
+    "example_ja": "このような弱い薬は、もはや私には効かないんです。",
+    "example_en": "Such a weak medicine is no longer effective on me."
+  },
+  {
+    "id": "N1-184",
+    "level": "N1",
+    "pattern": "~や否や",
+    "meaning": "as soon as...",
+    "example_ja": "起きるや否や、スマホでSNSのチェックをしている。",
+    "example_en": "As soon as I wake up, I check my SNS on my smartphone."
+  },
+  {
+    "id": "N1-185",
+    "level": "N1",
+    "pattern": "やれ〜やれ〜",
+    "meaning": "what with... and...",
+    "example_ja": "やれ塾だ、やれスポーツクラブだと、最近の子供は大人より忙しい。",
+    "example_en": "What with cram school and sports clubs, children these days are busier than adults."
+  },
+  {
+    "id": "N1-186",
+    "level": "N1",
+    "pattern": "~故に/故の / 故だ",
+    "meaning": "because of / due to...",
+    "example_ja": "お母さんはあなたを愛しているが故に、厳しく叱るんですよ。",
+    "example_en": "Your mother scolds you strictly precisely because she loves you."
+  },
+  {
+    "id": "N1-187",
+    "level": "N1",
+    "pattern": "~ようが/ようと",
+    "meaning": "even if / no matter what...",
+    "example_ja": "どんなに反対されようが、私は彼と結婚します。",
+    "example_en": "No matter how much I am opposed, I will marry him."
+  },
+  {
+    "id": "N1-188",
+    "level": "N1",
+    "pattern": "~ようにも〜ない",
+    "meaning": "even if one wanted to, one cannot...",
+    "example_ja": "話を聞こうにも、泣いてちゃ聞けないよ。",
+    "example_en": "Even if I wanted to hear the story, I can't if you're crying."
+  },
+  {
+    "id": "N1-189",
+    "level": "N1",
+    "pattern": "~ようによっては/ようでは",
+    "meaning": "depending on how you look at it / depending on the method...",
+    "example_ja": "彼に浮気されて別れたことも、考えようによってはよかったのかも。",
+    "example_en": "Breaking up with him because he cheated might have been a good thing, depending on how you look at it."
+  },
+  {
+    "id": "N1-190",
+    "level": "N1",
+    "pattern": "~わ~わ",
+    "meaning": "what with... and... (usually negative pile-up)",
+    "example_ja": "昨日は1日、甥と姪の面倒を見たが、騒ぐわ泣くわで大変だった。",
+    "example_en": "I took care of my nephew and niece all day yesterday, and what with the making noise and crying, it was exhausting."
+  },
+  {
+    "id": "N1-191",
+    "level": "N1",
+    "pattern": "~をおいて他にない",
+    "meaning": "none other than / only...",
+    "example_ja": "哲学について学びたいなら、中田教授のいるこの大学をおいて他にない。",
+    "example_en": "If you want to study philosophy, there is no other place than this university where Professor Nakata is."
+  },
+  {
+    "id": "N1-192",
+    "level": "N1",
+    "pattern": "~を押して / を押し切って",
+    "meaning": "overcoming / pushing past (opposition, illness)...",
+    "example_ja": "周囲の反対を押し切って結婚したものの、二年で離婚した。",
+    "example_en": "Although they pushed past the opposition of those around them to marry, they divorced in two years."
+  },
+  {
+    "id": "N1-193",
+    "level": "N1",
+    "pattern": "~を顧みず / も顧みず",
+    "meaning": "without considering / disregarding...",
+    "example_ja": "自分の危険も顧みず、子供を救うために川に飛び込んだ。",
+    "example_en": "Disregarding his own danger, he jumped into the river to save the child."
+  },
+  {
+    "id": "N1-194",
+    "level": "N1",
+    "pattern": "~を限りに",
+    "meaning": "as the last / starting from...",
+    "example_ja": "今日を限りに、もうお酒は一滴も飲まないことにする。",
+    "example_en": "With today as the last, I've decided not to drink even a single drop of alcohol."
+  },
+  {
+    "id": "N1-195",
+    "level": "N1",
+    "pattern": "~をかねて",
+    "meaning": "also for the purpose of / combined with...",
+    "example_ja": "親孝行をかねて、家族みんなで温泉旅行にでも行くつもりだ。",
+    "example_en": "I plan to go on a hot spring trip with the whole family, also to show filial piety."
+  },
+  {
+    "id": "N1-196",
+    "level": "N1",
+    "pattern": "~を皮切りに",
+    "meaning": "starting with...",
+    "example_ja": "渋谷のこの店を皮切りに、全国に店を出していく予定だ。",
+    "example_en": "Starting with this store in Shibuya, we plan to open stores nationwide."
+  },
+  {
+    "id": "N1-197",
+    "level": "N1",
+    "pattern": "~を機に",
+    "meaning": "taking the opportunity of...",
+    "example_ja": "病気になったのを機に、健康的な生活をするようになりました。",
+    "example_en": "Taking the opportunity of getting sick, I started living a healthy lifestyle."
+  },
+  {
+    "id": "N1-198",
+    "level": "N1",
+    "pattern": "~を禁じ得ない",
+    "meaning": "cannot help but...",
+    "example_ja": "このドラマのラストは涙を禁じ得ない。",
+    "example_en": "I cannot help but shed tears at the end of this drama."
+  },
+  {
+    "id": "N1-199",
+    "level": "N1",
+    "pattern": "~を境に",
+    "meaning": "with... as the turning point",
+    "example_ja": "旅行に行ってきたのを境に、英語を猛勉強するようになった。",
+    "example_en": "With the trip as a turning point, I started studying English intensely."
+  },
+  {
+    "id": "N1-200",
+    "level": "N1",
+    "pattern": "~を控えて",
+    "meaning": "in preparation for / facing...",
+    "example_ja": "オリンピックの開幕を控えて、競技場の完成が急がれている。",
+    "example_en": "Facing the opening of the Olympics, the completion of the stadium is being rushed."
+  },
+  {
+    "id": "N1-201",
+    "level": "N1",
+    "pattern": "~を踏まえて",
+    "meaning": "based on / taking into account...",
+    "example_ja": "今回の試験結果を踏まえて、目指す大学のレベルを少し落とした。",
+    "example_en": "Based on the results of this exam, I slightly lowered the level of the university I'm aiming for."
+  },
+  {
+    "id": "N1-202",
+    "level": "N1",
+    "pattern": "~を経て",
+    "meaning": "through / after experiencing...",
+    "example_ja": "辛く厳しい修行を経て、やっと自分の店を持つことができた。",
+    "example_en": "After experiencing tough and rigorous training, I was finally able to have my own shop."
+  },
+  {
+    "id": "N1-203",
+    "level": "N1",
+    "pattern": "~をもって/ をもちまして",
+    "meaning": "as of / by means of...",
+    "example_ja": "当店は3月31日をもって、閉店いたします。",
+    "example_en": "Our store will close as of March 31st."
+  },
+  {
+    "id": "N1-204",
+    "level": "N1",
+    "pattern": "~をものともせずに",
+    "meaning": "without being deterred by...",
+    "example_ja": "プレッシャーをものともせずに、余裕の演技で優勝した。",
+    "example_en": "Without being deterred by the pressure, they won with a composed performance."
+  },
+  {
+    "id": "N1-205",
+    "level": "N1",
+    "pattern": "~を余儀なくされる",
+    "meaning": "be forced to...",
+    "example_ja": "部下の不祥事により、辞職を余儀なくされた。",
+    "example_en": "Due to a subordinate's scandal, he was forced to resign."
+  },
+  {
+    "id": "N1-206",
+    "level": "N1",
+    "pattern": "~をよそに",
+    "meaning": "indifferent to / disregarding...",
+    "example_ja": "周囲の心配をよそに、彼は自分の信じる道を突き進んでいる。",
+    "example_en": "Disregarding the worries of those around him, he pushes forward on the path he believes in."
+  },
+  {
+    "id": "N1-207",
+    "level": "N1",
+    "pattern": "〜んがために",
+    "meaning": "in order to...",
+    "example_ja": "金メダルを取らんがために、ライバルより1分でも長く練習する。",
+    "example_en": "In order to win a gold medal, I practice even one minute longer than my rivals."
+  },
+  {
+    "id": "N1-208",
+    "level": "N1",
+    "pattern": "〜んばかりに",
+    "meaning": "as if to / almost...",
+    "example_ja": "頭が割れんばかりにひどい頭痛が続いている。",
+    "example_en": "A severe headache, as if my head is going to split, continues."
+  }
+]

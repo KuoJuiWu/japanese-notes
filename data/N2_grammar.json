@@ -1,0 +1,1082 @@
+[
+  {
+    "id": "N2-01",
+    "level": "N2",
+    "pattern": "~ものの/とはいうものの",
+    "meaning": "Although...",
+    "example_ja": "車はあるものの、ほとんど運転しない",
+    "example_en": "Although I have a car, I rarely drive it."
+  },
+  {
+    "id": "N2-02",
+    "level": "N2",
+    "pattern": "~にもかかわらず",
+    "meaning": "Despite...",
+    "example_ja": "雨にもかかわらず、たくさんの人が参加した",
+    "example_en": "Many people participated despite the rain."
+  },
+  {
+    "id": "N2-03",
+    "level": "N2",
+    "pattern": "~ながら(も)",
+    "meaning": "Even while / although...",
+    "example_ja": "体に悪いと知りながらも、タバコは止められない。",
+    "example_en": "I know that smoking is bad for the body, but I can't quit."
+  },
+  {
+    "id": "N2-04",
+    "level": "N2",
+    "pattern": "~つつ(も)",
+    "meaning": "Even though / despite (doing)",
+    "example_ja": "やめようと思いつつ、ついお酒を飲みすぎてしまう",
+    "example_en": "I try to stop, but I end up drinking too much."
+  },
+  {
+    "id": "N2-05",
+    "level": "N2",
+    "pattern": "~にかかわらず/にかかわりなく",
+    "meaning": "Regardless of...",
+    "example_ja": "年れいにかかわらず、優秀なら合格しますよ。",
+    "example_en": "Regardless of your age, if you are good enough, you will be accepted."
+  },
+  {
+    "id": "N2-06",
+    "level": "N2",
+    "pattern": "~からといって/からって",
+    "meaning": "Just because...",
+    "example_ja": "日本に住んでいるからといって、日本語が話せるようになるわけではない。",
+    "example_en": "Just because you live in Japan does not mean you will be able to speak Japanese."
+  },
+  {
+    "id": "N2-07",
+    "level": "N2",
+    "pattern": "~にしても/にしろ/にせよ",
+    "meaning": "Even if...",
+    "example_ja": "忙しかったにしても、電話ぐらいはできたでしょう?",
+    "example_en": "I understand that you were busy, but you could have at least made a phone call, couldn't you?"
+  },
+  {
+    "id": "N2-08",
+    "level": "N2",
+    "pattern": "~かのようだ/かのように",
+    "meaning": "As if...",
+    "example_ja": "姉は、私の子を自分の子どもであるかのようにかわいがってくれる",
+    "example_en": "My sister loves my child as if he/she was her own."
+  },
+  {
+    "id": "N2-09",
+    "level": "N2",
+    "pattern": "~げ",
+    "meaning": "Seems like / looks like...",
+    "example_ja": "あそこで一人で立っている子は、悲しげな顔をしている",
+    "example_en": "The child standing alone there has a sad look on his face."
+  },
+  {
+    "id": "N2-10",
+    "level": "N2",
+    "pattern": "~ばかりに",
+    "meaning": "Simply because (negative consequence)...",
+    "example_ja": "バスで来たばかりに、遅刻してしまった",
+    "example_en": "I was late because I came by bus."
+  },
+  {
+    "id": "N2-11",
+    "level": "N2",
+    "pattern": "~につき",
+    "meaning": "Due to / per...",
+    "example_ja": "本日は日曜日につき、休業いたします。",
+    "example_en": "It's Sunday, so we're closed."
+  },
+  {
+    "id": "N2-12",
+    "level": "N2",
+    "pattern": "~あまり",
+    "meaning": "So much... that...",
+    "example_ja": "驚きのあまり、心臓が止まりそうになった",
+    "example_en": "I was so surprised that my heart almost stopped."
+  },
+  {
+    "id": "N2-13",
+    "level": "N2",
+    "pattern": "~ものだから",
+    "meaning": "Because... (excuse/reason)",
+    "example_ja": "昨日は忙しかったものだから、この仕事はまだ終わっていないんです。",
+    "example_en": "I was busy yesterday, so I haven't finished this job yet."
+  },
+  {
+    "id": "N2-14",
+    "level": "N2",
+    "pattern": "~のことだから",
+    "meaning": "Since it is... (expectations based on a person's nature)",
+    "example_ja": "(いつも遅刻する)スミスさんのことだから、今日も遅れてくるんじゃない?",
+    "example_en": "Since Smith-san is always late, he would probably be late again today."
+  },
+  {
+    "id": "N2-15",
+    "level": "N2",
+    "pattern": "~ことから",
+    "meaning": "From the fact that...",
+    "example_ja": "この辺は坂が多いことから、坂上町という名前がつけられました",
+    "example_en": "The name \"Sakagami-machi\" came from the many hills in the area."
+  },
+  {
+    "id": "N2-16",
+    "level": "N2",
+    "pattern": "~からには、からは、以上は、上は",
+    "meaning": "Now that / since...",
+    "example_ja": "オリンピックに出るからには、金メダルを取らなければならない。",
+    "example_en": "Since I'm going to compete in the Olympics, of course I have to win a gold medal."
+  },
+  {
+    "id": "N2-17",
+    "level": "N2",
+    "pattern": "~ところをみると",
+    "meaning": "Judging from...",
+    "example_ja": "お互いに何も話さないところをみると、けんかでもしたのかもしれないね。",
+    "example_en": "Seeing that they didn't say anything to each other, they might have had a fight."
+  },
+  {
+    "id": "N2-18",
+    "level": "N2",
+    "pattern": "~だけに/~だけあって",
+    "meaning": "As expected / precisely because...",
+    "example_ja": "夏休みに入っただけに、どこもこんでいる",
+    "example_en": "As the summer vacation season has just started, everywhere is crowded."
+  },
+  {
+    "id": "N2-19",
+    "level": "N2",
+    "pattern": "~ことだし",
+    "meaning": "Since... / seeing as...",
+    "example_ja": "雨も降ってることだし、今日はもう帰ろうか。",
+    "example_en": "It's raining, so let's go home for the day."
+  },
+  {
+    "id": "N2-20",
+    "level": "N2",
+    "pattern": "~てこそ",
+    "meaning": "Only by doing...",
+    "example_ja": "新鮮な魚で作ってこそ、おいしいすしになる。",
+    "example_en": "Only by using fresh fish can you make delicious sushi."
+  },
+  {
+    "id": "N2-21",
+    "level": "N2",
+    "pattern": "あまりの〜に",
+    "meaning": "Because it was too...",
+    "example_ja": "今日はあまりの暑さに、食事をする気にもなれない。",
+    "example_en": "It's too hot today, and I don't even want to eat."
+  },
+  {
+    "id": "N2-22",
+    "level": "N2",
+    "pattern": "~ものなら/~もんなら",
+    "meaning": "If it were possible...",
+    "example_ja": "娘が病気でつらそうだ。代われるものなら、代わってあげたい。",
+    "example_en": "My daughter is sick and in pain. If it were possible, I would like to switch her body and mine."
+  },
+  {
+    "id": "N2-23",
+    "level": "N2",
+    "pattern": "~ないことには〜ない",
+    "meaning": "Unless...",
+    "example_ja": "くつは、はいてみないことには歩きやすいかどうかはわからない",
+    "example_en": "You can't tell if the shoes are comfortable to walk in unless you try them on."
+  },
+  {
+    "id": "N2-24",
+    "level": "N2",
+    "pattern": "~さえ〜ば",
+    "meaning": "As long as / if only...",
+    "example_ja": "スマホさえあれば、現金やカードがなくても買い物ができる。",
+    "example_en": "With just a smartphone, you can make purchases without cash or credit cards."
+  },
+  {
+    "id": "N2-25",
+    "level": "N2",
+    "pattern": "~ようものなら",
+    "meaning": "If one were to do... (leads to bad result)",
+    "example_ja": "妻の誕生日を忘れようものなら、家に入れてもらえないかもしれない。",
+    "example_en": "If I were to forget my wife's birthday, she might not let me in the house."
+  },
+  {
+    "id": "N2-26",
+    "level": "N2",
+    "pattern": "~となると",
+    "meaning": "When it comes to... / If it comes to that...",
+    "example_ja": "海外に住むとなると、友だちにも簡単に会えなくなるなあ。",
+    "example_en": "If I were to live abroad, I would not be able to see my friends as often."
+  },
+  {
+    "id": "N2-27",
+    "level": "N2",
+    "pattern": "~にしても〜にしても/~にしろ〜にしろ/~にせよ〜にせよ",
+    "meaning": "Whether... or...",
+    "example_ja": "スミスさんにしても、チンさんにしても、ここの留学生はみんな日本語がペラペラだ。",
+    "example_en": "Like Smith-san and Chin-san, all the foreign students here speak good Japanese."
+  },
+  {
+    "id": "N2-28",
+    "level": "N2",
+    "pattern": "~に基づいて、をもとに(して)",
+    "meaning": "Based on...",
+    "example_ja": "このドラマは、実際にあった事件に基づいて制作された",
+    "example_en": "This drama was produced based on a real incident."
+  },
+  {
+    "id": "N2-29",
+    "level": "N2",
+    "pattern": "~のもと(で)",
+    "meaning": "Under (supervision/influence)...",
+    "example_ja": "最新のロボットを作りたいなら、この大学の田中先生のもとで学ぶべきだよ。",
+    "example_en": "If you want to build the latest robot, you should study under Professor Tanaka of this university."
+  },
+  {
+    "id": "N2-30",
+    "level": "N2",
+    "pattern": "~に沿って",
+    "meaning": "Along with / in accordance with...",
+    "example_ja": "お配りした資料に沿って、ご説明いたします。",
+    "example_en": "I will explain according to the handout I gave you."
+  },
+  {
+    "id": "N2-31",
+    "level": "N2",
+    "pattern": "~どころか",
+    "meaning": "Far from...",
+    "example_ja": "先日の旅行は、楽しいどころかハプニングばかりで本当に疲れた。",
+    "example_en": "The day's trip was not fun at all, despite my expectations, and I was really tired from all the unexpected events."
+  },
+  {
+    "id": "N2-32",
+    "level": "N2",
+    "pattern": "一方で",
+    "meaning": "On the other hand...",
+    "example_ja": "日本での生活は、大変なことが多い一方、新しい経験ができて楽しい。",
+    "example_en": "My life in Japan has been a lot of hard work, but it has been fun to have new experiences."
+  },
+  {
+    "id": "N2-33",
+    "level": "N2",
+    "pattern": "~に反して",
+    "meaning": "Contrary to...",
+    "example_ja": "親の期待に反して、息子は医者にはならず、小さな店をしている。",
+    "example_en": "Contrary to our expectations, my son did not become a doctor and runs a small store."
+  },
+  {
+    "id": "N2-34",
+    "level": "N2",
+    "pattern": "~というより",
+    "meaning": "Rather than...",
+    "example_ja": "あまりにも人が多くて、にぎやかというよりうるさいですよ。",
+    "example_en": "There are too many people, and it's noisy rather than lively."
+  },
+  {
+    "id": "N2-35",
+    "level": "N2",
+    "pattern": "~だけまし",
+    "meaning": "At least / it's better than...",
+    "example_ja": "ハイキングには寒いけど、雪が降らないだけましですね。",
+    "example_en": "The weather is cold for hiking, but it's still good because it's not snowing."
+  },
+  {
+    "id": "N2-36",
+    "level": "N2",
+    "pattern": "〜くらいなら",
+    "meaning": "Rather than (do X, I would do Y)",
+    "example_ja": "あの人に謝るくらいなら、殴られたほうがいい。",
+    "example_en": "I'd rather he/she punch me than I apologize to him/her."
+  },
+  {
+    "id": "N2-37",
+    "level": "N2",
+    "pattern": "~ざるをえない",
+    "meaning": "Have no choice but to...",
+    "example_ja": "父に言われたなら、嫌でも弟の面倒を見ざるをえない。",
+    "example_en": "My father told me to do it, so even if I didn't want to, I'd have to take care of my younger brother."
+  },
+  {
+    "id": "N2-38",
+    "level": "N2",
+    "pattern": "~て(は)いられない",
+    "meaning": "Cannot afford to...",
+    "example_ja": "もうすぐ試験だから、遊んではいられない。",
+    "example_en": "I have exams coming up soon, so I have no time to hung out."
+  },
+  {
+    "id": "N2-39",
+    "level": "N2",
+    "pattern": "~ないではいられない",
+    "meaning": "Can't help but...",
+    "example_ja": "この曲を聴くと、踊らないではいられない。",
+    "example_en": "When I listen to this song, I can't help but dance."
+  },
+  {
+    "id": "N2-40",
+    "level": "N2",
+    "pattern": "~てならない",
+    "meaning": "Cannot help feeling / unbelievably...",
+    "example_ja": "スミスさんがアメリカに帰ってしまうのが、残念でなりません",
+    "example_en": "I am so disappointed that Smith-san is going back to the United States."
+  },
+  {
+    "id": "N2-41",
+    "level": "N2",
+    "pattern": "~にほかならない",
+    "meaning": "Nothing but...",
+    "example_ja": "今回優勝できたのは、チームワークのよさにほかならない",
+    "example_en": "The reason why the team was able to win this time was nothing but the teamwork."
+  },
+  {
+    "id": "N2-42",
+    "level": "N2",
+    "pattern": "~というものだ",
+    "meaning": "Is exactly what is meant by...",
+    "example_ja": "困った時には助け合うのが本当の友達というものだ",
+    "example_en": "True friends help each other in times of trouble."
+  },
+  {
+    "id": "N2-43",
+    "level": "N2",
+    "pattern": "~にすぎない",
+    "meaning": "Nothing more than...",
+    "example_ja": "中国語を勉強しているといっても、まだ、簡単な文字が読めるにすぎません。",
+    "example_en": "Even though I am learning Chinese, I can still only read simple characters."
+  },
+  {
+    "id": "N2-44",
+    "level": "N2",
+    "pattern": "~(より)ほかない",
+    "meaning": "Have no choice but to...",
+    "example_ja": "こんな田舎にタクシーなんて来ないし、歩いて帰るほかないですね。",
+    "example_en": "It's a very rural area, so cabs won't come, and we have to walk home."
+  },
+  {
+    "id": "N2-45",
+    "level": "N2",
+    "pattern": "~おそれがある",
+    "meaning": "There is a risk that...",
+    "example_ja": "このワクチンを打つと、副作用が出るおそれがあります。",
+    "example_en": "There is a risk that this vaccination may cause side effects."
+  },
+  {
+    "id": "N2-46",
+    "level": "N2",
+    "pattern": "~かねない",
+    "meaning": "Might (bad consequence)...",
+    "example_ja": "ちゃんと病院に行かないと、病気が悪化しかねないよ",
+    "example_en": "If you don't go to the hospital properly, your illness could get worse."
+  },
+  {
+    "id": "N2-47",
+    "level": "N2",
+    "pattern": "~に相違ない",
+    "meaning": "Without a doubt...",
+    "example_ja": "この学校で成績トップの彼女なら、東大に合格するに相違ない",
+    "example_en": "She is the student with the highest grades at this school, so she will definitely get into Tokyo University."
+  },
+  {
+    "id": "N2-48",
+    "level": "N2",
+    "pattern": "~とか",
+    "meaning": "I heard that...",
+    "example_ja": "娘さんがご結婚されるとか。おめでとうございます。",
+    "example_en": "I heard that your daughter is getting married. Congratulations."
+  },
+  {
+    "id": "N2-49",
+    "level": "N2",
+    "pattern": "~やら〜やら",
+    "meaning": "Things like... and...",
+    "example_ja": "テーブルの上には、すしやらとんかつやら料理でいっぱい",
+    "example_en": "There are sushi, tonkatsu, and many other dishes on the table."
+  },
+  {
+    "id": "N2-50",
+    "level": "N2",
+    "pattern": "~といった",
+    "meaning": "Such as...",
+    "example_ja": "納豆やとうふといった、カロリーの低いものを食べましょう",
+    "example_en": "Eat low-calories foods like natto and tofu."
+  },
+  {
+    "id": "N2-51",
+    "level": "N2",
+    "pattern": "~というか〜というか",
+    "meaning": "Or rather... / I'm not sure if it's A or B...",
+    "example_ja": "彼女のドレスは、派手というか奇抜というか、とても目立っていた",
+    "example_en": "Her dress was standing out, not to say flashy or outlandish."
+  },
+  {
+    "id": "N2-52",
+    "level": "N2",
+    "pattern": "~抜きで/~抜きにして",
+    "meaning": "Without...",
+    "example_ja": "昼ごはん抜きで会議をしていたので、お腹が空いてしょうがない",
+    "example_en": "We had a meeting without lunch, so I am very hungry."
+  },
+  {
+    "id": "N2-53",
+    "level": "N2",
+    "pattern": "~ことなく",
+    "meaning": "Without (doing)...",
+    "example_ja": "両親に相談することなく、留学を決めた。",
+    "example_en": "I decided to study abroad without discussing it with my parents."
+  },
+  {
+    "id": "N2-54",
+    "level": "N2",
+    "pattern": "~をこめて",
+    "meaning": "Filled with (emotion)...",
+    "example_ja": "先生に感謝をこめて花束をあげました",
+    "example_en": "I gave the teacher a bouquet of flowers to express my gratitude."
+  },
+  {
+    "id": "N2-55",
+    "level": "N2",
+    "pattern": "~に限り",
+    "meaning": "Only for...",
+    "example_ja": "この商品は、小学生以下に限り、半額です。",
+    "example_en": "This product is half-price only for elementary school students and younger."
+  },
+  {
+    "id": "N2-56",
+    "level": "N2",
+    "pattern": "~に限って",
+    "meaning": "Particularly... / Of all things...",
+    "example_ja": "うちの子に限って、いじめなんてするはずがない",
+    "example_en": "My child, of all people, would never bully others."
+  },
+  {
+    "id": "N2-57",
+    "level": "N2",
+    "pattern": "~限り(は)",
+    "meaning": "As long as...",
+    "example_ja": "タバコをやめない限り、健康にはなりませんよ",
+    "example_en": "As long as you don't quit smoking, you will never be healthy."
+  },
+  {
+    "id": "N2-58",
+    "level": "N2",
+    "pattern": "~限りでは",
+    "meaning": "As far as...",
+    "example_ja": "私が知っている限りでは、彼はいい人ですよ",
+    "example_en": "As far as I know, he's a good man."
+  },
+  {
+    "id": "N2-59",
+    "level": "N2",
+    "pattern": "~どころではない",
+    "meaning": "Not the time/place for...",
+    "example_ja": "子どもが大けがをして、誕生日パーティーどころじゃなかった。",
+    "example_en": "My child was seriously injured and we couldn't have his birthday party."
+  },
+  {
+    "id": "N2-60",
+    "level": "N2",
+    "pattern": "~ものか",
+    "meaning": "I'll never...",
+    "example_ja": "あの店の料理は本当にまずかった。二度と行くものか",
+    "example_en": "The food in that restaurant was really bad. I will never go back there again."
+  },
+  {
+    "id": "N2-61",
+    "level": "N2",
+    "pattern": "〜っこない",
+    "meaning": "There's no way that...",
+    "example_ja": "他人の気持ちなんて、わかりっこない",
+    "example_en": "There's no way to know what other people are feeling."
+  },
+  {
+    "id": "N2-62",
+    "level": "N2",
+    "pattern": "~わけがない",
+    "meaning": "It is impossible that...",
+    "example_ja": "勉強しない私が、いい大学に入れるわけがない",
+    "example_en": "I didn't study hard enough, so there was no way I could get into a good university."
+  },
+  {
+    "id": "N2-63",
+    "level": "N2",
+    "pattern": "~というものではない/~というものでもない",
+    "meaning": "It doesn't necessarily mean...",
+    "example_ja": "ダイエットするからって、食べなければいいというものではない",
+    "example_en": "It does not mean that if you do not eat, your diet will be successful."
+  },
+  {
+    "id": "N2-64",
+    "level": "N2",
+    "pattern": "~のみならず(~も)",
+    "meaning": "Not only...",
+    "example_ja": "田中さんは、英語のみならず中国語も話せる",
+    "example_en": "Tanaka-san speaks not only English but also Chinese."
+  },
+  {
+    "id": "N2-65",
+    "level": "N2",
+    "pattern": "~に限らず",
+    "meaning": "Not limited to...",
+    "example_ja": "このゲームは、子どもに限らず大人にも人気がある。",
+    "example_en": "This game is popular not only among children but also among adults."
+  },
+  {
+    "id": "N2-66",
+    "level": "N2",
+    "pattern": "~はもとより(~も)",
+    "meaning": "Not only... but of course...",
+    "example_ja": "あの歌手は、歌はもとより、表現力もすばらしい",
+    "example_en": "That singer is not only a great singer, but also a great expressive artist."
+  },
+  {
+    "id": "N2-67",
+    "level": "N2",
+    "pattern": "~うえに",
+    "meaning": "In addition to...",
+    "example_ja": "寝坊したうえに、道路も混んでいたので遅刻しました",
+    "example_en": "I overslept and the roads were crowded, so I was late."
+  },
+  {
+    "id": "N2-68",
+    "level": "N2",
+    "pattern": "~も~ば、〜も",
+    "meaning": "Both... and...",
+    "example_ja": "旅行には行きたいが、時間もなければ、お金もない。",
+    "example_en": "I want to travel, but I don't have the time or the money."
+  },
+  {
+    "id": "N2-69",
+    "level": "N2",
+    "pattern": "~を問わず",
+    "meaning": "Regardless of...",
+    "example_ja": "楽なので、場所を問わずスニーカーばかりはいています。",
+    "example_en": "I wear sneakers everywhere because they are easy to walk in."
+  },
+  {
+    "id": "N2-70",
+    "level": "N2",
+    "pattern": "~もかまわず",
+    "meaning": "Without caring about...",
+    "example_ja": "彼に会えたのがうれしくて、人目もかまわず抱きついた。",
+    "example_en": "I was so happy to see him that I hugged him without worrying about being looked at."
+  },
+  {
+    "id": "N2-71",
+    "level": "N2",
+    "pattern": "~はともかく(として)",
+    "meaning": "Putting aside...",
+    "example_ja": "あのレストランは、味はともかく値段が安い",
+    "example_en": "That restaurant, aside from the taste, is cheap."
+  },
+  {
+    "id": "N2-72",
+    "level": "N2",
+    "pattern": "~はさておき",
+    "meaning": "Aside from...",
+    "example_ja": "スミスさんは、性格はさておき、仕事はよくできる。",
+    "example_en": "Aside from his personality, Smith-san does his job well."
+  },
+  {
+    "id": "N2-73",
+    "level": "N2",
+    "pattern": "~をめぐって",
+    "meaning": "Over / concerning...",
+    "example_ja": "親の遺産をめぐって、兄弟が争うドラマである。",
+    "example_en": "It's a drama about siblings fighting over their parents' inheritance."
+  },
+  {
+    "id": "N2-74",
+    "level": "N2",
+    "pattern": "~に応えて/~に応える",
+    "meaning": "In response to...",
+    "example_ja": "妻の希望に応えて、今年の旅行はハワイに行くことにした。",
+    "example_en": "In response to my wife's wishes, we decided to go on a trip to Hawaii this year."
+  },
+  {
+    "id": "N2-75",
+    "level": "N2",
+    "pattern": "~をはじめ/~をはじめとして",
+    "meaning": "Starting with... / including...",
+    "example_ja": "今日の会議には、会長をはじめ、役員の方も出席されます。",
+    "example_en": "The chairman and other officers will also attend today's meeting."
+  },
+  {
+    "id": "N2-76",
+    "level": "N2",
+    "pattern": "~限り",
+    "meaning": "As far as / until the end...",
+    "example_ja": "見渡す限り、田んぼが広がっている",
+    "example_en": "The rice fields spread out as far as the eye could see."
+  },
+  {
+    "id": "N2-77",
+    "level": "N2",
+    "pattern": "~からして",
+    "meaning": "Judging from...",
+    "example_ja": "あの店は、店員の言葉づかいからしてダメだ。",
+    "example_en": "The clerks at that store are bad even in their manner of speaking."
+  },
+  {
+    "id": "N2-78",
+    "level": "N2",
+    "pattern": "~にわたって",
+    "meaning": "Throughout / over a period of...",
+    "example_ja": "3日間にわたって、この会場でバレエコンクールが行われます。",
+    "example_en": "The ballet competition will be held at this venue for three days."
+  },
+  {
+    "id": "N2-79",
+    "level": "N2",
+    "pattern": "~だけ",
+    "meaning": "As much as...",
+    "example_ja": "暑い日は、できるだけ水を飲むようにしてください。",
+    "example_en": "Try to drink as much water as possible on hot days."
+  },
+  {
+    "id": "N2-80",
+    "level": "N2",
+    "pattern": "~ものだ",
+    "meaning": "It's natural that / one should...",
+    "example_ja": "話をするときは、相手の目を見るものだ",
+    "example_en": "Look people in the eye when you speak."
+  },
+  {
+    "id": "N2-81",
+    "level": "N2",
+    "pattern": "~ものではない",
+    "meaning": "One should not...",
+    "example_ja": "親に向かって、そんなことを言うものではない",
+    "example_en": "You can't say things like that to your parents."
+  },
+  {
+    "id": "N2-82",
+    "level": "N2",
+    "pattern": "~ことだ",
+    "meaning": "Should / ought to...",
+    "example_ja": "負けたくなかったら、もっと練習することだね",
+    "example_en": "If you don't want to lose, you have to practice more."
+  },
+  {
+    "id": "N2-83",
+    "level": "N2",
+    "pattern": "~反面",
+    "meaning": "On the other hand...",
+    "example_ja": "一人暮らしは寂しい反面自由で気楽だ",
+    "example_en": "Living alone is lonely, but it is also free and easy."
+  },
+  {
+    "id": "N2-84",
+    "level": "N2",
+    "pattern": "~だけのことはある",
+    "meaning": "No wonder / it shows...",
+    "example_ja": "彼だけは全然疲れていない。やっぱり若いだけのことはある",
+    "example_en": "Only he is not tired at all. It truly shows the advantage of being young."
+  },
+  {
+    "id": "N2-85",
+    "level": "N2",
+    "pattern": "~うる/~える/~えない",
+    "meaning": "Can / cannot possibly...",
+    "example_ja": "これだけ毎日勉強していれば、今年こそ合格しうる。",
+    "example_en": "Since I've been studying so hard every day. I'm sure I'll pass this year."
+  },
+  {
+    "id": "N2-86",
+    "level": "N2",
+    "pattern": "~がたい",
+    "meaning": "Hard to...",
+    "example_ja": "10年後には宇宙で生活できるなんて、信じがたい",
+    "example_en": "It is very hard to believe that we can live in space in 10 years."
+  },
+  {
+    "id": "N2-87",
+    "level": "N2",
+    "pattern": "~ようがない",
+    "meaning": "There is no way to...",
+    "example_ja": "病気の進行が早く、もう治しようがないんです。",
+    "example_en": "The disease is progressing so fast that there is no way to treat it anymore."
+  },
+  {
+    "id": "N2-88",
+    "level": "N2",
+    "pattern": "~かねる",
+    "meaning": "Cannot (do something politely)...",
+    "example_ja": "お客様のためにならないような意見には、賛成しかねる。",
+    "example_en": "I don't agree with opinions that are not in the best interest of customers."
+  },
+  {
+    "id": "N2-89",
+    "level": "N2",
+    "pattern": "~たきり",
+    "meaning": "Since (doing) / nothing but...",
+    "example_ja": "彼とは10年前に会ったきり、一度も会っていない。",
+    "example_en": "I haven't seen him since ten years ago."
+  },
+  {
+    "id": "N2-90",
+    "level": "N2",
+    "pattern": "~あげく",
+    "meaning": "In the end / finally (after a long process)...",
+    "example_ja": "3時間も待ったあげく、売り切れで買えなかった。",
+    "example_en": "After waiting for three hours, I couldn't buy it because it was sold out."
+  },
+  {
+    "id": "N2-91",
+    "level": "N2",
+    "pattern": "~末(に)",
+    "meaning": "At the end of / finally...",
+    "example_ja": "長い話し合いの末、やっと納得してもらった。",
+    "example_en": "After much discussion, they finally agreed."
+  },
+  {
+    "id": "N2-92",
+    "level": "N2",
+    "pattern": "~ずじまい",
+    "meaning": "Ended up not doing...",
+    "example_ja": "旅行に数冊本を持っていったが、結局読まずじまいだった",
+    "example_en": "I brought a few books with me on my trip, but never ended up reading them."
+  },
+  {
+    "id": "N2-93",
+    "level": "N2",
+    "pattern": "~次第だ",
+    "meaning": "Depending on / the reason is...",
+    "example_ja": "社長からの連絡で、急いで出社した次第です。",
+    "example_en": "I rushed to the office when I heard from the president."
+  },
+  {
+    "id": "N2-94",
+    "level": "N2",
+    "pattern": "~抜く",
+    "meaning": "To do to the end...",
+    "example_ja": "戦争を生き抜いた祖父の言葉は重い。",
+    "example_en": "The words of my grandfather, who survived the war, carry great weight."
+  },
+  {
+    "id": "N2-95",
+    "level": "N2",
+    "pattern": "~にともなって/~にともない/~にともなう",
+    "meaning": "Along with...",
+    "example_ja": "スマホの普及にともなって、紙の新聞を読む人が少なくなってきた。",
+    "example_en": "As smartphones become more and more popular, fewer and fewer people read paper newspapers."
+  },
+  {
+    "id": "N2-96",
+    "level": "N2",
+    "pattern": "~につれて",
+    "meaning": "As... then...",
+    "example_ja": "台風が近づくにつれて、雨が強くなってきた",
+    "example_en": "As the typhoon approached, the rain became heavier."
+  },
+  {
+    "id": "N2-97",
+    "level": "N2",
+    "pattern": "~かいあって/~かいもなく",
+    "meaning": "Thanks to the effort of... / despite the effort of...",
+    "example_ja": "毎日のトレーニングのかいあって、優勝することができた",
+    "example_en": "The daily training was worth it, and I was able to win."
+  },
+  {
+    "id": "N2-98",
+    "level": "N2",
+    "pattern": "~つつある",
+    "meaning": "Is currently (doing)...",
+    "example_ja": "日本では子どもの数が減りつつあり、50年後には今の半分になる",
+    "example_en": "The number of children in Japan is decreasing, and in 50 years, the number of children will be half of what it is now."
+  },
+  {
+    "id": "N2-99",
+    "level": "N2",
+    "pattern": "~一方だ",
+    "meaning": "Tends to / just keeps...",
+    "example_ja": "雨が続いて、洗濯物がたまる一方だ。",
+    "example_en": "It's been raining every day and the laundry is piling up."
+  },
+  {
+    "id": "N2-100",
+    "level": "N2",
+    "pattern": "~ばかりだ",
+    "meaning": "Just keeps (usually bad direction)...",
+    "example_ja": "悪いうわさは止められない。広がるばかりだ",
+    "example_en": "You can't stop bad rumors, they just spread."
+  },
+  {
+    "id": "N2-101",
+    "level": "N2",
+    "pattern": "~に応じて",
+    "meaning": "According to / corresponding to...",
+    "example_ja": "お客様のリクエストに応じて、新しいメニューを作ります。",
+    "example_en": "We create new menus according to the requests of our customers."
+  },
+  {
+    "id": "N2-102",
+    "level": "N2",
+    "pattern": "~につけ/~につけて",
+    "meaning": "Every time...",
+    "example_ja": "彼の顔を見るにつけ、負けた時のことを思い出してくやしい。",
+    "example_en": "Every time I look at his face, I remember the time I lost and feel frustrated."
+  },
+  {
+    "id": "N2-103",
+    "level": "N2",
+    "pattern": "~を契機に/~を契機にして",
+    "meaning": "As an opportunity...",
+    "example_ja": "退職を契機に、田舎で農業をすることにした。",
+    "example_en": "When I retired, I decided to start farming in the countryside."
+  },
+  {
+    "id": "N2-104",
+    "level": "N2",
+    "pattern": "~をきっかけに",
+    "meaning": "With X as a start...",
+    "example_ja": "ある映画をきっかけに、日本文化に興味を持ち始めた",
+    "example_en": "One movie sparked my interest in Japanese culture."
+  },
+  {
+    "id": "N2-105",
+    "level": "N2",
+    "pattern": "~ようではないか",
+    "meaning": "Let's do...",
+    "example_ja": "1年間もかけたこのプロジェクト、ぜひ成功させようではないか",
+    "example_en": "We have spent a year on this project, so let's make it a success."
+  },
+  {
+    "id": "N2-106",
+    "level": "N2",
+    "pattern": "~次第で",
+    "meaning": "Depending on...",
+    "example_ja": "あなたの努力次第で、合格するかどうか決まります。",
+    "example_en": "Your efforts will determine whether you pass or not."
+  },
+  {
+    "id": "N2-107",
+    "level": "N2",
+    "pattern": "~までして/~てまで",
+    "meaning": "Even to the point of...",
+    "example_ja": "いくらおいしくても、並ぶまでして食べたくはない",
+    "example_en": "No matter how delicious it is, I don't want to stand in line to eat it."
+  },
+  {
+    "id": "N2-108",
+    "level": "N2",
+    "pattern": "~てでも",
+    "meaning": "Even if I have to...",
+    "example_ja": "あの歌手のコンサートなら、10万円払ってでも行きたい",
+    "example_en": "I would pay 100,000 yen to go to that singer's concert."
+  },
+  {
+    "id": "N2-109",
+    "level": "N2",
+    "pattern": "~てこそ",
+    "meaning": "Now that / only because...",
+    "example_ja": "自分で働いてこそ、お金の大切さがわかるというものです。",
+    "example_en": "Only by working for yourself can you understand the importance of money."
+  },
+  {
+    "id": "N2-110",
+    "level": "N2",
+    "pattern": "~として〜ない",
+    "meaning": "Not even one...",
+    "example_ja": "私は学生時代、1日として学校を欠席したことはない。",
+    "example_en": "I never missed a day of school while I was a student."
+  },
+  {
+    "id": "N2-111",
+    "level": "N2",
+    "pattern": "~からすると/~からすれば/~からいうと/~からいえば/~からいって",
+    "meaning": "Judging from...",
+    "example_ja": "学生からすると、大学の学費は高すぎる。",
+    "example_en": "University tuition is too expensive for a student."
+  },
+  {
+    "id": "N2-112",
+    "level": "N2",
+    "pattern": "~を~として/~を~とする",
+    "meaning": "As / deciding on...",
+    "example_ja": "ダイエット中なので、ナッツを昼ごはんとして食べています。",
+    "example_en": "I am on a diet, so I eat nuts for lunch."
+  },
+  {
+    "id": "N2-113",
+    "level": "N2",
+    "pattern": "~にしてみたら/~にしてみれば",
+    "meaning": "From the perspective of...",
+    "example_ja": "私はもう40歳だが、母にしてみればまだかわいい子どもだ",
+    "example_en": "I'm forty years old now, but to my mother, I'm still a cute little kid."
+  },
+  {
+    "id": "N2-114",
+    "level": "N2",
+    "pattern": "~にあたって/~にあたり",
+    "meaning": "At the time of...",
+    "example_ja": "留学するにあたって、必要なビザを取得しました。",
+    "example_en": "I have obtained the necessary visa to study abroad."
+  },
+  {
+    "id": "N2-115",
+    "level": "N2",
+    "pattern": "~際に(は)",
+    "meaning": "In the case of...",
+    "example_ja": "お帰りの際には、足元にお気をつけください。",
+    "example_en": "Please watch your step when you leave."
+  },
+  {
+    "id": "N2-116",
+    "level": "N2",
+    "pattern": "~つつ",
+    "meaning": "While doing...",
+    "example_ja": "晩ごはんを作りつつ、子どもの宿題も見てやる。",
+    "example_en": "I cook dinner while also helping my kids with their homework."
+  },
+  {
+    "id": "N2-117",
+    "level": "N2",
+    "pattern": "~折に(は)",
+    "meaning": "When taking the opportunity...",
+    "example_ja": "東京にいらっしゃった折には、ぜひわが社にもお立ち寄りください。",
+    "example_en": "If you are ever in Tokyo, please stop by our office."
+  },
+  {
+    "id": "N2-118",
+    "level": "N2",
+    "pattern": "~に際して",
+    "meaning": "When / on the occasion of...",
+    "example_ja": "購入に際して、店員から詳しい説明を受けた。",
+    "example_en": "The clerk gave me a detailed explanation on the purchase."
+  },
+  {
+    "id": "N2-119",
+    "level": "N2",
+    "pattern": "~か~ないかのうちに",
+    "meaning": "Right after / barely...",
+    "example_ja": "店が開くか開かないかのうちに、人気商品は全部売り切れた",
+    "example_en": "As soon as the store opened, all the popular items were sold out."
+  },
+  {
+    "id": "N2-120",
+    "level": "N2",
+    "pattern": "~かと思うと/~かと思ったら",
+    "meaning": "As soon as...",
+    "example_ja": "空が暗くなったかと思ったら、雨が降り出した",
+    "example_en": "As soon as the sky darkened, it started to rain."
+  },
+  {
+    "id": "N2-121",
+    "level": "N2",
+    "pattern": "~次第",
+    "meaning": "As soon as...",
+    "example_ja": "スケジュールが決まり次第、ご連絡いたします。",
+    "example_en": "We will contact you as soon as the schedule is finalized."
+  },
+  {
+    "id": "N2-122",
+    "level": "N2",
+    "pattern": "~て以来/~てこのかた",
+    "meaning": "Ever since...",
+    "example_ja": "あの歌を聴いて以来、頭から離れない",
+    "example_en": "I haven't been able to get that song out of my head since I heard it."
+  },
+  {
+    "id": "N2-123",
+    "level": "N2",
+    "pattern": "~に先立ち/~に先立って",
+    "meaning": "Before / prior to...",
+    "example_ja": "海外旅行に先立ち、新しいクレジットカードを作りました",
+    "example_en": "I made a new credit card prior to my trip abroad."
+  },
+  {
+    "id": "N2-124",
+    "level": "N2",
+    "pattern": "~うえで",
+    "meaning": "After doing...",
+    "example_ja": "よく考えたうえで、本当に留学するかどうか決めなさい",
+    "example_en": "Think carefully before deciding if you really want to study abroad."
+  },
+  {
+    "id": "N2-125",
+    "level": "N2",
+    "pattern": "~にかけては",
+    "meaning": "When it comes to...",
+    "example_ja": "渋谷駅は利用する人の多さにかけては日本一です。",
+    "example_en": "Shibuya Station has the largest number of people using it in Japan."
+  },
+  {
+    "id": "N2-126",
+    "level": "N2",
+    "pattern": "~とは",
+    "meaning": "The definition of X is...",
+    "example_ja": "土足厳禁とは、靴をはいたまま中に入ってはいけないという",
+    "example_en": "“土足厳禁” means that you should not go inside with your shoes on."
+  },
+  {
+    "id": "N2-127",
+    "level": "N2",
+    "pattern": "ということは",
+    "meaning": "That means...",
+    "example_ja": "田中さん、まだなの? ということは、遅刻だね",
+    "example_en": "Isn't Tanaka-san coming yet? That means he/she is late."
+  },
+  {
+    "id": "N2-128",
+    "level": "N2",
+    "pattern": "~まい",
+    "meaning": "Must not / won't...",
+    "example_ja": "彼は口が軽い。絶対に大切なことは話すまい。",
+    "example_en": "He's very talkative. I will never tell him anything important."
+  },
+  {
+    "id": "N2-129",
+    "level": "N2",
+    "pattern": "~ようか〜まいか",
+    "meaning": "Whether or not...",
+    "example_ja": "仕事がきついので、辞めようか辞めるまいか迷っている",
+    "example_en": "My job is too hard and I don't know if I should quit or not."
+  },
+  {
+    "id": "N2-130",
+    "level": "N2",
+    "pattern": "~つもり",
+    "meaning": "Conviction / intention...",
+    "example_ja": "父はまだ元気なつもりだけど、もう90歳だからねえ。",
+    "example_en": "My father thinks he is still healthy, but he is actually 90 years old."
+  },
+  {
+    "id": "N2-131",
+    "level": "N2",
+    "pattern": "~ものがある",
+    "meaning": "There is a feeling of...",
+    "example_ja": "いくらかわいくても、毎日孫のめんどうを見るのは、正直つらいものがある",
+    "example_en": "To be honest, it's hard to take care of my grandchildren every day, no matter how cute they are."
+  },
+  {
+    "id": "N2-132",
+    "level": "N2",
+    "pattern": "~ことに",
+    "meaning": "To my (surprise, disappointment, etc.)...",
+    "example_ja": "残念なことに、いちばん会いたかった佐藤さんが来られなくなった。",
+    "example_en": "Unfortunately, the person I wanted to see the most, Sato-san, could not come."
+  },
+  {
+    "id": "N2-133",
+    "level": "N2",
+    "pattern": "~ことか",
+    "meaning": "How much...",
+    "example_ja": "母は一人で四人の子どもを育てた。どれほど大変だったことか。",
+    "example_en": "My mother raised four children on her own. I can't imagine how hard it must have been."
+  },
+  {
+    "id": "N2-134",
+    "level": "N2",
+    "pattern": "~ないものか",
+    "meaning": "I wonder if...",
+    "example_ja": "もう少し野菜の値段が下がらないものか。",
+    "example_en": "I wish the price of vegetables would drop a little more."
+  },
+  {
+    "id": "N2-135",
+    "level": "N2",
+    "pattern": "~たいものだ",
+    "meaning": "I really want to...",
+    "example_ja": "いつかは広い家に住んで、犬を飼いたいものだ。",
+    "example_en": "Someday I want to live in a big house and have a dog."
+  }
+]

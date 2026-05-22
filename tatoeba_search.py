@@ -22,7 +22,7 @@ from collections import defaultdict
 from pathlib import Path
 from random import choice
 
-CSV_PATH = Path(__file__).parent / "wwwjdic.csv"
+CSV_PATH = Path(__file__).parent / "data" / "wwwjdic.csv"
 
 # index: base_form → [(jp_sentence, en_translation), ...]
 _index: dict[str, list[tuple[str, str]]] = defaultdict(list)

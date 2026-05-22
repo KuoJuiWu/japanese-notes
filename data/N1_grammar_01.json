@@ -1,0 +1,802 @@
+[
+  {
+    "id": "N1-01",
+    "level": "N1",
+    "pattern": "~あっての",
+    "meaning": "thanks to / which owes everything to...",
+    "example_ja": "私がこんなに日本語がうまくなったのも、先生の指導あってのことです。",
+    "example_en": "My Japanese has improved so much thanks entirely to my teacher's guidance."
+  },
+  {
+    "id": "N1-02",
+    "level": "N1",
+    "pattern": "~いかんだ / いかんでは / いかんによっては",
+    "meaning": "depending on...",
+    "example_ja": "面接の結果いかんでは、アメリカに引っ越すことになるかもしれません。",
+    "example_en": "Depending on the results of the interview, I might have to move to America."
+  },
+  {
+    "id": "N1-03",
+    "level": "N1",
+    "pattern": "~いかんにかかわらず / いかんによらず / いかんを問わず",
+    "meaning": "regardless of...",
+    "example_ja": "成績いかんにかかわらず、出席日数さえあれば卒業できる。",
+    "example_en": "Regardless of your grades, you can graduate as long as you have the required attendance."
+  },
+  {
+    "id": "N1-04",
+    "level": "N1",
+    "pattern": "いずれにしても / いずれにしろ / いずれにせよ",
+    "meaning": "in any case / either way",
+    "example_ja": "タクシーで行こうが、バスで行こうが、いずれにしろもう遅刻です。",
+    "example_en": "Whether we take a taxi or a bus, we're going to be late either way."
+  },
+  {
+    "id": "N1-05",
+    "level": "N1",
+    "pattern": "~うちに入らない",
+    "meaning": "doesn't count as / doesn't fall under...",
+    "example_ja": "お菓子なんて食事のうちに入らないだろう。ちゃんと食べなきゃ。",
+    "example_en": "Snacks don't count as a meal. You have to eat properly."
+  },
+  {
+    "id": "N1-06",
+    "level": "N1",
+    "pattern": "~が/も〜なら、〜が/も〜だ",
+    "meaning": "like father, like son / both are just as bad",
+    "example_ja": "親が親なら、子も子だね。",
+    "example_en": "Like parent, like child. (They are both bad)"
+  },
+  {
+    "id": "N1-07",
+    "level": "N1",
+    "pattern": "~か否か",
+    "meaning": "whether or not",
+    "example_ja": "大学に行くか否かで迷っている。",
+    "example_en": "I am torn about whether or not to go to university."
+  },
+  {
+    "id": "N1-08",
+    "level": "N1",
+    "pattern": "~限りだ",
+    "meaning": "feel extremely...",
+    "example_ja": "来月から息子が一人暮らしすることになった。さびしい限りだ。",
+    "example_en": "My son is going to live alone starting next month. I feel extremely lonely."
+  },
+  {
+    "id": "N1-09",
+    "level": "N1",
+    "pattern": "~かたがた",
+    "meaning": "while at it / for the purpose of...",
+    "example_ja": "この間のお礼かたがたお伺いしたいんですが、よろしいでしょうか。",
+    "example_en": "I'd like to visit you to express my thanks for the other day, if that's alright."
+  },
+  {
+    "id": "N1-10",
+    "level": "N1",
+    "pattern": "~かたわら",
+    "meaning": "while / on the side...",
+    "example_ja": "本業のかたわら、週末にはカフェで自作のケーキを売っています。",
+    "example_en": "While working my main job, I sell homemade cakes at a cafe on weekends."
+  },
+  {
+    "id": "N1-11",
+    "level": "N1",
+    "pattern": "~がてら",
+    "meaning": "on the same occasion / while...",
+    "example_ja": "散歩がてら近くに住む姉の家によく行きます。",
+    "example_en": "I often go to my sister's house nearby while taking a walk."
+  },
+  {
+    "id": "N1-12",
+    "level": "N1",
+    "pattern": "~かと思いきや",
+    "meaning": "contrary to expectations...",
+    "example_ja": "田中さんは離婚したかと思いきや、数ヶ月で再婚した。",
+    "example_en": "I thought Tanaka-san had gotten divorced, but contrary to my expectations, he remarried a few months later."
+  },
+  {
+    "id": "N1-13",
+    "level": "N1",
+    "pattern": "~可能性がある",
+    "meaning": "there's a possibility that...",
+    "example_ja": "検査してみましょう。深刻な病気の可能性があります。",
+    "example_en": "Let's do some tests. There is a possibility of a serious illness."
+  },
+  {
+    "id": "N1-14",
+    "level": "N1",
+    "pattern": "~が早いか",
+    "meaning": "as soon as...",
+    "example_ja": "チャイムがなるが早いか、教室を飛び出していった。",
+    "example_en": "As soon as the chime rang, they dashed out of the classroom."
+  },
+  {
+    "id": "N1-15",
+    "level": "N1",
+    "pattern": "~がましい",
+    "meaning": "sounds like / looks like (negative nuance)",
+    "example_ja": "一年前に別れた彼女に連絡するなんて、未練がましいよ。",
+    "example_en": "Contacting a girlfriend you broke up with a year ago looks like you're clinging to the past."
+  },
+  {
+    "id": "N1-16",
+    "level": "N1",
+    "pattern": "~からある / からする/ からの",
+    "meaning": "as much as / as many as...",
+    "example_ja": "婚約に際し、彼から300万円からする指輪が贈られた。",
+    "example_en": "Upon our engagement, he gave me a ring worth as much as 3 million yen."
+  },
+  {
+    "id": "N1-17",
+    "level": "N1",
+    "pattern": "~かれ〜かれ",
+    "meaning": "sooner or later / more or less",
+    "example_ja": "毎日けんかしてるんだから、遅かれ早かれ離婚するでしょうね。",
+    "example_en": "Since they fight every day, they'll get divorced sooner or later."
+  },
+  {
+    "id": "N1-18",
+    "level": "N1",
+    "pattern": "~きっての",
+    "meaning": "the best / the most in a particular group",
+    "example_ja": "この学校きっての秀才の彼は、きっと東京の大学に行くんだろう。",
+    "example_en": "He is the brightest student in this school, so he will surely go to a university in Tokyo."
+  },
+  {
+    "id": "N1-19",
+    "level": "N1",
+    "pattern": "~きらいがある",
+    "meaning": "have a tendency to (negative)",
+    "example_ja": "父は、たとえ一大事でも一人で解決しようとするきらいがある。",
+    "example_en": "My father has a tendency to try and solve things on his own, even in a major crisis."
+  },
+  {
+    "id": "N1-20",
+    "level": "N1",
+    "pattern": "~きりがない",
+    "meaning": "endless / no end to...",
+    "example_ja": "結婚相手の条件をあげたらきりがないんです。",
+    "example_en": "There is no end to listing the conditions for a marriage partner."
+  },
+  {
+    "id": "N1-21",
+    "level": "N1",
+    "pattern": "極まりない",
+    "meaning": "extremely...",
+    "example_ja": "夜中にバイクで走り回るとは、迷惑極まりない行動だ。",
+    "example_en": "Riding around on a motorcycle in the middle of the night is an extremely annoying behavior."
+  },
+  {
+    "id": "N1-22",
+    "level": "N1",
+    "pattern": "~くらいのものだ",
+    "meaning": "only...",
+    "example_ja": "娘が電話をかけてくるのは、お小遣いが足りないときくらいのものだ。",
+    "example_en": "The only time my daughter calls me is when she is short on allowance money."
+  },
+  {
+    "id": "N1-23",
+    "level": "N1",
+    "pattern": "~ぐるみ",
+    "meaning": "the whole / including...",
+    "example_ja": "田中さんとは家族ぐるみの付き合いだ。",
+    "example_en": "I have a relationship with Mr. Tanaka that includes our whole families."
+  },
+  {
+    "id": "N1-24",
+    "level": "N1",
+    "pattern": "~こそ〜が/けれど",
+    "meaning": "although X, Y is true",
+    "example_ja": "部長は話し方こそ怖いが、実はとてもいい人なんです。",
+    "example_en": "Although the manager's way of speaking is scary, he is actually a very nice person."
+  },
+  {
+    "id": "N1-25",
+    "level": "N1",
+    "pattern": "こそあれ",
+    "meaning": "although there is...",
+    "example_ja": "小さなミスこそあれ、ほとんど完璧な仕事をするのは彼女しかいない。",
+    "example_en": "Although she makes small mistakes, she is the only one who does almost perfect work."
+  },
+  {
+    "id": "N1-26",
+    "level": "N1",
+    "pattern": "こそすれ",
+    "meaning": "only... and never...",
+    "example_ja": "年々、顔のしわは増えこそすれ、なくなることはありません。",
+    "example_en": "Year by year, facial wrinkles only increase; they never disappear."
+  },
+  {
+    "id": "N1-27",
+    "level": "N1",
+    "pattern": "~ごとく",
+    "meaning": "like / as if...",
+    "example_ja": "真夏に外で作業すると、汗が滝のごとく流れ落ちる。",
+    "example_en": "When working outside in midsummer, sweat pours down like a waterfall."
+  },
+  {
+    "id": "N1-28",
+    "level": "N1",
+    "pattern": "~ことこの上ない",
+    "meaning": "nothing more... than...",
+    "example_ja": "第一志望の大学に合格し、うれしいことこの上ない。",
+    "example_en": "I passed my first-choice university, and there is nothing I am happier about."
+  },
+  {
+    "id": "N1-29",
+    "level": "N1",
+    "pattern": "〜ことだし",
+    "meaning": "since...",
+    "example_ja": "天気もいいことだし、どこかに遊びに行こうかな。",
+    "example_en": "Since the weather is nice, maybe I'll go hang out somewhere."
+  },
+  {
+    "id": "N1-30",
+    "level": "N1",
+    "pattern": "~こととて",
+    "meaning": "because...",
+    "example_ja": "10年前のこととて、記憶があいまいである。",
+    "example_en": "Because it was 10 years ago, my memory is vague."
+  },
+  {
+    "id": "N1-31",
+    "level": "N1",
+    "pattern": "ことなしに",
+    "meaning": "without doing...",
+    "example_ja": "努力することなしに成功しようったって、そう簡単なもんじゃない。",
+    "example_en": "Trying to succeed without putting in effort is not that simple."
+  },
+  {
+    "id": "N1-32",
+    "level": "N1",
+    "pattern": "~ことのないように",
+    "meaning": "so as not to...",
+    "example_ja": "子供に不自由な生活をさせることのないように、一生懸命働く。",
+    "example_en": "I work hard so as not to let my children lead an uncomfortable life."
+  },
+  {
+    "id": "N1-33",
+    "level": "N1",
+    "pattern": "~こともあって",
+    "meaning": "partly because...",
+    "example_ja": "久しぶりに会ったこともあって、話しても話し足りなかった。",
+    "example_en": "Partly because we hadn't seen each other in a long time, we couldn't talk enough."
+  },
+  {
+    "id": "N1-34",
+    "level": "N1",
+    "pattern": "~さ",
+    "meaning": "(strong assertion/certainty)",
+    "example_ja": "気にすることないさ。明日には課長の機嫌も治っているさ。",
+    "example_en": "There's nothing to worry about. The section chief's mood will surely be better tomorrow."
+  },
+  {
+    "id": "N1-35",
+    "level": "N1",
+    "pattern": "~さぞ/ さぞかし",
+    "meaning": "must be / surely...",
+    "example_ja": "今日は飲まず食わずだったとか。さぞお腹が空いているでしょう。",
+    "example_en": "I heard you haven't eaten or drunk anything today. You must be starving."
+  },
+  {
+    "id": "N1-36",
+    "level": "N1",
+    "pattern": "~さも",
+    "meaning": "as if...",
+    "example_ja": "彼はさも自分一人で作ったかのように話しているが、チームで作ったんだよ。",
+    "example_en": "He speaks as if he made it all by himself, but it was made by the team."
+  },
+  {
+    "id": "N1-37",
+    "level": "N1",
+    "pattern": "~始末だ",
+    "meaning": "end up doing (negative result)",
+    "example_ja": "遅刻したと思ったら、仕事中に居眠りまでする始末だ。",
+    "example_en": "Just when I thought him being late was bad enough, he even ends up falling asleep during work."
+  },
+  {
+    "id": "N1-38",
+    "level": "N1",
+    "pattern": "~じみる / じみた",
+    "meaning": "looks like / seems like (usually negative)",
+    "example_ja": "父は、アドバイスと言いながら、説教じみた話をする。",
+    "example_en": "My father gives talks that seem like lectures while calling them advice."
+  },
+  {
+    "id": "N1-39",
+    "level": "N1",
+    "pattern": "~ずくめ",
+    "meaning": "entirely / completely covered in...",
+    "example_ja": "防犯カメラに写っているのは黒ずくめの男だった。",
+    "example_en": "The person caught on the security camera was a man dressed entirely in black."
+  },
+  {
+    "id": "N1-40",
+    "level": "N1",
+    "pattern": "~ずじまい",
+    "meaning": "ended up not doing...",
+    "example_ja": "せっかく近くまで来たのに彼とは時間が合わず、会えずじまいだった。",
+    "example_en": "Even though I came all the way to his neighborhood, our schedules didn't match and I ended up not seeing him."
+  },
+  {
+    "id": "N1-41",
+    "level": "N1",
+    "pattern": "~ずとも",
+    "meaning": "without doing...",
+    "example_ja": "彼なら勉強せずとも合格点ぐらいは取れるだろうね。",
+    "example_en": "He could probably get a passing score even without studying."
+  },
+  {
+    "id": "N1-42",
+    "level": "N1",
+    "pattern": "~ずにはおかない / ないではおかない",
+    "meaning": "certainly will / cannot help but...",
+    "example_ja": "そのドキュメンタリー映画は、環境問題を考えさせずにはおかない。",
+    "example_en": "That documentary film will certainly make you think about environmental issues."
+  },
+  {
+    "id": "N1-43",
+    "level": "N1",
+    "pattern": "~ずには済まない / ないでは済まない",
+    "meaning": "must do / can't get away without doing...",
+    "example_ja": "そんなに大きなミスでは、取引先までいって謝らないでは済まないだろう。",
+    "example_en": "With a mistake that big, you won't be able to get away without going to the client and apologizing."
+  },
+  {
+    "id": "N1-44",
+    "level": "N1",
+    "pattern": "~術がない",
+    "meaning": "no way to...",
+    "example_ja": "私はあなたに頼るしかもう術がないんです。",
+    "example_en": "I have no other way but to rely on you."
+  },
+  {
+    "id": "N1-45",
+    "level": "N1",
+    "pattern": "~すら/ ですら",
+    "meaning": "even...",
+    "example_ja": "調子が悪くてベットから起きることすらできません。",
+    "example_en": "I feel so unwell that I can't even get out of bed."
+  },
+  {
+    "id": "N1-46",
+    "level": "N1",
+    "pattern": "~ぞ",
+    "meaning": "(strong assertion)",
+    "example_ja": "頑張るぞ！",
+    "example_en": "I'm going to do my best!"
+  },
+  {
+    "id": "N1-47",
+    "level": "N1",
+    "pattern": "~損なう / 損ねる",
+    "meaning": "miss out on / fail to...",
+    "example_ja": "会議が長引いて、昼食を食べ損なった。",
+    "example_en": "The meeting ran long, and I missed out on eating lunch."
+  },
+  {
+    "id": "N1-48",
+    "level": "N1",
+    "pattern": "~そっちのけで",
+    "meaning": "ignoring / setting aside...",
+    "example_ja": "勉強そっちのけで、彼女とデートばかりしている。",
+    "example_en": "He ignores his studies and just goes on dates with his girlfriend all the time."
+  },
+  {
+    "id": "N1-49",
+    "level": "N1",
+    "pattern": "~そばから",
+    "meaning": "as soon as (repeatedly)...",
+    "example_ja": "漢字が苦手で、覚えたそばから忘れてしまう。",
+    "example_en": "I'm bad at kanji; I forget them as soon as I memorize them."
+  },
+  {
+    "id": "N1-50",
+    "level": "N1",
+    "pattern": "~そびれる",
+    "meaning": "miss the chance to...",
+    "example_ja": "ガソリンを入れそびれて、なくならないかヒヤヒヤしている。",
+    "example_en": "I missed the chance to get gas, and now I'm nervously worrying it might run out."
+  },
+  {
+    "id": "N1-51",
+    "level": "N1",
+    "pattern": "~たが最後/たら最後",
+    "meaning": "if... then absolutely...",
+    "example_ja": "転勤になったら最後、最低でも3年は日本に帰ってこられない。",
+    "example_en": "Once I get transferred, I absolutely won't be able to return to Japan for at least three years."
+  },
+  {
+    "id": "N1-52",
+    "level": "N1",
+    "pattern": "ただ〜のみだ",
+    "meaning": "only / just...",
+    "example_ja": "強くなりたいなら、ただ練習するのみだ。",
+    "example_en": "If you want to become strong, you just have to practice."
+  },
+  {
+    "id": "N1-53",
+    "level": "N1",
+    "pattern": "~たつもりはない",
+    "meaning": "didn't mean to / have no intention of...",
+    "example_ja": "あなたのことを批判したつもりはありません。個人の意見を言ったまでです。",
+    "example_en": "I didn't mean to criticize you. I was just stating my personal opinion."
+  },
+  {
+    "id": "N1-54",
+    "level": "N1",
+    "pattern": "~たところで",
+    "meaning": "even if / just when...",
+    "example_ja": "家に帰ったところで会社から電話が来た。",
+    "example_en": "Just as I got home, I received a phone call from the company."
+  },
+  {
+    "id": "N1-55",
+    "level": "N1",
+    "pattern": "~だに / だにしない",
+    "meaning": "even just doing / not even...",
+    "example_ja": "津波が来ることを考えるだに恐ろしい。",
+    "example_en": "Even just thinking about a tsunami coming is terrifying."
+  },
+  {
+    "id": "N1-56",
+    "level": "N1",
+    "pattern": "~だの〜だの",
+    "meaning": "things like... and...",
+    "example_ja": "アイスだの、ケーキだの、そんなのばっかり食べてるから太るんだ。",
+    "example_en": "You gain weight because you only eat things like ice cream and cake."
+  },
+  {
+    "id": "N1-57",
+    "level": "N1",
+    "pattern": "~た弾みに/た拍子に",
+    "meaning": "in the momentum of / just as...",
+    "example_ja": "転んだ拍子に頭をぶつけて意識不明になった。",
+    "example_en": "Just as I fell, I hit my head and lost consciousness."
+  },
+  {
+    "id": "N1-58",
+    "level": "N1",
+    "pattern": "~ためしがない",
+    "meaning": "never once...",
+    "example_ja": "宝くじをもう20年も買ってるが、当たったためしがない。",
+    "example_en": "I've been buying lottery tickets for 20 years, but I've never won once."
+  },
+  {
+    "id": "N1-59",
+    "level": "N1",
+    "pattern": "~たら〜たで",
+    "meaning": "if... then...",
+    "example_ja": "お金があったらあったで、別の悩みや苦労があるんですよ。",
+    "example_en": "If you have money, you just have different kinds of worries and struggles."
+  },
+  {
+    "id": "N1-60",
+    "level": "N1",
+    "pattern": "~たら〜ところだ",
+    "meaning": "would have been / was about to...",
+    "example_ja": "警察につかまるなんて、父が生きていたら殴られてるところだ。",
+    "example_en": "Getting caught by the police—if my father were alive, I would have been beaten for this."
+  },
+  {
+    "id": "N1-61",
+    "level": "N1",
+    "pattern": "~たらしい/ったらしい",
+    "meaning": "too much / annoying...",
+    "example_ja": "あの子ばかりえこひいきされて、憎たらしい。",
+    "example_en": "It's annoying how much that child is shown favoritism."
+  },
+  {
+    "id": "N1-62",
+    "level": "N1",
+    "pattern": "~たりとも",
+    "meaning": "not even...",
+    "example_ja": "あなたに渡すお金なんて、1円たりともありません。",
+    "example_en": "I don't have even a single yen to give to you."
+  },
+  {
+    "id": "N1-63",
+    "level": "N1",
+    "pattern": "~たるもの",
+    "meaning": "as a...",
+    "example_ja": "医者たるもの、何に変えても患者の命を優先すべきだ。",
+    "example_en": "As a doctor, one should prioritize the patient's life over anything else."
+  },
+  {
+    "id": "N1-64",
+    "level": "N1",
+    "pattern": "~だろうに",
+    "meaning": "even though / despite...",
+    "example_ja": "仕事で疲れているだろうに、毎日手料理を作ってくれる母に感謝だ。",
+    "example_en": "I am grateful to my mother who cooks homemade meals every day, even though she must be tired from work."
+  },
+  {
+    "id": "N1-65",
+    "level": "N1",
+    "pattern": "~つ~つ",
+    "meaning": "doing... and doing...",
+    "example_ja": "レースは抜きつ抜かれつ、最後まで結果がわからなかった。",
+    "example_en": "In the race, they kept passing and being passed, and the result was unknown until the very end."
+  },
+  {
+    "id": "N1-66",
+    "level": "N1",
+    "pattern": "~尽くす",
+    "meaning": "exhaust / do entirely...",
+    "example_ja": "彼女の家に行ったら、食べ尽くせないほどの料理が並んでいた。",
+    "example_en": "When I went to her house, there was an inexhaustible amount of food laid out."
+  },
+  {
+    "id": "N1-67",
+    "level": "N1",
+    "pattern": "ってば/ったら",
+    "meaning": "I'm telling you! / (emphasis)",
+    "example_ja": "本当だってば、信じよ。",
+    "example_en": "It's the truth, I'm telling you! Believe me."
+  },
+  {
+    "id": "N1-68",
+    "level": "N1",
+    "pattern": "であれ/であろうと",
+    "meaning": "even if / no matter what",
+    "example_ja": "どんな理由であれ、法律を守らなかったらつかまるんだよ。",
+    "example_en": "No matter the reason, you will get caught if you don't follow the law."
+  },
+  {
+    "id": "N1-69",
+    "level": "N1",
+    "pattern": "~て敵わない",
+    "meaning": "can't stand / unbearably...",
+    "example_ja": "いくら赤ちゃんでも一晩中泣かれてはうるさくて敵わない。",
+    "example_en": "Even if it's a baby, I can't stand how loud it is being cried at all night long."
+  },
+  {
+    "id": "N1-70",
+    "level": "N1",
+    "pattern": "~てからというもの",
+    "meaning": "ever since...",
+    "example_ja": "子供が生まれてからというもの、自分の時間が全くない。",
+    "example_en": "Ever since my child was born, I have absolutely no time for myself."
+  },
+  {
+    "id": "N1-71",
+    "level": "N1",
+    "pattern": "~てしかるべきだ",
+    "meaning": "it's only natural that / should...",
+    "example_ja": "子供は大人の言うことを聞いてしかるべきだ。",
+    "example_en": "It is only natural that children should listen to what adults say."
+  },
+  {
+    "id": "N1-72",
+    "level": "N1",
+    "pattern": "~て済むことではない",
+    "meaning": "won't be resolved just by...",
+    "example_ja": "人をけがさせておいて、謝って済むことではないのはわかってますか。",
+    "example_en": "Do you understand that injuring someone is not something that can be resolved just by apologizing?"
+  },
+  {
+    "id": "N1-73",
+    "level": "N1",
+    "pattern": "~でなくてなんだろう",
+    "meaning": "if this isn't X, what is it?",
+    "example_ja": "彼を見るとドキドキする。これが恋でなくてなんなんだろう。",
+    "example_en": "My heart pounds when I see him. If this isn't love, what is it?"
+  },
+  {
+    "id": "N1-74",
+    "level": "N1",
+    "pattern": "~ではあるまいし / でもあるまいし",
+    "meaning": "it's not as if...",
+    "example_ja": "子供ではあるまいし、自分のことは自分でしなさい。",
+    "example_en": "It's not like you're a child, so take care of your own things."
+  },
+  {
+    "id": "N1-75",
+    "level": "N1",
+    "pattern": "~では済まない",
+    "meaning": "can't get away with just...",
+    "example_ja": "部下が問題を起こしたら、上司もただでは済まないよ。",
+    "example_en": "If a subordinate causes a problem, the boss won't get away unscathed either."
+  },
+  {
+    "id": "N1-76",
+    "level": "N1",
+    "pattern": "~手前",
+    "meaning": "considering / out of consideration for...",
+    "example_ja": "絶対に勝つと言った手前、負けるわけにはいかない。",
+    "example_en": "Considering I said I would absolutely win, I cannot afford to lose."
+  },
+  {
+    "id": "N1-77",
+    "level": "N1",
+    "pattern": "~てみせる",
+    "meaning": "I'll show you that I can...",
+    "example_ja": "私は超能力者です。あなたの心の中を私が読んでみせましょう。",
+    "example_en": "I am a psychic. I will show you that I can read your mind."
+  },
+  {
+    "id": "N1-78",
+    "level": "N1",
+    "pattern": "~(で)もあり~(で)もある",
+    "meaning": "is both... and...",
+    "example_ja": "今日は私の誕生日でもあり、結婚記念日でもある。",
+    "example_en": "Today is both my birthday and my wedding anniversary."
+  },
+  {
+    "id": "N1-79",
+    "level": "N1",
+    "pattern": "~ても差し支えない",
+    "meaning": "it's okay to / doesn't matter if...",
+    "example_ja": "新人が今日の会議に参加できなくても差し支えない。",
+    "example_en": "It doesn't matter if the new employee can't attend today's meeting."
+  },
+  {
+    "id": "N1-80",
+    "level": "N1",
+    "pattern": "~ても知らない",
+    "meaning": "I don't care if / it's your own fault if...",
+    "example_ja": "真面目に授業にも出ないて、卒業できなくても知らないよ。",
+    "example_en": "If you don't attend classes seriously and can't graduate, it's your own fault."
+  },
+  {
+    "id": "N1-81",
+    "level": "N1",
+    "pattern": "~てもどうにもならない",
+    "meaning": "it's no use even if...",
+    "example_ja": "才能が全くなければ、いくら努力してもどうにもならない。",
+    "example_en": "If you have absolutely no talent, it's no use no matter how much effort you put in."
+  },
+  {
+    "id": "N1-82",
+    "level": "N1",
+    "pattern": "~でも何でもない / くも何ともない",
+    "meaning": "not at all...",
+    "example_ja": "好きでも何でもない人からプレゼントをもらっても困るだけだ。",
+    "example_en": "Receiving a present from someone I don't even like at all is just troubling."
+  },
+  {
+    "id": "N1-83",
+    "level": "N1",
+    "pattern": "~てやまない",
+    "meaning": "sincerely / from the bottom of one's heart...",
+    "example_ja": "多くの親は子供の幸せを願ってやまない。",
+    "example_en": "Many parents sincerely wish for their children's happiness."
+  },
+  {
+    "id": "N1-84",
+    "level": "N1",
+    "pattern": "~と相まって",
+    "meaning": "coupled with / together with...",
+    "example_ja": "個性的なドレスと相まって、彼女の独特な魅力が引き立った。",
+    "example_en": "Coupled with the unique dress, her distinct charm stood out."
+  },
+  {
+    "id": "N1-85",
+    "level": "N1",
+    "pattern": "~とあって",
+    "meaning": "because of the special situation...",
+    "example_ja": "超人気アイドルとあって、彼はすぐに大勢のファンに取り囲まれた。",
+    "example_en": "Because he is a super popular idol, he was immediately surrounded by a large crowd of fans."
+  },
+  {
+    "id": "N1-86",
+    "level": "N1",
+    "pattern": "~とあれば",
+    "meaning": "if it's for / if it's the case...",
+    "example_ja": "あなたの頼みとあれば、何だってします。",
+    "example_en": "If it's a request from you, I will do anything."
+  },
+  {
+    "id": "N1-87",
+    "level": "N1",
+    "pattern": "~といい~といい",
+    "meaning": "both... and...",
+    "example_ja": "田中といい、鈴木といい、何で最近の新人はすぐに辞めてしまうのか。",
+    "example_en": "Both Tanaka and Suzuki... Why do recent new employees quit so quickly?"
+  },
+  {
+    "id": "N1-88",
+    "level": "N1",
+    "pattern": "~という",
+    "meaning": "all / every single one",
+    "example_ja": "長期連休ということで、道という道が混んでいる。",
+    "example_en": "Because of the long holiday, every single road is crowded."
+  },
+  {
+    "id": "N1-89",
+    "level": "N1",
+    "pattern": "~というところだ / といったところだ",
+    "meaning": "at most / around...",
+    "example_ja": "ここからだと駅までは歩いて5分というところですね。",
+    "example_en": "From here, it's about a 5-minute walk to the station at most."
+  },
+  {
+    "id": "N1-90",
+    "level": "N1",
+    "pattern": "~というもの",
+    "meaning": "for a long time / during this period...",
+    "example_ja": "ここ一週間というもの、雨が降り続いて洪水が起きた地域もある。",
+    "example_en": "For the past week, it has kept raining, and there are even areas where floods have occurred."
+  },
+  {
+    "id": "N1-91",
+    "level": "N1",
+    "pattern": "~といえども",
+    "meaning": "even if / even though...",
+    "example_ja": "息子といえども、ここまで無能だと社長にさせるわけにはいかない。",
+    "example_en": "Even if he is my son, if he is this incompetent, I cannot let him become the president."
+  },
+  {
+    "id": "N1-92",
+    "level": "N1",
+    "pattern": "~と言えなくもない",
+    "meaning": "it could be said that...",
+    "example_ja": "8割の確率で作ることができれば、成功と言えなくもない。",
+    "example_en": "If we can make it with an 80% success rate, it could be said to be a success."
+  },
+  {
+    "id": "N1-93",
+    "level": "N1",
+    "pattern": "~といったところだ",
+    "meaning": "at most / exactly like...",
+    "example_ja": "この仕事が終わるのは、あと2時間といったところだ。",
+    "example_en": "It will take about 2 hours at most for this job to be finished."
+  },
+  {
+    "id": "N1-94",
+    "level": "N1",
+    "pattern": "~といったらない / といったらありゃしない",
+    "meaning": "incredibly / nothing is more...",
+    "example_ja": "スマホを忘れただけなのに、一日中不便といったらなかった。",
+    "example_en": "Even though I just forgot my smartphone, it was incredibly inconvenient all day."
+  },
+  {
+    "id": "N1-95",
+    "level": "N1",
+    "pattern": "~といわず~といわず",
+    "meaning": "not distinguishing between A and B / everywhere",
+    "example_ja": "食事中といわず、寝る前といわず、どこでもスマホを離さない。",
+    "example_en": "Whether during meals or before bed, they never let go of their smartphone anywhere."
+  },
+  {
+    "id": "N1-96",
+    "level": "N1",
+    "pattern": "~ときたら",
+    "meaning": "when it comes to...",
+    "example_ja": "うちの娘ときたら、勉強もせずゲームばかりしてるんですよ。",
+    "example_en": "When it comes to my daughter, she doesn't study and just plays games all the time."
+  },
+  {
+    "id": "N1-97",
+    "level": "N1",
+    "pattern": "~ところ / ところを",
+    "meaning": "at a time when...",
+    "example_ja": "お忙しいところ大変失礼いたします。",
+    "example_en": "I apologize for disturbing you at such a busy time."
+  },
+  {
+    "id": "N1-98",
+    "level": "N1",
+    "pattern": "~としたことが",
+    "meaning": "of all people / for someone like...",
+    "example_ja": "私としたことが、こんな簡単な問題を間違えるなんて。",
+    "example_en": "To think that someone like me would make a mistake on such a simple problem."
+  },
+  {
+    "id": "N1-99",
+    "level": "N1",
+    "pattern": "~として〜ない",
+    "meaning": "not even one...",
+    "example_ja": "今回の授業には、誰一人として欠席しなかった。",
+    "example_en": "Not even one person was absent from this class."
+  },
+  {
+    "id": "N1-100",
+    "level": "N1",
+    "pattern": "~としてあるまじき",
+    "meaning": "unworthy of / unbecoming for...",
+    "example_ja": "患者を見捨てるなんて、医者としてあるまじき行為ですよ。",
+    "example_en": "Abandoning a patient is an act unworthy of a doctor."
+  }
+]

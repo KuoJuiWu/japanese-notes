@@ -16,7 +16,7 @@ from pathlib import Path
 from jamdict import Jamdict
 from tatoeba_search import get_example
 
-VOCAB_PATH = Path(__file__).parent / "jlpt_vocab.json"
+VOCAB_PATH = Path(__file__).parent / "data" / "jlpt_vocab.json"
 
 _vocab: dict[str, str] = {}   # word → level
 _loaded = False
