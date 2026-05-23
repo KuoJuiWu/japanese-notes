@@ -380,6 +380,20 @@
   let allArticles = [];
   let currentUrl  = null;
 
+  // Decode HTML entities like &lt; &gt; &amp; into real characters
+  function decodeHTML(str) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    return txt.value;
+  }
+
+  // Strip HTML tags, return plain text
+  function stripTags(str) {
+    const div = document.createElement("div");
+    div.innerHTML = str;
+    return div.textContent || "";
+  }
+
   // ── Fetch & render article list from RSS ──
   async function loadArticleList() {
     try {
@@ -389,10 +403,10 @@
       const items = [...xml.querySelectorAll("item")];
 
       allArticles = items.map(item => ({
-        title:   item.querySelector("title")?.textContent || "",
+        title:   decodeHTML(item.querySelector("title")?.textContent || ""),
         link:    item.querySelector("link")?.textContent || "",
         date:    item.querySelector("pubDate")?.textContent || "",
-        summary: item.querySelector("description")?.textContent?.replace(/<[^>]+>/g, "").trim() || ""
+        summary: stripTags(decodeHTML(item.querySelector("description")?.textContent || "")).trim()
       }));
 
       document.getElementById("skeleton-list").remove();
@@ -474,8 +488,15 @@
 
       document.getElementById("article-title").textContent = article.title;
       document.getElementById("article-link").href = article.link;
-      document.getElementById("article-body").innerHTML =
-        body ? body.innerHTML : `<div class="error-msg">Could not extract article content.</div>`;
+
+      const bodyEl = document.getElementById("article-body");
+      if (body) {
+        bodyEl.innerHTML = "";
+        // Move children directly so browser renders HTML (including ruby tags)
+        [...body.childNodes].forEach(node => bodyEl.appendChild(document.importNode(node, true)));
+      } else {
+        bodyEl.innerHTML = `<div class="error-msg">Could not extract article content.</div>`;
+      }
 
       document.getElementById("loading-spinner").style.display = "none";
       document.getElementById("article-content").style.display = "block";
