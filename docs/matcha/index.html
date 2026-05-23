@@ -406,6 +406,10 @@
         title:   decodeHTML(item.querySelector("title")?.textContent || ""),
         link:    item.querySelector("link")?.textContent || "",
         date:    item.querySelector("pubDate")?.textContent || "",
+        content: decodeHTML(
+          item.getElementsByTagNameNS("http://purl.org/rss/1.0/modules/content/", "encoded")[0]?.textContent ||
+          item.querySelector("description")?.textContent || ""
+        ),
         summary: stripTags(decodeHTML(item.querySelector("description")?.textContent || "")).trim()
       }));
 
@@ -432,11 +436,19 @@
       div.dataset.url = a.link;
 
       const date = a.date ? new Date(a.date).toLocaleDateString("ja-JP") : "";
-      div.innerHTML = `
-        <h3>${a.title}</h3>
-        <div class="meta">${date}</div>
-        ${a.summary ? `<div class="summary">${a.summary}</div>` : ""}
-      `;
+      const h3 = document.createElement("h3");
+      h3.innerHTML = a.title;
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = date;
+      div.appendChild(h3);
+      div.appendChild(meta);
+      if (a.summary) {
+        const sum = document.createElement("div");
+        sum.className = "summary";
+        sum.textContent = a.summary;
+        div.appendChild(sum);
+      }
       div.addEventListener("click", () => loadArticle(a));
       list.appendChild(div);
     });
@@ -451,65 +463,23 @@
     renderList(filtered);
   });
 
-  // ── Fetch & render individual article ──
-  async function loadArticle(article) {
-    // Update active state
+  // ── Render individual article from RSS content ──
+  function loadArticle(article) {
     document.querySelectorAll(".article-item").forEach(el => {
       el.classList.toggle("active", el.dataset.url === article.link);
     });
 
-    currentUrl = article.link;
-
-    // Show spinner
     document.getElementById("reader-placeholder").style.display = "none";
-    document.getElementById("article-content").style.display    = "none";
-    document.getElementById("loading-spinner").style.display    = "flex";
+    document.getElementById("loading-spinner").style.display    = "none";
+    document.getElementById("article-content").style.display    = "block";
 
-    try {
-      const res  = await fetch(`${PROXY}?url=${encodeURIComponent(article.link)}`);
-      const html = await res.text();
-      const doc  = new DOMParser().parseFromString(html, "text/html");
+    document.getElementById("article-title").innerHTML = article.title;
+    document.getElementById("article-link").href = article.link;
 
-      // Extract main article body — MATCHA uses <div class="article-body"> or <article>
-      const body =
-        doc.querySelector(".article-body") ||
-        doc.querySelector("article") ||
-        doc.querySelector(".entry-content") ||
-        doc.querySelector("main");
+    const bodyEl = document.getElementById("article-body");
+    bodyEl.innerHTML = article.content || `<div class="error-msg">No content available.</div>`;
 
-      // Remove nav, ads, related articles, footer noise
-      if (body) {
-        ["nav", "footer", ".related", ".ranking", ".breadcrumb",
-         ".article-share", ".writer-profile", "script", "style",
-         ".bnr", ".ad", "iframe"].forEach(sel => {
-          body.querySelectorAll(sel).forEach(el => el.remove());
-        });
-      }
-
-      document.getElementById("article-title").textContent = article.title;
-      document.getElementById("article-link").href = article.link;
-
-      const bodyEl = document.getElementById("article-body");
-      if (body) {
-        bodyEl.innerHTML = "";
-        // Move children directly so browser renders HTML (including ruby tags)
-        [...body.childNodes].forEach(node => bodyEl.appendChild(document.importNode(node, true)));
-      } else {
-        bodyEl.innerHTML = `<div class="error-msg">Could not extract article content.</div>`;
-      }
-
-      document.getElementById("loading-spinner").style.display = "none";
-      document.getElementById("article-content").style.display = "block";
-
-      // Scroll reader back to top
-      document.querySelector(".article-reader").scrollTop = 0;
-
-    } catch (e) {
-      document.getElementById("loading-spinner").style.display = "none";
-      document.getElementById("article-content").style.display = "block";
-      document.getElementById("article-body").innerHTML =
-        `<div class="error-msg">Error loading article: ${e.message}</div>`;
-    }
+    document.querySelector(".article-reader").scrollTop = 0;
   }
 
   // ── Init ──
