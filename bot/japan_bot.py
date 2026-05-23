@@ -37,7 +37,7 @@ if not ALLOWED_USER_ID_RAW:
 
 ALLOWED_USER_ID = int(ALLOWED_USER_ID_RAW)
 
-BASE_DIR  = Path(__file__).parent
+BASE_DIR = Path(__file__).parent.parent
 jam       = Jamdict(db_file=str(BASE_DIR / "jamdictdb" / "jamdict.db"))
 
 NOTES_DIR = BASE_DIR / "docs" / "notes"
