@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATCHA やさしい日本語</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --paper: #fdfaf6;
+      --ink: #1a1510;
+      --ink-light: #6b5e4e;
+      --accent: #c84b2f;
+      --accent-soft: #f0e0d6;
+      --border: #e0d5c8;
+      --shadow: rgba(26, 21, 16, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header .title-block h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    header .title-block p {
+      font-size: 0.72rem;
+      color: #a09080;
+      margin-top: 0.3rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 380px;
+      margin-left: auto;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 0.55rem 1rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      color: #fff;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-wrap input::placeholder { color: #a09080; }
+    .search-wrap input:focus { border-color: var(--accent); }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: calc(100vh - 72px);
+    }
+
+    /* ── Article List ── */
+    .article-list {
+      border-right: 1px solid var(--border);
+      background: var(--paper);
+      overflow-y: auto;
+      max-height: calc(100vh - 72px);
+      position: sticky;
+      top: 72px;
+    }
+
+    .list-header {
+      padding: 1rem 1.25rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .list-header span {
+      font-size: 0.72rem;
+      font-family: 'DM Mono', monospace;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+    }
+
+    .article-item {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    .article-item:hover { background: var(--accent-soft); }
+
+    .article-item.active {
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+    }
+
+    .article-item h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .article-item .meta {
+      font-size: 0.7rem;
+      color: var(--ink-light);
+      margin-top: 0.4rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .article-item .summary {
+      font-size: 0.78rem;
+      color: var(--ink-light);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── Article Reader ── */
+    .article-reader {
+      padding: 2.5rem 3rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 72px);
+    }
+
+    .reader-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 400px;
+      color: var(--ink-light);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .reader-placeholder .big-char {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 5rem;
+      opacity: 0.15;
+      line-height: 1;
+    }
+
+    .reader-placeholder p {
+      font-size: 0.85rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    .loading-spinner {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+      gap: 1rem;
+      color: var(--ink-light);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Article Content ── */
+    #article-content {
+      display: none;
+      max-width: 680px;
+    }
+
+    .article-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .article-meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.75rem;
+    }
+
+    .article-meta-bar .tag {
+      font-size: 0.68rem;
+      font-family: 'DM Mono', monospace;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+    }
+
+    .article-meta-bar .open-link {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .article-meta-bar .open-link:hover { text-decoration: underline; }
+
+    /* ── Article body from MATCHA ── */
+    #article-body {
+      font-size: 1rem;
+      line-height: 2;
+      color: var(--ink);
+    }
+
+    #article-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    #article-body h2 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #article-body h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--accent);
+    }
+
+    #article-body ruby rt {
+      font-size: 0.55em;
+      color: var(--accent);
+    }
+
+    #article-body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-soft);
+    }
+
+    #article-body img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+
+    /* ── Empty / error state ── */
+    .error-msg {
+      background: #fff3f0;
+      border: 1px solid #ffd0c8;
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── Loading list state ── */
+    .skeleton {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skel-line {
+      height: 10px;
+      background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    .skel-line.short { width: 60%; }
+    .skel-line.medium { width: 85%; }
+
+    @keyframes shimmer { to { background-position: -200% 0; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="title-block">
+    <h1>📖 やさしい日本語</h1>
+    <p>MATCHA EASY JAPANESE READER</p>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="search-input" placeholder="記事を検索 / search articles...">
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- Article List -->
+  <aside class="article-list" id="article-list">
+    <div class="list-header">
+      <span id="article-count">読み込み中...</span>
+    </div>
+    <!-- Skeletons while loading -->
+    <div id="skeleton-list">
+      ${Array(6).fill('<div class="skeleton"><div class="skel-line medium"></div><div class="skel-line short"></div></div>').join('')}
+    </div>
+  </aside>
+
+  <!-- Article Reader -->
+  <main class="article-reader">
+    <div class="reader-placeholder" id="reader-placeholder">
+      <div class="big-char">日</div>
+      <p>← select an article to begin reading</p>
+    </div>
+
+    <div class="loading-spinner" id="loading-spinner">
+      <div class="spinner"></div>
+      <span style="font-size:0.8rem;font-family:'DM Mono',monospace;color:var(--ink-light)">fetching article...</span>
+    </div>
+
+    <div id="article-content">
+      <h1 class="article-title" id="article-title"></h1>
+      <div class="article-meta-bar">
+        <span class="tag">N4 やさしい日本語</span>
+        <a class="open-link" id="article-link" href="#" target="_blank">matcha-jp.com ↗</a>
+      </div>
+      <div id="article-body"></div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  const PROXY = "https://learnjapanese-from-matcha.kuojuiw.workers.dev/";
+  const RSS   = "https://matcha-jp.com/easy/feed";
+
+  let allArticles = [];
+  let currentUrl  = null;
+
+  // ── Fetch & render article list from RSS ──
+  async function loadArticleList() {
+    try {
+      const res  = await fetch(`${PROXY}?url=${encodeURIComponent(RSS)}`);
+      const text = await res.text();
+      const xml  = new DOMParser().parseFromString(text, "text/xml");
+      const items = [...xml.querySelectorAll("item")];
+
+      allArticles = items.map(item => ({
+        title:   item.querySelector("title")?.textContent || "",
+        link:    item.querySelector("link")?.textContent || "",
+        date:    item.querySelector("pubDate")?.textContent || "",
+        summary: item.querySelector("description")?.textContent?.replace(/<[^>]+>/g, "").trim() || ""
+      }));
+
+      document.getElementById("skeleton-list").remove();
+      renderList(allArticles);
+    } catch (e) {
+      document.getElementById("skeleton-list").innerHTML =
+        `<div style="padding:1.25rem"><div class="error-msg">Failed to load articles.<br>${e.message}</div></div>`;
+    }
+  }
+
+  function renderList(articles) {
+    const list  = document.getElementById("article-list");
+    const count = document.getElementById("article-count");
+
+    // Remove old items (keep list-header)
+    [...list.querySelectorAll(".article-item")].forEach(el => el.remove());
+
+    count.textContent = `${articles.length} articles`;
+
+    articles.forEach(a => {
+      const div = document.createElement("div");
+      div.className = "article-item";
+      div.dataset.url = a.link;
+
+      const date = a.date ? new Date(a.date).toLocaleDateString("ja-JP") : "";
+      div.innerHTML = `
+        <h3>${a.title}</h3>
+        <div class="meta">${date}</div>
+        ${a.summary ? `<div class="summary">${a.summary}</div>` : ""}
+      `;
+      div.addEventListener("click", () => loadArticle(a));
+      list.appendChild(div);
+    });
+  }
+
+  // ── Search ──
+  document.getElementById("search-input").addEventListener("input", e => {
+    const q = e.target.value.toLowerCase();
+    const filtered = allArticles.filter(a =>
+      a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)
+    );
+    renderList(filtered);
+  });
+
+  // ── Fetch & render individual article ──
+  async function loadArticle(article) {
+    // Update active state
+    document.querySelectorAll(".article-item").forEach(el => {
+      el.classList.toggle("active", el.dataset.url === article.link);
+    });
+
+    currentUrl = article.link;
+
+    // Show spinner
+    document.getElementById("reader-placeholder").style.display = "none";
+    document.getElementById("article-content").style.display    = "none";
+    document.getElementById("loading-spinner").style.display    = "flex";
+
+    try {
+      const res  = await fetch(`${PROXY}?url=${encodeURIComponent(article.link)}`);
+      const html = await res.text();
+      const doc  = new DOMParser().parseFromString(html, "text/html");
+
+      // Extract main article body — MATCHA uses <div class="article-body"> or <article>
+      const body =
+        doc.querySelector(".article-body") ||
+        doc.querySelector("article") ||
+        doc.querySelector(".entry-content") ||
+        doc.querySelector("main");
+
+      // Remove nav, ads, related articles, footer noise
+      if (body) {
+        ["nav", "footer", ".related", ".ranking", ".breadcrumb",
+         ".article-share", ".writer-profile", "script", "style",
+         ".bnr", ".ad", "iframe"].forEach(sel => {
+          body.querySelectorAll(sel).forEach(el => el.remove());
+        });
+      }
+
+      document.getElementById("article-title").textContent = article.title;
+      document.getElementById("article-link").href = article.link;
+      document.getElementById("article-body").innerHTML =
+        body ? body.innerHTML : `<div class="error-msg">Could not extract article content.</div>`;
+
+      document.getElementById("loading-spinner").style.display = "none";
+      document.getElementById("article-content").style.display = "block";
+
+      // Scroll reader back to top
+      document.querySelector(".article-reader").scrollTop = 0;
+
+    } catch (e) {
+      document.getElementById("loading-spinner").style.display = "none";
+      document.getElementById("article-content").style.display = "block";
+      document.getElementById("article-body").innerHTML =
+        `<div class="error-msg">Error loading article: ${e.message}</div>`;
+    }
+  }
+
+  // ── Init ──
+  loadArticleList();
+</script>
+
+</body>
+</html>
