@@ -6,3 +6,4 @@ site/
 categories.json
 wwwjdic.csv
 version_1_file/
+venv/

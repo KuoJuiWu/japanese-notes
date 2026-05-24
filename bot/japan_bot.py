@@ -48,8 +48,8 @@ WAIT_MEANING, WAIT_EXAMPLE, WAIT_CATEGORY, WAIT_NEW_CATEGORY = range(4)
 
 user_state: dict = {}
 
-GIT    = r"C:\Program Files\Git\cmd\git.exe"
-MKDOCS = shutil.which("mkdocs")
+GIT    = "git"
+MKDOCS = "/home/kuojuiw/venv/bin/mkdocs"
 
 # ── 預設分類 ──────────────────────────────────────────────────────────────────
 DEFAULT_CATEGORIES: list[dict] = [
