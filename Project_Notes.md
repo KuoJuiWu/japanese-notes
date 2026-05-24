@@ -6,6 +6,92 @@
 
 ---
 
+### v4.0 — 2026-05-25
+**Cloud Deployment + Infrastructure + Site Expansion**
+
+#### 動機
+Bot 原本需要在本機電腦持續執行。目標是改為僅使用手機（Telegram）操作，不依賴電腦。
+
+#### 嘗試過的方案（失敗）
+| 方案 | 失敗原因 |
+|---|---|
+| Cloudflare Workers | 僅支援 JavaScript，無法執行 Python |
+| PythonAnywhere 免費方案 | 512MB 磁碟限制，`unidic-lite` 約 400MB，安裝即超額 |
+| Google Drive 串流 | MeCab 仍需本地檔案路徑，無法解決磁碟限制 |
+
+#### 最終方案：Google Cloud VM
+- 機器類型：`e2-micro`，區域：`us-west1`（永久免費方案）
+- 儲存空間：30GB，足以安裝完整 NLP 套件
+- systemd 管理 bot 程序，開機自動啟動、當機自動重啟
+- SSH 金鑰（ed25519）認證 GitHub
+- rclone 掛載 Google Drive，備份 `jamdict.db`
+
+#### 重要路徑（VM）
+| 路徑 | 說明 |
+|---|---|
+| `~/japanese-notes/` | 專案目錄 |
+| `~/venv/` | Python 虛擬環境 |
+| `~/japanese-notes/jamdictdb/jamdict.db` | 本地字典（Google Drive 備份） |
+| `~/gdrive_japanbot/` | Google Drive 掛載點 |
+| `/etc/systemd/system/japanese-bot.service` | systemd 服務設定 |
+
+#### 新增檔案
+| 檔案 | 說明 |
+|---|---|
+| `docs/matcha/index.html` | MATCHA やさしい日本語 RSS 閱讀器 |
+| `bot/__init__.py` | Python package 初始化 |
+
+#### 專案結構重組
+- 所有 Python 模組移入 `bot/` 資料夾
+- `generate_grammar_pages.py` 移入 `scripts/`
+- 根目錄改為只含設定檔與資料夾
+
+#### 改動（`bot/japan_bot.py`）
+```python
+GIT   = "git"                                          # Windows 路徑 → Linux
+MKDOCS = "/home/kuojuiw/venv/bin/mkdocs"              # 使用完整路徑（systemd 不啟動 venv）
+BASE_DIR = Path(__file__).parent.parent                # 調整為新的資料夾結構
+```
+
+#### MATCHA やさしい日本語 RSS 閱讀器
+- Cloudflare Workers CORS Proxy：`https://learnjapanese-from-matcha.kuojuiw.workers.dev/`
+- 從 RSS feed 取得文章列表，inline 顯示全文（含振り仮名）
+- 限制：RSS feed 僅包含 2025 年以前的文章（新文章需登入）
+- 保留作為學習 RSS / CORS 概念的參考實作
+
+#### 遇到的問題
+| 問題 | 解法 |
+|---|---|
+| 首次開機 dpkg lock | 等待背景自動更新完成，再執行安裝 |
+| rclone 認證（`y` 失敗） | 遠端伺服器無瀏覽器，改用 `n`（手動 token） |
+| systemd 找不到模組 | 使用完整絕對路徑，不依賴 venv 啟動 |
+| Telegram 409 衝突 | `ps aux | grep japan_bot` 找出重複程序並 kill |
+| git 分支分歧 | `git config pull.rebase false` + `git pull --allow-unrelated-histories` |
+| RSS 標題顯示原始 HTML | 使用 `innerHTML` + `decodeHTML()` 解碼 |
+
+#### Bot 現在的工作流程
+```
+手機 Telegram
+      ↓
+Google Cloud VM（24/7 運行）
+      ↓ 分析、儲存筆記
+GitHub（master branch）← Markdown 原始檔
+      ↓ mkdocs gh-deploy
+GitHub Pages（gh-pages）← 建置完成的網站
+```
+
+#### 刪除筆記流程
+```bash
+rm docs/notes/{category}/filename.md
+git add . && git commit -m "remove: filename" && git push origin master
+~/venv/bin/mkdocs gh-deploy --dirty
+```
+
+#### Known Issues（已知待修）
+- `expected str, bytes or os.PathLike object, not NoneType`：`deploy()` 後的小錯誤，不影響主要功能
+
+---
+
 ### v3.1 — 2026-05-23
 **MkDocs Navigation + Notes Index System**
 
@@ -28,7 +114,7 @@
 docs/notes/
 ├── index.md              ← 所有筆記總覽表（自動 append）
 ├── song/
-│   └── index.md          ← Song 分類筆記列表（自動 append）
+│   └── index.md
 ├── anime/
 │   └── index.md
 ├── textbook/
@@ -39,19 +125,6 @@ docs/notes/
 │   └── index.md
 └── {custom}/             ← 自訂分類（bot 建立時自動產生）
     └── index.md
-```
-
-#### 自訂分類自動化流程
-```
-使用者透過 bot 新建分類（如 📁 music）
-        ↓
-update_notes_index() → 建立 docs/notes/music/index.md
-        ↓
-update_mkdocs_nav() → 在 mkdocs.yml nav 加入 "📁 music: notes/music/index.md"
-        ↓
-git_push() → stage 筆記 + notes/ + mkdocs.yml
-        ↓
-deploy --dirty → 只重建變動頁面
 ```
 
 ---
@@ -88,93 +161,12 @@ deploy --dirty → 只重建變動頁面
 
 **System 1 — 詞彙 Bot（Telegram）**
 - 專注於詞彙分析、意思查詢、例句儲存
-- 保留 `aux_verbs.py`（助動詞分析，token-based）
-- 移除文法模板比對（與 JSON 格式不相容）
+- 保留 `aux_verbs.py`（助動詞分析）
+- 移除文法模板比對
 
 **System 2 — 文法參考網站（MkDocs）**
 - 從 N5–N1 文法 JSON 產生靜態頁面（636 個模板）
-- 每個文法模板獨立一頁，含結構、意思、例句
 - 執行 `python generate_grammar_pages.py` 產生 `docs/grammar/`
-- 類似 TUFS 語言模組的結構
-
-**分離原因**：JSON 文法模板為人類可讀格式（如 `~によって`），
-無法直接對應 fugashi token 序列，強行整合維護成本過高。
-
-#### Pipeline（v3.0）
-```
-Telegram 輸入日文句子
-        ↓
-   analyze()              morphology.py
-   MorphToken 列表         pos / base_form / conj_type / conj_form
-        ↓
-   lookup_meaning()        morphology.py
-   依詞性查 JMdict          名詞／動詞／形容詞
-        ↓
-   explain_aux()           aux_verbs.py
-   助動詞辨識               ない／た／ている 等
-        ↓
-   get_example_smart()     tatoeba_search.py（離線）
-   從 wwwjdic.csv 查例句    base form → surface form fallback
-        ↓
-   build_note()
-   組合 Markdown 筆記（含英文例句翻譯）
-        ↓
-   git push + mkdocs gh-deploy --dirty
-   上傳到 GitHub Pages
-```
-
-#### Tatoeba 例句查詢策略
-```
-對每個內容詞（名詞、動詞、形容詞）：
-  1. 嘗試 fugashi base form（如 朝御飯）→ 索引查詢
-  2. 嘗試 surface form fallback（如 朝ご飯）→ 處理 UniDic/Tatoeba 格式差異
-  → 首個命中即回傳，隨機從所有匹配句子中選一句
-  → 找不到 → 留空（不顯示警告）
-```
-
-**重要發現**：UniDic 將 base form 正規化為完整漢字（如 御飯），
-Tatoeba 保留日常混合寫法（如 ご飯），需要 surface form fallback 處理。
-
-#### Key Files（v3.0）
-```
-Japanese/
-├── japan_bot.py                ← 主程式
-├── morphology.py               ← 形態素解析
-├── aux_verbs.py                ← 助動詞分析
-├── tatoeba_search.py           ← 離線例句查詢
-├── jlpt_lookup.py              ← JLPT 等級查詢 + /wordbank
-├── generate_grammar_pages.py   ← 文法頁面產生器
-├── PROJECT_SOURCES.md          ← 資料來源說明
-├── categories.json             ← 自訂分類（自動產生）
-├── data/
-│   ├── wwwjdic.csv             ← Tatoeba 語料庫
-│   ├── jlpt_vocab.json         ← JLPT N5–N1 詞彙表
-│   ├── N5_grammar.json
-│   ├── N4_grammar.json
-│   ├── N3_grammar.json
-│   ├── N2_grammar.json
-│   ├── N1_grammar_01.json
-│   └── N1_grammar_02.json
-├── docs/
-│   ├── index.md
-│   ├── notes/
-│   ├── grammar/                ← 產生的文法頁面
-│   └── stylesheets/
-│       └── extra.css
-├── mkdocs.yml
-├── jamdictdb/
-│   └── jamdict.db
-└── .env
-```
-
-#### 資料來源
-| 來源 | 檔案 | 用途 | 授權 |
-|---|---|---|---|
-| JMdict | `jamdict.db` | 詞義查詢（191k 詞條） | CC BY-SA 4.0 |
-| Tatoeba/WWWJDIC | `wwwjdic.csv` | 例句（147k 句） | CC BY 2.0 |
-| JLPT 文法 | `N5–N1_grammar.json` | 文法參考（636 個模板） | 個人使用 |
-| JLPT 詞彙 | `jlpt_vocab.json` | JLPT 等級標記（8,138 詞） | CC BY |
-| UniDic | fugashi 內建 | 形態素解析 + 詞性標記 | BSD / CC BY-SA 4.0 |
 
 ---
 
@@ -184,150 +176,33 @@ Japanese/
 #### 新增檔案
 | 檔案 | 說明 |
 |---|---|
-| `morphology.py` | Step 1：形態素解析，抽出 pos / base_form / conj_type / conj_form |
-| `aux_verbs.py` | Step 2：助動詞辨識，支援單一助動詞＋複合語尾 |
-| `grammar_patterns.py` | Step 3：50 個文法模板比對（N5–N1） |
+| `morphology.py` | 形態素解析，抽出 pos / base_form / conj_type / conj_form |
+| `aux_verbs.py` | 助動詞辨識，支援單一助動詞＋複合語尾 |
+| `grammar_patterns.py` | 50 個文法模板比對（N5–N1） |
 
 #### 改動
 - `japan_bot.py`：引入 morphology / aux_verbs / grammar_patterns
-- `jmdict_lookup()`：改為依詞性篩選 JMdict sense，修正「は: feather」類錯誤
-- `analyze_japanese()`：新增回傳 MorphToken 列表（含 conj_type / conj_form）
-- `build_note()`：新增 `## 文法` 和 `## 文法模板` 區塊，新增免責聲明 footer
-- Telegram preview：顯示活用型和活用形
-
-#### 新增指令
-- `/debug <句子>`：印出 UniDic 原始 token 資料，用於驗證 pattern 的 base_form
-
-#### Pipeline（v2.0）
-```
-Telegram 輸入日文句子
-        ↓
-   analyze()              morphology.py
-   MorphToken 列表         pos / base_form / conj_type / conj_form
-        ↓
-   lookup_meaning()        morphology.py
-   依詞性查 JMdict          名詞／動詞／形容詞
-        ↓
-   explain_aux()           aux_verbs.py
-   助動詞辨識               ない／た／ている 等（回傳 used_indices）
-        ↓
-   match_patterns()        grammar_patterns.py
-   文法模板比對             たことがある／なければならない 等
-        ↓
-   get_example_smart()     Massif API
-   查例句
-        ↓
-   build_note()
-   組合 Markdown 筆記（含文法區塊＋免責聲明）
-        ↓
-   git push + mkdocs gh-deploy
-   上傳到 GitHub Pages
-```
+- `jmdict_lookup()`：改為依詞性篩選 JMdict sense
+- `build_note()`：新增文法區塊＋免責聲明 footer
 
 ---
 
 ### v1.0 — 初始版本
+**基礎 Telegram Bot**
 
-## Overview
-A Telegram bot that receives Japanese text, analyzes it linguistically,
-and saves structured Markdown vocabulary notes automatically.
-
-## Tech Stack
-| Tool | Purpose |
-|---|---|
-| python-telegram-bot | Telegram bot framework |
-| fugashi + UniDic | Japanese morphological analysis |
-| jaconv | Katakana → Hiragana conversion |
-| jamdict + JMdict | Offline Japanese dictionary |
-| Massif API | Example sentence lookup |
-| MkDocs + Material | Markdown → website |
-| GitHub Pages | Free hosting |
-
-## Pipeline（v1.0）
+#### Pipeline（v1.0）
 ```
-Telegram message (Japanese text)
-↓
-fugashi → tokenize → POS, reading, lemma
-↓
-jamdict → auto meaning lookup
-↓
-Massif → auto example sentence lookup
-↓
-Conversation: confirm/edit meaning and example
-↓
-Save .md to docs/notes/
-↓
-git push → GitHub repo
-↓
-mkdocs gh-deploy → GitHub Pages website
+Telegram 輸入日文句子
+        ↓
+fugashi → tokenize → POS / reading / lemma
+        ↓
+jamdict → 自動查詢意思
+        ↓
+Massif API → 自動查詢例句
+        ↓
+儲存 .md → git push → mkdocs gh-deploy → GitHub Pages
 ```
 
-## Note Structure
-Each saved note contains:
-- YAML frontmatter (title, created, tags)
-- 原句 (original sentence)
-- 分詞解析 (word breakdown table)
-- 意思 (meaning — manual or JMdict auto)
-- 例句 (example — manual or Massif auto)
-- 出典 (source citation)
-- 参考 (Kotobank + Weblio reference links)
-- Example Search Attempts + Warning (if Massif was used)
-
-## Conversation Flow
-```
-Send Japanese text
-↓
-Bot shows: analysis preview + JMdict meaning
-↓
-意思は？
-  → type own    → uses your text
-  → /auto       → uses JMdict
-  → /skip       → 待填入
-↓
-例句は？
-  → type own    → uses your text + source: 手動入力
-  → /auto       → uses Massif result
-  → /skip       → 待填入
-↓
-Note saved → git push → deploy
-```
-
-## Massif Example Search Strategy
-```
-1. Search full sentence (top 10)
-   → exact match found? → pick shortest ✅
-2. Expand to 50
-   → exact match found? → pick shortest ✅
-3. Search each content word lemma (名詞, 動詞, 形容詞)
-   → exact match found? → pick shortest ✅
-4. All failed → （自動查詢無結果） + warning message
-```
-
-## Key Files（v1.0）
-```
-Japanese/
-├── japan_bot.py          ← main bot script
-├── docs/
-│   ├── index.md          ← MkDocs homepage
-│   ├── notes/            ← saved vocabulary notes
-│   └── stylesheets/
-│       └── extra.css     ← custom MkDocs styling
-├── mkdocs.yml            ← MkDocs configuration
-├── jamdictdb/
-│   └── jamdict.db        ← local dictionary (not on GitHub)
-└── .env                  ← tokens (not on GitHub)
-```
-
-## Known Issues / Future Ideas
-- [ ] Kotobank URL uses search instead of direct link (no stable ID)
-- [ ] Bot runs locally — consider hosting on a server for 24/7 or at least running in backend
-- [ ] Could add /list command to browse saved notes from Telegram
-- [ ] Could add /edit command to update existing notes
-- [ ] Task Scheduler set up for auto-start on Windows boot
-- [ ] NHK Easy News integration — feed real articles, flag unknown vocab + grammar
-
-## Website
-https://kuojuiwu.github.io/japanese-notes/
-
-## GitHub Repo
-https://github.com/KuoJuiWu/japanese-notes
+#### Known Issues（v1.0，已在後續版本解決）
+- Bot 需本機執行 → v4.0 移至 Google Cloud VM
+- NHK Easy News 整合（計畫中）→ NHK 已改為付費登入牆，改用 MATCHA
