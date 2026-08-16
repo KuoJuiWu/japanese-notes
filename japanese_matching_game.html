@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語彙マッチ — Japanese Vocab Matcher</title>
+<style>
+  /* ── Reset & Base ──────────────────────────────────────── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, sans-serif;
+    background: #121218;
+    color: #E2E2EA;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Animated Background ───────────────────────────────── */
+  .bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% {
+      opacity: 0;
+      top: -20px;
+      transform: translateX(0) rotate(0deg);
+    }
+    10% {
+      opacity: 0.5;
+    }
+    90% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0;
+      top: 100vh;
+      transform: translateX(80px) rotate(360deg);
+    }
+  }
+
+  .container {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ────────────────────────────────────────────── */
+  .header { text-align: center; margin-bottom: 28px; }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #A8ABE0;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: #7A7A90;
+    margin-top: 6px;
+  }
+
+  /* ── Level Select Screen ───────────────────────────────── */
+  .level-grid { display: flex; flex-direction: column; gap: 12px; }
+
+  .level-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: #1C1C28;
+    border: 1px solid #2A2A3A;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    color: #E2E2EA;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .level-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    border-color: #3A3A50;
+  }
+
+  .level-badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .level-badge.n5 { background: #2A2A4A; color: #A8ABE0; }
+  .level-badge.n4 { background: #3A2E1A; color: #E0A84A; }
+  .level-badge.n3 { background: #1A3328; color: #5DC08A; }
+
+  .level-info { flex: 1; }
+  .level-info .word-count { font-weight: 600; }
+  .level-info .stats { font-size: 12px; color: #7A7A90; margin-top: 2px; }
+
+  /* ── CSV Import ────────────────────────────────────────── */
+  .csv-section {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .csv-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2A2A4A;
+    color: #A8ABE0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .csv-label:hover { background: #35355A; }
+
+  .csv-hint {
+    font-size: 11px;
+    color: #7A7A90;
+    margin-top: 8px;
+  }
+
+  #csv-input { display: none; }
+
+  .csv-status {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #5DC08A;
+  }
+
+  /* ── Reset Button ──────────────────────────────────────── */
+  .reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    color: #7A7A90;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* ── Game Screen ───────────────────────────────────────── */
+  .game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: #A8ABE0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .score-display { font-size: 13px; color: #7A7A90; font-weight: 500; }
+
+  .progress-bar {
+    height: 4px;
+    background: #2A2A3A;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #5DC08A;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* ── Card Grid ─────────────────────────────────────────── */
+  .game-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .column { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+  #jp-column, #en-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .column-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #7A7A90;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .card {
+    padding: 18px 12px;
+    background: #1C1C28;
+    border: 2px solid #2A2A3A;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+    min-height: 56px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #E2E2EA;
+  }
+
+  .card:hover:not(.matched) { border-color: #4A4A60; }
+
+  .card.selected {
+    border-color: #7B7FCC;
+    background: #252540;
+    box-shadow: 0 0 0 1px #7B7FCC;
+  }
+
+  .card.matched {
+    border-color: #2D8659;
+    background: #1A3328;
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  .card.wrong {
+    border-color: #D94F4F;
+    background: #3A1A1A;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  .card .word { font-size: 18px; font-weight: 600; }
+  .card .reading { font-size: 11px; color: #7A7A90; margin-top: 2px; }
+  .card .meaning { font-size: 13px; font-weight: 500; line-height: 1.3; }
+
+  .hint {
+    text-align: center;
+    font-size: 12px;
+    color: #7A7A90;
+    margin-top: 16px;
+  }
+
+  /* ── Result Banner ─────────────────────────────────────── */
+  .result-banner {
+    text-align: center;
+    padding: 20px 16px;
+    background: #1A3328;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(93,192,138,0.2);
+  }
+
+  .result-banner .emoji { font-size: 32px; margin-bottom: 8px; }
+  .result-banner .result-text { font-size: 16px; font-weight: 600; color: #5DC08A; }
+  .result-banner .result-sub { font-size: 13px; color: #7A7A90; margin-top: 4px; }
+
+  /* ── Trouble Words ─────────────────────────────────────── */
+  .trouble-btn {
+    display: block;
+    margin: 12px auto 0;
+    padding: 10px 20px;
+    background: #3A1A1A;
+    color: #E07070;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .trouble-btn:hover { background: #4A2020; }
+
+  .trouble-list {
+    margin-top: 16px;
+    background: #1C1C28;
+    border: 1px solid #2A2A3A;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .trouble-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #2A2A3A;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .trouble-list-header:hover { background: #22222E; }
+
+  .trouble-toggle {
+    font-size: 12px;
+    color: #7A7A90;
+    font-weight: 400;
+  }
+
+  .trouble-items {
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  .trouble-items.collapsed { display: none; }
+
+  .trouble-clear-btn {
+    background: none;
+    border: none;
+    color: #7A7A90;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .trouble-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #22222E;
+    font-size: 13px;
+  }
+
+  .trouble-item:last-child { border-bottom: none; }
+
+  .trouble-item .trouble-word { font-weight: 600; }
+  .trouble-item .trouble-reading { color: #7A7A90; font-size: 11px; }
+  .trouble-item .trouble-meaning { color: #7A7A90; text-align: right; }
+  .trouble-item .trouble-count {
+    background: #3A1A1A;
+    color: #E07070;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+
+  .trouble-empty {
+    padding: 20px;
+    text-align: center;
+    color: #7A7A90;
+    font-size: 13px;
+  }
+
+  .trouble-practice-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #D94F4F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0 0 12px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .trouble-practice-btn:hover { background: #C04040; }
+
+  /* ── Hidden ────────────────────────────────────────────── */
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ ANIMATED BACKGROUND ═══════════ -->
+<div class="bg-decoration" id="bg-decoration"></div>
+
+<!-- ═══════════ MENU SCREEN ═══════════ -->
+<div class="container" id="menu-screen">
+  <div class="header">
+    <h1>語彙マッチ</h1>
+    <p>Match Japanese words with their English meanings</p>
+  </div>
+
+  <div id="result-area"></div>
+  <div class="level-grid" id="level-grid"></div>
+
+  <div class="csv-section">
+    <label class="csv-label" for="csv-input">📁 Import CSV vocabulary</label>
+    <input type="file" id="csv-input" accept=".csv">
+    <div class="csv-hint">Format: word, reading, meaning, level</div>
+    <div class="csv-status" id="csv-status"></div>
+  </div>
+
+  <div id="trouble-area"></div>
+
+  <button class="reset-btn hidden" id="reset-btn" onclick="resetStats()">Reset all progress</button>
+</div>
+
+<!-- ═══════════ GAME SCREEN ═══════════ -->
+<div class="container hidden" id="game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="showMenu()">← Back</button>
+    <span class="level-badge" id="game-level-badge"></span>
+    <span class="score-display" id="score-display"></span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <div class="game-area">
+    <div class="column">
+      <div class="column-label">日本語</div>
+      <div id="jp-column"></div>
+    </div>
+    <div class="column">
+      <div class="column-label">English</div>
+      <div id="en-column"></div>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">Tap a word on either side to start matching</div>
+</div>
+
+<script>
+// =====================================================================
+// 1. VOCABULARY DATA
+//    Each level holds an array of objects. This is the built-in default
+//    dataset. If the user imports a CSV, it replaces this at runtime.
+// =====================================================================
+var vocab = {
+  N5: [
+    { word: "食べる", reading: "たべる", meaning: "to eat" },
+    { word: "飲む", reading: "のむ", meaning: "to drink" },
+    { word: "行く", reading: "いく", meaning: "to go" },
+    { word: "来る", reading: "くる", meaning: "to come" },
+    { word: "見る", reading: "みる", meaning: "to see" },
+    { word: "聞く", reading: "きく", meaning: "to listen" },
+    { word: "読む", reading: "よむ", meaning: "to read" },
+    { word: "書く", reading: "かく", meaning: "to write" },
+    { word: "話す", reading: "はなす", meaning: "to speak" },
+    { word: "買う", reading: "かう", meaning: "to buy" },
+    { word: "大きい", reading: "おおきい", meaning: "big" },
+    { word: "小さい", reading: "ちいさい", meaning: "small" },
+    { word: "新しい", reading: "あたらしい", meaning: "new" },
+    { word: "古い", reading: "ふるい", meaning: "old" },
+    { word: "高い", reading: "たかい", meaning: "expensive / tall" },
+    { word: "安い", reading: "やすい", meaning: "cheap" },
+    { word: "学校", reading: "がっこう", meaning: "school" },
+    { word: "先生", reading: "せんせい", meaning: "teacher" },
+    { word: "学生", reading: "がくせい", meaning: "student" },
+    { word: "友達", reading: "ともだち", meaning: "friend" },
+    { word: "時間", reading: "じかん", meaning: "time" },
+    { word: "天気", reading: "てんき", meaning: "weather" },
+    { word: "電車", reading: "でんしゃ", meaning: "train" },
+    { word: "病院", reading: "びょういん", meaning: "hospital" },
+    { word: "映画", reading: "えいが", meaning: "movie" },
+    { word: "音楽", reading: "おんがく", meaning: "music" },
+    { word: "仕事", reading: "しごと", meaning: "work / job" },
+    { word: "元気", reading: "げんき", meaning: "healthy / energetic" },
+    { word: "散歩", reading: "さんぽ", meaning: "a walk / stroll" },
+    { word: "練習", reading: "れんしゅう", meaning: "practice" }
+  ],
+  N4: [
+    { word: "届ける", reading: "とどける", meaning: "to deliver" },
+    { word: "届く", reading: "とどく", meaning: "to arrive / reach" },
+    { word: "引っ越す", reading: "ひっこす", meaning: "to move (house)" },
+    { word: "申し込む", reading: "もうしこむ", meaning: "to apply" },
+    { word: "間に合う", reading: "まにあう", meaning: "to be in time" },
+    { word: "見つかる", reading: "みつかる", meaning: "to be found" },
+    { word: "見つける", reading: "みつける", meaning: "to find" },
+    { word: "足りる", reading: "たりる", meaning: "to be enough" },
+    { word: "慣れる", reading: "なれる", meaning: "to get used to" },
+    { word: "育てる", reading: "そだてる", meaning: "to raise / grow" },
+    { word: "複雑", reading: "ふくざつ", meaning: "complicated" },
+    { word: "簡単", reading: "かんたん", meaning: "simple / easy" },
+    { word: "丁寧", reading: "ていねい", meaning: "polite / careful" },
+    { word: "安全", reading: "あんぜん", meaning: "safe / safety" },
+    { word: "危険", reading: "きけん", meaning: "dangerous" },
+    { word: "特別", reading: "とくべつ", meaning: "special" },
+    { word: "反対", reading: "はんたい", meaning: "opposite" },
+    { word: "普通", reading: "ふつう", meaning: "ordinary / normal" },
+    { word: "最近", reading: "さいきん", meaning: "recently" },
+    { word: "将来", reading: "しょうらい", meaning: "future" },
+    { word: "経験", reading: "けいけん", meaning: "experience" },
+    { word: "習慣", reading: "しゅうかん", meaning: "habit / custom" },
+    { word: "技術", reading: "ぎじゅつ", meaning: "technology / skill" },
+    { word: "会議", reading: "かいぎ", meaning: "meeting" },
+    { word: "国際", reading: "こくさい", meaning: "international" },
+    { word: "景色", reading: "けしき", meaning: "scenery" },
+    { word: "交通", reading: "こうつう", meaning: "traffic" },
+    { word: "番組", reading: "ばんぐみ", meaning: "TV program" },
+    { word: "受付", reading: "うけつけ", meaning: "reception desk" },
+    { word: "地震", reading: "じしん", meaning: "earthquake" }
+  ],
+  N3: [
+    { word: "影響", reading: "えいきょう", meaning: "influence / effect" },
+    { word: "活躍", reading: "かつやく", meaning: "active role" },
+    { word: "環境", reading: "かんきょう", meaning: "environment" },
+    { word: "基本", reading: "きほん", meaning: "basics" },
+    { word: "現在", reading: "げんざい", meaning: "present time" },
+    { word: "効果", reading: "こうか", meaning: "effect / result" },
+    { word: "状況", reading: "じょうきょう", meaning: "situation" },
+    { word: "対象", reading: "たいしょう", meaning: "target / subject" },
+    { word: "態度", reading: "たいど", meaning: "attitude" },
+    { word: "単純", reading: "たんじゅん", meaning: "simple / naive" },
+    { word: "挑戦", reading: "ちょうせん", meaning: "challenge" },
+    { word: "努力", reading: "どりょく", meaning: "effort" },
+    { word: "判断", reading: "はんだん", meaning: "judgment" },
+    { word: "比較", reading: "ひかく", meaning: "comparison" },
+    { word: "評価", reading: "ひょうか", meaning: "evaluation" },
+    { word: "負担", reading: "ふたん", meaning: "burden" },
+    { word: "方針", reading: "ほうしん", meaning: "policy / plan" },
+    { word: "本来", reading: "ほんらい", meaning: "originally" },
+    { word: "矛盾", reading: "むじゅん", meaning: "contradiction" },
+    { word: "目標", reading: "もくひょう", meaning: "goal / target" },
+    { word: "要求", reading: "ようきゅう", meaning: "demand / request" },
+    { word: "余裕", reading: "よゆう", meaning: "margin / composure" },
+    { word: "理想", reading: "りそう", meaning: "ideal" },
+    { word: "冷静", reading: "れいせい", meaning: "calm / composed" },
+    { word: "関連", reading: "かんれん", meaning: "relation / connection" },
+    { word: "傾向", reading: "けいこう", meaning: "tendency / trend" },
+    { word: "貢献", reading: "こうけん", meaning: "contribution" },
+    { word: "実現", reading: "じつげん", meaning: "realization" },
+    { word: "責任", reading: "せきにん", meaning: "responsibility" },
+    { word: "独立", reading: "どくりつ", meaning: "independence" }
+  ]
+};
+
+// =====================================================================
+// 2. GAME STATE
+//    These variables track everything happening during a round.
+//    They get reset each time startRound() is called.
+// =====================================================================
+var currentLevel = null;   // which JLPT level is being played
+var jpCards = [];           // the 6 Japanese cards (shuffled)
+var enCards = [];           // the 6 English cards (shuffled differently)
+var selectedJp = null;      // index of currently selected JP card (or null)
+var selectedEn = null;      // index of currently selected EN card (or null)
+var matchedIds = [];        // list of ids that have been correctly matched
+var roundCorrect = 0;       // correct guesses this round
+var roundTotal = 0;         // total guesses this round
+var wrongTimeout = null;    // timer reference for wrong-answer animation
+
+// =====================================================================
+// 3. STATS (localStorage)
+//    loadStats() reads from localStorage, saveStats() writes to it.
+//    Stats are stored as a JSON string under the key "jp-match-stats".
+// =====================================================================
+function getDefaultStats() {
+  return {
+    N5: { rounds: 0, correct: 0, total: 0 },
+    N4: { rounds: 0, correct: 0, total: 0 },
+    N3: { rounds: 0, correct: 0, total: 0 }
+  };
+}
+
+function loadStats() {
+  try {
+    var raw = localStorage.getItem("jp-match-stats");
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return getDefaultStats();
+}
+
+function saveStats(stats) {
+  try {
+    localStorage.setItem("jp-match-stats", JSON.stringify(stats));
+  } catch (e) {}
+}
+
+function resetStats() {
+  saveStats(getDefaultStats());
+  showMenu();
+}
+
+// =====================================================================
+// 3b. TROUBLE WORDS (localStorage)
+//     Stores words the player got wrong. Each entry tracks the word,
+//     reading, meaning, level, and how many times it was missed.
+//     Key: "jp-match-trouble"
+//     Format: [ { word, reading, meaning, level, count }, ... ]
+// =====================================================================
+function loadTroubleWords() {
+  try {
+    var raw = localStorage.getItem("jp-match-trouble");
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return [];
+}
+
+function saveTroubleWords(list) {
+  try {
+    localStorage.setItem("jp-match-trouble", JSON.stringify(list));
+  } catch (e) {}
+}
+
+function addTroubleWord(card) {
+  var list = loadTroubleWords();
+
+  // Check if this word is already in the list
+  var found = false;
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].word === card.word && list[i].meaning === card.meaning) {
+      list[i].count++;
+      found = true;
+      break;
+    }
+  }
+
+  // If not found, add a new entry
+  if (!found) {
+    list.push({
+      word: card.word,
+      reading: card.reading,
+      meaning: card.meaning,
+      level: currentLevel,
+      count: 1
+    });
+  }
+
+  saveTroubleWords(list);
+}
+
+function clearTroubleWords() {
+  saveTroubleWords([]);
+  showMenu();
+}
+
+// =====================================================================
+// 4. SHUFFLE
+//    Fisher-Yates algorithm — walks backward through the array,
+//    swapping each element with a random earlier one.
+//    Returns a new array, doesn't modify the original.
+// =====================================================================
+function shuffle(arr) {
+  var a = arr.slice();  // copy
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+  }
+  return a;
+}
+
+// =====================================================================
+// 5. RENDER MENU
+//    Builds the level selection buttons with stats from localStorage.
+//    Called on page load and when returning from a game round.
+// =====================================================================
+function showMenu() {
+  document.getElementById("menu-screen").classList.remove("hidden");
+  document.getElementById("game-screen").classList.add("hidden");
+
+  var stats = loadStats();
+  var grid = document.getElementById("level-grid");
+  grid.innerHTML = "";
+
+  var levels = Object.keys(vocab);  // ["N5", "N4", "N3"] or more if CSV added levels
+
+  levels.forEach(function(lv) {
+    // Ensure stats exist for this level (important for CSV-imported levels)
+    if (!stats[lv]) stats[lv] = { rounds: 0, correct: 0, total: 0 };
+
+    var card = document.createElement("button");
+    card.className = "level-card";
+    card.onclick = function() { startRound(lv); };
+
+    // Badge color: known levels get specific colors, others get default
+    var badgeClass = "level-badge";
+    if (lv === "N5") badgeClass += " n5";
+    else if (lv === "N4") badgeClass += " n4";
+    else badgeClass += " n3";
+
+    var wordCount = vocab[lv].length;
+    var s = stats[lv];
+    var statsHtml = "";
+
+    if (s.rounds > 0) {
+      var acc = Math.round((s.correct / s.total) * 100);
+      statsHtml = '<div class="stats">' + s.rounds + ' rounds · ' + acc + '% accuracy</div>';
+    } else {
+      statsHtml = '<div class="stats">Start learning →</div>';
+    }
+
+    card.innerHTML =
+      '<span class="' + badgeClass + '">' + lv + '</span>' +
+      '<div class="level-info">' +
+        '<div class="word-count">' + wordCount + ' words</div>' +
+        statsHtml +
+      '</div>';
+
+    grid.appendChild(card);
+  });
+
+  // Show reset button if any rounds have been played
+  var hasStats = levels.some(function(lv) { return stats[lv] && stats[lv].rounds > 0; });
+  document.getElementById("reset-btn").classList.toggle("hidden", !hasStats);
+
+  // Clear any previous result banner
+  document.getElementById("result-area").innerHTML = "";
+
+  // Render trouble words section
+  renderTroubleWords();
+}
+
+// =====================================================================
+// 6. START A ROUND
+//    Picks 6 random words from the selected level, creates two
+//    shuffled arrays (JP side and EN side), and renders the cards.
+//    Each card gets an "id" (0–5) so we can check if a JP card
+//    matches an EN card — same id = correct pair.
+// =====================================================================
+function startRound(level) {
+  currentLevel = level;
+  matchedIds = [];
+  selectedJp = null;
+  selectedEn = null;
+  roundCorrect = 0;
+  roundTotal = 0;
+
+  // Pick 6 random words from the pool
+  var pool = vocab[level];
+  var picked = shuffle(pool).slice(0, 6);
+
+  // Assign each word an id (0–5), then shuffle each side independently
+  jpCards = shuffle(picked.map(function(v, i) {
+    return { id: i, word: v.word, reading: v.reading, meaning: v.meaning };
+  }));
+  enCards = shuffle(picked.map(function(v, i) {
+    return { id: i, word: v.word, reading: v.reading, meaning: v.meaning };
+  }));
+
+  // Switch screens
+  document.getElementById("menu-screen").classList.add("hidden");
+  document.getElementById("game-screen").classList.remove("hidden");
+
+  // Set level badge
+  var badge = document.getElementById("game-level-badge");
+  badge.textContent = level;
+  badge.className = "level-badge";
+  if (level === "N5") badge.classList.add("n5");
+  else if (level === "N4") badge.classList.add("n4");
+  else badge.classList.add("n3");
+
+  renderCards();
+  updateUI();
+}
+
+// =====================================================================
+// 7. RENDER CARDS
+//    Creates the clickable card elements for both columns.
+//    JP cards show the kanji + reading; EN cards show the meaning.
+// =====================================================================
+function renderCards() {
+  var jpCol = document.getElementById("jp-column");
+  var enCol = document.getElementById("en-column");
+  jpCol.innerHTML = "";
+  enCol.innerHTML = "";
+
+  jpCards.forEach(function(card, index) {
+    var el = document.createElement("button");
+    el.className = "card";
+    el.id = "jp-" + index;
+    var readingHtml = (card.reading && card.reading !== card.word)
+      ? '<div class="reading">' + card.reading + '</div>' : '';
+    el.innerHTML = '<div class="word">' + card.word + '</div>' + readingHtml;
+    el.onclick = function() { selectCard("jp", index); };
+    jpCol.appendChild(el);
+  });
+
+  enCards.forEach(function(card, index) {
+    var el = document.createElement("button");
+    el.className = "card";
+    el.id = "en-" + index;
+    el.innerHTML = '<div class="meaning">' + card.meaning + '</div>';
+    el.onclick = function() { selectCard("en", index); };
+    enCol.appendChild(el);
+  });
+}
+
+// =====================================================================
+// 8. SELECT A CARD
+//    When the user taps a card, this decides what to do:
+//    - If it's already matched, ignore.
+//    - If it's the same side as the current selection, switch selection.
+//    - If it completes a pair (one JP + one EN), check for a match.
+// =====================================================================
+function selectCard(side, index) {
+  // Don't allow clicks during wrong-answer animation
+  if (wrongTimeout) return;
+
+  var card = (side === "jp") ? jpCards[index] : enCards[index];
+
+  // Ignore already-matched cards
+  if (matchedIds.indexOf(card.id) !== -1) return;
+
+  if (side === "jp") {
+    selectedJp = index;
+    // If EN is also selected, check the match
+    if (selectedEn !== null) {
+      checkMatch();
+    } else {
+      updateUI();
+    }
+  } else {
+    selectedEn = index;
+    if (selectedJp !== null) {
+      checkMatch();
+    } else {
+      updateUI();
+    }
+  }
+}
+
+// =====================================================================
+// 9. CHECK MATCH
+//    Compares the id of the selected JP card with the selected EN card.
+//    Same id → correct (turn green, lock them).
+//    Different id → wrong (flash red for 700ms, then reset selection).
+// =====================================================================
+function checkMatch() {
+  var jpCard = jpCards[selectedJp];
+  var enCard = enCards[selectedEn];
+  roundTotal++;
+
+  if (jpCard.id === enCard.id) {
+    // ── Correct match ──
+    roundCorrect++;
+    matchedIds.push(jpCard.id);
+    selectedJp = null;
+    selectedEn = null;
+    updateUI();
+
+    // Check if round is complete
+    if (matchedIds.length === 6) {
+      setTimeout(function() { endRound(); }, 500);
+    }
+  } else {
+    // ── Wrong match ──
+    addTroubleWord(jpCard);  // record the JP word the player missed
+    updateUI();  // show both as "wrong" state
+
+    // Mark both cards with wrong class
+    document.getElementById("jp-" + selectedJp).classList.add("wrong");
+    document.getElementById("en-" + selectedEn).classList.add("wrong");
+
+    // After 700ms, clear the wrong state and reset selection
+    wrongTimeout = setTimeout(function() {
+      document.getElementById("jp-" + selectedJp).classList.remove("wrong");
+      document.getElementById("en-" + selectedEn).classList.remove("wrong");
+      selectedJp = null;
+      selectedEn = null;
+      wrongTimeout = null;
+      updateUI();
+    }, 700);
+  }
+}
+
+// =====================================================================
+// 10. UPDATE UI
+//     Refreshes the visual state of all cards, the progress bar,
+//     the score display, and the hint text. Called after every action.
+// =====================================================================
+function updateUI() {
+  // Update each JP card's CSS class
+  jpCards.forEach(function(card, i) {
+    var el = document.getElementById("jp-" + i);
+    el.className = "card";
+    if (matchedIds.indexOf(card.id) !== -1) {
+      el.classList.add("matched");
+    } else if (selectedJp === i) {
+      el.classList.add("selected");
+    }
+  });
+
+  // Update each EN card's CSS class
+  enCards.forEach(function(card, i) {
+    var el = document.getElementById("en-" + i);
+    el.className = "card";
+    if (matchedIds.indexOf(card.id) !== -1) {
+      el.classList.add("matched");
+    } else if (selectedEn === i) {
+      el.classList.add("selected");
+    }
+  });
+
+  // Progress bar
+  document.getElementById("progress-fill").style.width = ((matchedIds.length / 6) * 100) + "%";
+
+  // Score
+  document.getElementById("score-display").textContent = matchedIds.length + "/6 matched";
+
+  // Hint
+  var hint = document.getElementById("hint");
+  if (selectedJp === null && selectedEn === null) {
+    hint.textContent = "Tap a word on either side to start matching";
+  } else if (selectedJp !== null && selectedEn === null) {
+    hint.textContent = "Now tap the English meaning";
+  } else if (selectedJp === null && selectedEn !== null) {
+    hint.textContent = "Now tap the Japanese word";
+  } else {
+    hint.textContent = "";
+  }
+}
+
+// =====================================================================
+// 11. END ROUND
+//     Saves stats to localStorage, then returns to the menu screen
+//     with a result banner showing how the player did.
+// =====================================================================
+function endRound() {
+  // Save stats
+  var stats = loadStats();
+  if (!stats[currentLevel]) stats[currentLevel] = { rounds: 0, correct: 0, total: 0 };
+  stats[currentLevel].rounds++;
+  stats[currentLevel].correct += roundCorrect;
+  stats[currentLevel].total += roundTotal;
+  saveStats(stats);
+
+  // Show menu with result
+  showMenu();
+
+  // Insert result banner
+  var emoji = (roundCorrect === roundTotal) ? "🎯" :
+              (roundCorrect >= roundTotal * 0.8) ? "✨" : "📝";
+  var message = (roundCorrect === roundTotal) ? "Perfect round!" : "Keep practicing, you're improving!";
+
+  document.getElementById("result-area").innerHTML =
+    '<div class="result-banner">' +
+      '<div class="emoji">' + emoji + '</div>' +
+      '<div class="result-text">Round complete — ' + roundCorrect + '/' + roundTotal + ' on first try</div>' +
+      '<div class="result-sub">' + message + '</div>' +
+    '</div>';
+}
+
+// =====================================================================
+// 12. TROUBLE WORDS UI
+//     Renders the trouble words list on the menu screen.
+//     Shows each word with its miss count, sorted by most missed.
+//     If 6+ trouble words exist, a "Practice Mistakes" button appears
+//     that starts a round using only trouble words.
+// =====================================================================
+function renderTroubleWords() {
+  var area = document.getElementById("trouble-area");
+  var list = loadTroubleWords();
+
+  if (list.length === 0) {
+    area.innerHTML = "";
+    return;
+  }
+
+  // Sort by count, highest first
+  list.sort(function(a, b) { return b.count - a.count; });
+
+  var html = '<div class="trouble-list">' +
+    '<div class="trouble-list-header" onclick="toggleTroubleList()">' +
+      '<span>📝 Trouble Words (' + list.length + ')</span>' +
+      '<span class="trouble-toggle" id="trouble-toggle-text">▼ Show</span>' +
+    '</div>' +
+    '<div class="trouble-items collapsed" id="trouble-items">';
+
+  list.forEach(function(item) {
+    var readingText = (item.reading && item.reading !== item.word)
+      ? ' <span class="trouble-reading">' + item.reading + '</span>' : '';
+    html += '<div class="trouble-item">' +
+      '<div><span class="trouble-word">' + item.word + '</span>' + readingText + '</div>' +
+      '<div><span class="trouble-meaning">' + item.meaning + '</span>' +
+        '<span class="trouble-count">×' + item.count + '</span></div>' +
+    '</div>';
+  });
+
+  html += '</div>';  // end trouble-items
+
+  // Show practice button only if there are at least 6 trouble words
+  if (list.length >= 6) {
+    html += '<button class="trouble-practice-btn" onclick="startTroublePractice()">Practice Mistakes</button>';
+  }
+
+  html += '<button class="trouble-clear-btn" style="display:block; margin:8px auto; padding:6px 12px;" onclick="clearTroubleWords()">Clear all</button>';
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+function toggleTroubleList() {
+  var items = document.getElementById("trouble-items");
+  var toggle = document.getElementById("trouble-toggle-text");
+  if (items.classList.contains("collapsed")) {
+    items.classList.remove("collapsed");
+    toggle.textContent = "▲ Hide";
+  } else {
+    items.classList.add("collapsed");
+    toggle.textContent = "▼ Show";
+  }
+}
+
+// Start a round using only trouble words (picks 6 from the list)
+function startTroublePractice() {
+  var list = loadTroubleWords();
+  if (list.length < 6) return;
+
+  currentLevel = "Review";
+  matchedIds = [];
+  selectedJp = null;
+  selectedEn = null;
+  roundCorrect = 0;
+  roundTotal = 0;
+
+  // Pick 6 random trouble words
+  var picked = shuffle(list).slice(0, 6);
+
+  jpCards = shuffle(picked.map(function(v, i) {
+    return { id: i, word: v.word, reading: v.reading, meaning: v.meaning };
+  }));
+  enCards = shuffle(picked.map(function(v, i) {
+    return { id: i, word: v.word, reading: v.reading, meaning: v.meaning };
+  }));
+
+  document.getElementById("menu-screen").classList.add("hidden");
+  document.getElementById("game-screen").classList.remove("hidden");
+
+  var badge = document.getElementById("game-level-badge");
+  badge.textContent = "Review";
+  badge.className = "level-badge n5";
+
+  renderCards();
+  updateUI();
+}
+
+// =====================================================================
+// 13. CSV IMPORT
+//     When the user selects a CSV file, FileReader reads it as text.
+//     Each row is parsed as: word, reading, meaning, level
+//     The vocab object is rebuilt from the CSV data, replacing the
+//     built-in default. The new data is also saved to localStorage
+//     so it persists across sessions.
+// =====================================================================
+document.getElementById("csv-input").addEventListener("change", function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+    var text = event.target.result;
+    var lines = text.split("\n");
+    var newVocab = {};
+    var count = 0;
+
+    lines.forEach(function(line, lineNum) {
+      line = line.trim();
+      if (!line) return;
+
+      // Skip header row if it looks like one
+      if (lineNum === 0 && line.toLowerCase().indexOf("word") !== -1) return;
+
+      var parts = line.split(",");
+      if (parts.length < 4) return;
+
+      var word = parts[0].trim();
+      var reading = parts[1].trim();
+      var meaning = parts[2].trim();
+      var level = parts[3].trim().toUpperCase();
+
+      if (!word || !meaning || !level) return;
+
+      if (!newVocab[level]) newVocab[level] = [];
+      newVocab[level].push({ word: word, reading: reading, meaning: meaning });
+      count++;
+    });
+
+    if (count > 0) {
+      vocab = newVocab;
+
+      // Save to localStorage so it persists
+      localStorage.setItem("jp-match-vocab", JSON.stringify(vocab));
+
+      document.getElementById("csv-status").textContent =
+        "✓ Loaded " + count + " words across " + Object.keys(vocab).length + " levels";
+      showMenu();
+    } else {
+      document.getElementById("csv-status").textContent = "⚠ No valid rows found";
+    }
+  };
+
+  reader.readAsText(file);
+});
+
+// =====================================================================
+// 13. INITIALIZATION
+//     On page load: check if a custom vocab was previously imported
+//     (stored in localStorage), and if so, use it instead of defaults.
+//     Then render the menu.
+// =====================================================================
+(function init() {
+  try {
+    var saved = localStorage.getItem("jp-match-vocab");
+    if (saved) {
+      vocab = JSON.parse(saved);
+      document.getElementById("csv-status").textContent = "Using previously imported vocabulary";
+    }
+  } catch (e) {}
+
+  showMenu();
+})();
+
+// =====================================================================
+// 14. CHERRY BLOSSOM BACKGROUND
+//     Creates sakura flowers with 5 notched petals, inner petal layer,
+//     and accent marks — matching the classic cherry blossom style.
+// =====================================================================
+function createPetal() {
+  var bg = document.getElementById("bg-decoration");
+
+  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 200 200");
+  svg.classList.add("petal");
+
+  // Random size between 50px and 100px
+  var size = 50 + Math.random() * 50;
+  svg.style.width = size + "px";
+  svg.style.height = size + "px";
+
+  svg.style.left = Math.random() * 100 + "%";
+  svg.style.top = -100 + "px";
+
+  var duration = 10 + Math.random() * 10;
+  var delay = Math.random() * 5;
+  svg.style.animationDuration = duration + "s";
+  svg.style.animationDelay = delay + "s";
+
+  // Color variation — outer and inner petal shades
+  var palettes = [
+    { outer: "#E8A0B4", inner: "#F2C4D4", accent: "#D08EA0" },
+    { outer: "#E494AC", inner: "#F0BED0", accent: "#CC7E96" },
+    { outer: "#DCA0B8", inner: "#EEC8D8", accent: "#C88AA0" },
+    { outer: "#E8A8BC", inner: "#F4D0DE", accent: "#D492A8" }
+  ];
+  var pal = palettes[Math.floor(Math.random() * palettes.length)];
+
+  // 5 outer petals — rounded with notched tips, rotated 72° apart
+  var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  for (var i = 0; i < 5; i++) {
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    // Petal shape: wide rounded petal with a small V-notch at the tip
+    p.setAttribute("d",
+      "M100 100 " +
+      "Q80 60 72 30 " +
+      "Q85 18 95 22 " +
+      "L100 12 " +
+      "L105 22 " +
+      "Q115 18 128 30 " +
+      "Q120 60 100 100 Z"
+    );
+    p.setAttribute("fill", pal.outer);
+    p.setAttribute("opacity", "0.85");
+    p.setAttribute("transform", "rotate(" + (i * 72) + " 100 100)");
+    g.appendChild(p);
+  }
+  svg.appendChild(g);
+
+  // 5 inner petals — smaller, lighter, same rotation
+  var g2 = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  for (var j = 0; j < 5; j++) {
+    var p2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p2.setAttribute("d",
+      "M100 100 " +
+      "Q88 72 84 48 " +
+      "Q92 38 100 35 " +
+      "Q108 38 116 48 " +
+      "Q112 72 100 100 Z"
+    );
+    p2.setAttribute("fill", pal.inner);
+    p2.setAttribute("opacity", "0.7");
+    p2.setAttribute("transform", "rotate(" + (j * 72) + " 100 100)");
+    g2.appendChild(p2);
+  }
+  svg.appendChild(g2);
+
+  // Small accent marks on each outer petal
+  for (var k = 0; k < 5; k++) {
+    var mark = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    mark.setAttribute("cx", "100");
+    mark.setAttribute("cy", "55");
+    mark.setAttribute("rx", "3");
+    mark.setAttribute("ry", "6");
+    mark.setAttribute("fill", pal.accent);
+    mark.setAttribute("opacity", "0.5");
+    mark.setAttribute("transform", "rotate(" + (k * 72 + 15) + " 100 100)");
+    svg.appendChild(mark);
+  }
+
+  // Center circle
+  var center = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  center.setAttribute("cx", "100");
+  center.setAttribute("cy", "100");
+  center.setAttribute("r", "8");
+  center.setAttribute("fill", pal.inner);
+  center.setAttribute("opacity", "0.9");
+  svg.appendChild(center);
+
+  bg.appendChild(svg);
+
+  setTimeout(function() {
+    if (svg.parentNode) svg.parentNode.removeChild(svg);
+  }, (duration + delay) * 1000);
+}
+
+// Spawn initial batch
+for (var i = 0; i < 10; i++) {
+  createPetal();
+}
+
+// Keep spawning new flowers
+setInterval(function() {
+  createPetal();
+}, 3000);
+</script>
+</body>
+</html>
